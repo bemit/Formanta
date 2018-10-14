@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+  },
+  "dependencies": {},
+  "scripts": {
+    "install": "",
+    "postinstall": "(echo Installation finished.)",
+    "start": "",
+    "watch": ""
+  }
+}

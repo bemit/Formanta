@@ -22,7 +22,11 @@
     "php": ">=7.0",
     "bemit/formantasass": "^0.9.4",
     "bemit/formantablocks": "^0.1.0",
-    "jasonlewis/resource-watcher": "^1.2"
+    "jasonlewis/resource-watcher": "^1.2",
+    "flood/component-performancemonitor": "^0.5.4",
+    "twig/twig": "^2.5",
+    "flood/component-function": "dev-master",
+    "symfony/console": "^4.1"
   },
   "autoload": {
     "psr-4": {
