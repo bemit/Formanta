@@ -2,8 +2,6 @@
 
 $config = require __DIR__ . '/boot.php';
 
-$runner = new FormantaBlocks\Runner(new FormantaBlocks\Config($config));
-
 ///
 ///
 echo PHP_EOL;
@@ -11,9 +9,9 @@ error_log('### Run');
 
 startTime('formanta--run');
 
-$url_root = (isset($runner->config->url['ssl']) ? ($runner->config->url['ssl'] ? 'https' : 'http') : '') . '://' . (isset($runner->config->url['host']) ? $runner->config->url['host'] : '') . (isset($runner->config->url['port']) && false !== $runner->config->url['port'] && 80 != $runner->config->url['port'] ? ':' . $runner->config->url['port'] : '');
+$runner = new FormantaBlocks\Runner(new FormantaBlocks\Config($config));
 
-endTime('formanta--run');
+$url_root = (isset($runner->config->url['ssl']) ? ($runner->config->url['ssl'] ? 'https' : 'http') : '') . '://' . (isset($runner->config->url['host']) ? $runner->config->url['host'] : '') . (isset($runner->config->url['port']) && false !== $runner->config->url['port'] && 80 != $runner->config->url['port'] ? ':' . $runner->config->url['port'] : '');
 
 ///
 /// Data for Template
@@ -29,5 +27,7 @@ $runner->static_gen->renderer
         ]
     )
     ->assign('inf', []);
+
+endTime('formanta--run');
 
 return $runner;

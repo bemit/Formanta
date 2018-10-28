@@ -1,0 +1,9 @@
+{
+  "name": "@bemit/formanta-asset",
+  "version": "0.1.0",
+  "devDependencies": {},
+  "dependencies": {
+    "@bemit/formantajs": "git+https://bitbucket.org/bemit_eu/formantajs.git",
+    "@bemit/formantasass-core": "git+https://bitbucket.org/bemit_eu/formantasass-core.git"
+  }
+}

@@ -67,9 +67,9 @@ function startTime($name) {
 
 function endTime($name) {
     Monitor::i()->endProfile($name);
-    error_log('in ' .
+    error_log('> in ' .
         Monitor::i()->getInformation($name)['time'] . 's' . ' ' .
-        Monitor::i()->convertMemory(Monitor::i()->getInformation($name)['memory']));
+        Monitor::i()->convertMemory(Monitor::i()->getInformation($name)['memory']) . ' [' . $name . ']');
 }
 
 return [

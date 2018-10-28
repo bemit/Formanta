@@ -34,7 +34,7 @@ if(!$input->getArgument('task')) {
 
 $allowed_task = [
     'build',
-    'run',
+    'start',
     'watch',
 ];
 

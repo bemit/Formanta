@@ -1,15 +1,21 @@
 {
-  "name": "formanta",
+  "name": "@bemit/formanta",
   "version": "0.1.0",
-  "devDependencies": {},
+  "homepage": "https://formanta.bemit.codes",
+  "license": "(LGPL-3.0 OR CECILL-C)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/bemit_eu/formanta.git"
+  },
+  "support": {
+    "docs": "https://help.formanta.bemit.codes"
+  },
   "dependencies": {
-    "@bemit/formantablocks": "git+https://bitbucket.org/bemit_eu/formantablocks-js.git",
-    "@bemit/formantajs": "git+https://bitbucket.org/bemit_eu/formantajs.git",
-    "@bemit/formantasass-core": "git+https://bitbucket.org/bemit_eu/formantasass-core.git"
+    "@bemit/formantablocks": "git+https://bitbucket.org/bemit_eu/formantablocks-js.git"
   },
   "scripts": {
-    "start": "",
-    "run": "node ./system/nodejs/run.js",
-    "watch": ""
+    "start": "node ./system/nodejs/start.js",
+    "build": "node ./system/nodejs/build.js",
+    "watch": "node ./system/nodejs/watch.js"
   }
 }
