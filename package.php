@@ -34,6 +34,7 @@ if(!$input->getArgument('task')) {
 
 $allowed_task = [
     'build',
+    'run',
     'watch',
 ];
 
@@ -42,6 +43,6 @@ $task_file = __DIR__ . '/system/php/' . $task . '.php';
 if(in_array($task, $allowed_task) && file_exists($task_file)) {
     exec('php ' . $task_file);
 } else {
-    error_log('Task not available, exit.');
+    error_log('Formanta: task not available, try one of: `' . str_replace(['[', ']', '","', '"'], ['', '', ', ', ''], json_encode($allowed_task)) . '`, exiting now.');
     exit(0);
 }

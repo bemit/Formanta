@@ -1,11 +1,15 @@
 {
-  "devDependencies": {
+  "name": "formanta",
+  "version": "0.1.0",
+  "devDependencies": {},
+  "dependencies": {
+    "@bemit/formantablocks": "git+https://bitbucket.org/bemit_eu/formantablocks-js.git",
+    "@bemit/formantajs": "git+https://bitbucket.org/bemit_eu/formantajs.git",
+    "@bemit/formantasass-core": "git+https://bitbucket.org/bemit_eu/formantasass-core.git"
   },
-  "dependencies": {},
   "scripts": {
-    "install": "",
-    "postinstall": "(echo Installation finished.)",
     "start": "",
+    "run": "node ./system/nodejs/run.js",
     "watch": ""
   }
 }

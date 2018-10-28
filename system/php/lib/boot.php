@@ -2,9 +2,12 @@
 
 use \Flood\Component\PerformanceMonitor\Monitor;
 
-require dirname(__DIR__, 2) . '/vendor/autoload.php';
+echo PHP_EOL;
+error_log('### Boot');
 
-$config_folder = dirname(__DIR__, 2) . '/config/';
+require dirname(__DIR__, 3) . '/vendor/autoload.php';
+
+$config_folder = dirname(__DIR__, 3) . '/config/';
 $config_path_url = $config_folder . 'url.json';
 $config_path_view_system = $config_folder . 'view_system.json';
 $config_path_build = $config_folder . 'build.json';
@@ -25,32 +28,33 @@ $load_config = static function($file) {
         }
 
         return $data;
-    } else {
-        throw new \Exception('file not found: `' . $file . '`');
     }
+
+    throw new \Exception('file not found: `' . $file . '`');
 };
 
 try {
     $url = $load_config($config_path_url);
+
     $view_system = $load_config($config_path_view_system);
-    $view_system['store']['data_dir'] = dirname(__DIR__, 2) . $view_system['store']['data_dir'];
-    $view_system['store']['cache_dir'] = dirname(__DIR__, 2) . $view_system['store']['cache_dir'];
-    $view_system['store']['builded_info_file'] = dirname(__DIR__, 2) . $view_system['store']['builded_info_file'];
-    $view_system['store']['build_dir'] = dirname(__DIR__, 2) . $view_system['store']['build_dir'];
+    $view_system['store']['data_dir'] = dirname(__DIR__, 3) . $view_system['store']['data_dir'];
+    $view_system['store']['cache_dir'] = dirname(__DIR__, 3) . $view_system['store']['cache_dir'];
+    $view_system['store']['builded_info_file'] = dirname(__DIR__, 3) . $view_system['store']['builded_info_file'];
+    $view_system['store']['build_dir'] = dirname(__DIR__, 3) . $view_system['store']['build_dir'];
     foreach($view_system['store']['view_list'] as $key => $val) {
         $tmp_val = $view_system['store']['view_list'][$key];
         unset($view_system['store']['view_list'][$key]);
 
         if(is_string($key)) {
             // key = path, value = namespace
-            $view_system['store']['view_list'][dirname(__DIR__, 2) . $key] = $tmp_val;
+            $view_system['store']['view_list'][dirname(__DIR__, 3) . $key] = $tmp_val;
         } else {
             // value = path, no namespace
-            $view_system['store']['view_list'][] = dirname(__DIR__, 2) . $tmp_val;
+            $view_system['store']['view_list'][] = dirname(__DIR__, 3) . $tmp_val;
         }
     }
-    var_dump($view_system['store']);
     $build = $load_config($config_path_build);
+    $view_system['build'] = $build;
 } catch(\Exception $e) {
     error_log('Formanta Boot: ' . $e->getMessage());
     echo 'Boot Error: Config File not read, see error_log for more info';
@@ -67,8 +71,6 @@ function endTime($name) {
         Monitor::i()->getInformation($name)['time'] . 's' . ' ' .
         Monitor::i()->convertMemory(Monitor::i()->getInformation($name)['memory']));
 }
-
-$view_system['build'] = $build;
 
 return [
     'url'  => $url,

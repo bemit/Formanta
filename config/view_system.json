@@ -1,6 +1,6 @@
 {
   "debug": true,
-  "auto_reload": true,
+  "auto_reload": false,
   "store": {
     "data_dir": "/data/",
     "cache_dir": "/tmp/",

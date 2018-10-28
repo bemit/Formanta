@@ -1,7 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+$build = require __DIR__ . '/lib/build.php';
 /**
  * @var \FormantaBlocks\Runner $runner
  */
-$runner = require __DIR__ . '/_run.php';
+$runner = $build(null);

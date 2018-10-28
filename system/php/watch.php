@@ -4,7 +4,11 @@
 /**
  * @var \FormantaBlocks\Runner $runner
  */
-$runner = require __DIR__ . '/_run.php';
+$runner = require __DIR__ . '/lib/run.php';
+
+error_log('### Building Formanta');
+$build = require __DIR__ . '/lib/build.php';
+$runner = $build($runner);
 
 ///
 /// FileWatcher

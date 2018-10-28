@@ -34,6 +34,10 @@ php package.php build
 php package.php watch
 php package.php start-server
 ```
+
+#### Known PHP Bugs
+
+The file watcher doesn't re-render, as the twig cache interferences.
  
 ### NodeJS
 

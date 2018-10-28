@@ -2,42 +2,22 @@
 <html>
 
 <head>
-    <title>Canal Admin</title>
-    <!--[if IE]>
-    <script src="{{ url.asset }}node_modules/html5-history-api/history.min.js"></script>
-    <![endif]-->
+    <title>Formanta</title>
 </head>
 
 <body>
 
-<!--<app-main></app-main>
-<app-navi></app-navi>
-<app-info></app-info>-->
-<loading-dots></loading-dots>
-
-<!-- riot tags
-<script type="riot/tag" src="app-main.tag"></script>
-<script type="riot/tag" src="app-navi.tag"></script>
-<script type="riot/tag" src="app-info.tag"></script>-->
-<script type="riot/tag" src="tag/loading-dots.tag"></script>
-
-<!-- scripts we need -->
-<script src="{{ url.asset }}node_modules/riot/riot+compiler.min.js"></script>
-<script src="{{ url.asset }}node_modules/riot-route/dist/route+tag.min.js"></script>
-<script src="{{ url.asset }}app/main.js" type="module"></script>
-
-<!-- mount this app -->
-<script>
-    riot.compile(function () {
-        riot.mount('*')
-        route.start(true)
-    })
-</script>
+<main>
+    <h1>Simple Mini Template</h1>
+    <p>Just a demo template.</p>
+</main>
 
 <style>
     body {
-        margin     : 0;
-        background : #36384c;
+        margin      : 0;
+        background  : #36384c;
+        color       : #63678b;
+        font-family : sans-serif;
     }
 </style>
 </body>
