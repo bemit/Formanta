@@ -4,7 +4,7 @@
     {
       "name": "Michael Becker",
       "email": "michael@bemit.codes",
-      "homepage": "https://painttheweb.de",
+      "homepage": "https://mlbr.xyz",
       "role": "Developer"
     },
     {
@@ -20,9 +20,8 @@
   ],
   "require": {
     "php": ">=7.0",
-    "bemit/formantasass": "^0.9.4",
-    "bemit/formantablocks": "^0.1.0",
-    "jasonlewis/resource-watcher": "^1.2"
+    "bemit/formantablocks": "^0.1",
+    "symfony/console": "^4.1"
   },
   "autoload": {
     "psr-4": {

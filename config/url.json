@@ -1,0 +1,6 @@
+{
+  "ssl": false,
+  "host": "localhost",
+  "port": 25200,
+  "base-path": "/"
+}

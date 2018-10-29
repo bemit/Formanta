@@ -1,0 +1,7 @@
+{
+  "name": "formanta",
+  "devDependencies": {
+    "normalize-css": "^7.0.0",
+    "fetch": "^2.0.4"
+  }
+}

@@ -15,9 +15,35 @@ Get everything setup with composer:
 
     composer create-project bemit/formanta
     
+## Usage
+
+### Config
+
+The config is in `config/*.json`.
+
 ```text
-// todo: add content for start and configure, choosing between JS and PHP
-````
+// todo: add content for configuration, choosing between JS and PHP and content management
+```
+   
+### PHP
+
+Through the `package.php` file the other tasks are available.
+
+```bash
+php package.php build
+php package.php watch
+php package.php start-server
+```
+
+#### Known PHP Bugs
+
+The file watcher doesn't re-render, as the twig cache interferences.
+ 
+### NodeJS
+
+```text
+// todo: add content
+```
 
 ## Licence
 
@@ -29,4 +55,4 @@ For more informations on the licences which are applied read: [LICENCE.md](LICEN
 
 # Copyright
 
-    2017 - 2018 | bemit UG (haftungsbeschränkt) - project@bemit.codes
+    2018 | bemit UG (haftungsbeschränkt) - project@bemit.codes
