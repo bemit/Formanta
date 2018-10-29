@@ -37,9 +37,16 @@ try {
     $url = $load_config($config_path_url);
 
     $view_system = $load_config($config_path_view_system);
-    $view_system['store']['data_dir'] = dirname(__DIR__, 3) . $view_system['store']['data_dir'];
-    $view_system['store']['cache_dir'] = dirname(__DIR__, 3) . $view_system['store']['cache_dir'];
-    $view_system['store']['builded_info_file'] = dirname(__DIR__, 3) . $view_system['store']['builded_info_file'];
+    if(is_string($view_system['store']['data_dir'])) {
+        $view_system['store']['data_dir'] = dirname(__DIR__, 3) . $view_system['store']['data_dir'];
+    }
+    if(is_string($view_system['store']['cache_dir'])) {
+        $view_system['store']['cache_dir'] = dirname(__DIR__, 3) . $view_system['store']['cache_dir'];
+    }
+    if(is_string($view_system['store']['builded_info_file'])) {
+        $view_system['store']['builded_info_file'] = dirname(__DIR__, 3) . $view_system['store']['builded_info_file'];
+    }
+
     $view_system['store']['build_dir'] = dirname(__DIR__, 3) . $view_system['store']['build_dir'];
     foreach($view_system['store']['view_list'] as $key => $val) {
         $tmp_val = $view_system['store']['view_list'][$key];
