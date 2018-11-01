@@ -98,7 +98,7 @@ The view system uses Twig as template language, through [npm:twig](https://www.n
 
 Both are used with modified FS Loaders for enabling extended namespace usage and file_watcher handling.
 
-The existing files in `/view` are a quick boilerplate, see [/view/base/README.md](/view/base/README.md) for technical docs.
+The existing files in `/view` are a quick boilerplate, see [/view/base/README.md](/view/base) for technical docs.
 
 ## Known Bugs
 
