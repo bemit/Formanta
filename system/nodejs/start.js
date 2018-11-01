@@ -17,10 +17,10 @@ run.then(
         // todo: check if port is available
 
         /**
-         * @type {(function(): Promise)}
+         * @type {(function(): Promise<{runner:module.Runner, builded: Object}>)}
          */
         let build = require('./lib/build');
-        build(runner).then((runner) => {
+        build(runner).then(({builded, runner = {}}) => {
 
             // todo: start server
         });

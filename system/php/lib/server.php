@@ -74,4 +74,4 @@ if(is_file($file)) {
     exit(0);
 }
 
-error_log('Formanta: No Route found.');
+error_log('Formanta: no route found for: `' . $request . '`');
