@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-const serve = (p) => {
-};
-
 const yargs = require('yargs');
 
+/**
+ * Defining tasks
+ *
+ * @type {*}
+ */
 let tasks = {
     'build': {
         desc: 'build asset files',
@@ -14,8 +16,12 @@ let tasks = {
                 console.info('tasker: starting `build`');
             }
 
-            const handle = require('./handle');
-            handle(false);
+            const {handle} = require('./handle');
+            handle(false).build().then(((all) => {
+                console.log(all);
+            })).catch((err) => {
+                console.error('!# tasker: handle failed: ' + err);
+            });
         }
     },
     'sass [file] <watch> <outputStyle>': {
@@ -47,6 +53,9 @@ let tasks = {
     }
 };
 
+
+// Registering tasks
+
 for(let t_expr in tasks) {
     if(tasks.hasOwnProperty(t_expr)) {
         yargs.command(t_expr, tasks[t_expr].desc, tasks[t_expr].args, tasks[t_expr].task)
@@ -57,5 +66,3 @@ yargs.option('verbose', {
     alias: 'v',
     default: true
 }).argv;
-
-module.exports = yargs;
