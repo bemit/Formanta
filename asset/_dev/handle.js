@@ -1,7 +1,7 @@
 /**
  * @type {Runner}
  */
-const Runner = require('./Runner');
+const Runner = require('./lib/Runner');
 
 /**
  * @param {boolean} watch
@@ -21,9 +21,10 @@ module.exports.handle = (watch = true) => {
                     require('./handleSass'), [
                         __dirname + '/../style/main.scss', // entry
                         __dirname + '/../../build/style/main.css', // output
-                        watch
+                        watch,
+                        'compressed'
                     ],
-                    'sass'
+                    'sass--boot'
                 ).then(result => {
                     resolve(result)
                 });

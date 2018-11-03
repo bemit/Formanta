@@ -1,6 +1,15 @@
 #!/usr/bin/env node
 const yargs = require('yargs');
 
+const handle = (watch) => {
+    const {handle} = require('./handle');
+    handle(watch).build().then(((all) => {
+        console.log(all);
+    })).catch((err) => {
+        console.error('!# tasker: handle failed: ' + err);
+    });
+};
+
 /**
  * Defining tasks
  *
@@ -15,13 +24,19 @@ let tasks = {
             if(argv.verbose) {
                 console.info('tasker: starting `build`');
             }
+            handle(false);
+        }
+    },
+    'watch': {
+        desc: 'build and watch asset files',
+        args: (yargs) => {
+        },
+        task: (argv) => {
+            if(argv.verbose) {
+                console.info('tasker: starting `watch`');
+            }
 
-            const {handle} = require('./handle');
-            handle(false).build().then(((all) => {
-                console.log(all);
-            })).catch((err) => {
-                console.error('!# tasker: handle failed: ' + err);
-            });
+            handle(true);
         }
     },
     'sass [file] <watch> <outputStyle>': {

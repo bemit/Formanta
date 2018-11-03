@@ -2,9 +2,15 @@
  * @type {LoadEnv}
  */
 const LoadEnv = require('./lib/LoadEnv');
+const {FileWatcher} = require('./lib/FileWatcher');
+/**
+ * @type {Runner}
+ */
+const Runner = require('./lib/Runner');
 
 
 const fs = require('fs');
+const path = require('path');
 const postcss = require('postcss');
 const autoprefixer = require('autoprefixer');
 const sassGraph = require('sass-graph');
@@ -19,9 +25,8 @@ const sass = LoadEnv.load('node-sass');
  * @return {Promise<{[]}>}
  */
 const render = (entry_, output_, watch, outputStyle) => {
-    console.log(sassGraph.parseFile(entry_));
 
-    return new Promise((resolve) => {
+    const sass_render = (resolve) => {
         sass.render({
             file: entry_,
             // true for no sourcemaps
@@ -32,9 +37,9 @@ const render = (entry_, output_, watch, outputStyle) => {
             includePaths: [],
             // css output: nested, expanded, compact, compressed
             outputStyle: outputStyle,
-            importer: (url, prev, done) => {
-                console.log(url + ' # ' + prev + ' # ' + done);
-            }
+            /*importer: (url, prev, done) => {
+                console.log(url + ' #sass ' + prev + ' # ' + done);
+            }*/
         }, (err, result) => {
             if(err) {
                 console.error(err);
@@ -43,31 +48,85 @@ const render = (entry_, output_, watch, outputStyle) => {
                 });
                 return;
             }
+
             const processor = postcss([
                 autoprefixer({
                     browsers: ['defaults']
                 })
             ]);
 
-            processor.process(result.css.toString()).then(
-                (result) => {
-                    console.log('Saving to "' + output_ + '" ...');
-                    fs.writeFile(output_, result.css, (e, r) => {
-                        // todo: first check if dir exists, when not, create dir and then write file
-                        resolve({
-                            err: e,
-                            result: 'sass-finished'
+            processor.process(result.css.toString(), {from: entry_, to: output_})
+                .then(
+                    (result) => {
+                        output_ = path.resolve(output_);
+                        console.log('Saving css to `' + output_ + '` ...');
+                        fs.writeFile(output_, result.css, (e, r) => {
+                            // todo: first check if dir exists, when not, create dir and then write file
+                            if(result.map) {
+                                // todo: map is not created atm [bug]
+                                console.log('Saving map to `' + output_ + '` ...');
+                                fs.writeFile(output_ + '.map', result.map, () => true);
+                            }
+
+                            resolve({
+                                err: e,
+                                result: 'sass-finished'
+                            });
                         });
-                    });
-                },
-                (err) => {
-                    console.error('Error: ' + err.message);
-                    resolve({
-                        err: err
-                    });
-                }
-            );
+                    },
+                    (err) => {
+                        console.error('Error: ' + err.message);
+                        resolve({
+                            err: err
+                        });
+                    }
+                );
         });
+    };
+
+    const sass_render_run = () => {
+        return Runner.run(
+            () => {
+                return new Promise(sass_render)
+            },
+            [],
+            'sass'
+        ).then(result => {
+            return result;
+        });
+    };
+
+    const sass_watch = () => {
+        return new Promise((resolve) => {
+            if(watch) {
+                // only add watcher when wanted
+
+                let watcher = new FileWatcher('sass');
+                let graph = sassGraph.parseFile(entry_);
+
+                for(let file in graph.index) {
+                    if(graph.index.hasOwnProperty(file)) {
+                        watcher.add(file);
+                    }
+                }
+
+                watcher.onReady();
+                watcher.onError();
+
+                watcher.onChange(sass_render_run);
+            }
+            resolve();
+        })
+    };
+
+    return new Promise((resolve) => {
+        Promise.all([
+            sass_render_run(),
+            sass_watch()
+        ]).then(res => {
+            // resolve with sass rendering result
+            resolve(res[0]);
+        })
     })
 };
 
@@ -82,7 +141,8 @@ const render = (entry_, output_, watch, outputStyle) => {
  * handleSass([
  *     __dirname + '/../style/main.scss', // entry
  *     __dirname + '/../../build/style/main.css', // output
- *     false // watch
+ *     false, // watch
+ *     'compressed' // outputStyle
  * ]).then(({err, result = {}}) => {
  *     if(err) {
  *         // err is only bool
@@ -105,6 +165,8 @@ module.exports = (entry, output, watch = true, outputStyle = 'nested') => {
     }
 
     return new Promise((resolve) => {
+        // construct transpiling for all entry files
+
         let exec = [];
         for(let i in entry) {
             if(entry.hasOwnProperty(i) && output.hasOwnProperty(i)) {
@@ -112,7 +174,7 @@ module.exports = (entry, output, watch = true, outputStyle = 'nested') => {
             }
         }
 
-        // todo: add multithread async option for transpiling sass
+        // todo: add multithreaded async option for transpiling multiple sass entry files
         Promise.all(exec).then(res => {
             let error = false;
             let result = [];

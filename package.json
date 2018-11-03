@@ -14,6 +14,7 @@
     "@bemit/formantablocks": "git+https://bitbucket.org/bemit_eu/formantablocks-js.git"
   },
   "scripts": {
+    "install": "(cd ./asset && (npm install))",
     "start": "node ./system/nodejs/start.js",
     "build": "node ./system/nodejs/build.js",
     "watch": "node ./system/nodejs/watch.js"

@@ -5,13 +5,10 @@
   "dependencies": {
     "@bemit/formantajs": "git+https://bitbucket.org/bemit_eu/formantajs.git",
     "@bemit/formantasass-core": "git+https://bitbucket.org/bemit_eu/formantasass-core.git",
-    "autoprefixer": "^9.3.1",
-    "node-sass": "^4.9.4",
-    "postcss": "^7.0.5",
-    "sass-graph": "^3.0.3",
-    "yargs": "^12.0.2"
+    "normalize.css": "^8.0.0"
   },
   "scripts": {
+    "install": "(cd ./_dev && (npm install))",
     "start": "node ./_dev/tasker.js start",
     "build": "node ./_dev/tasker.js build",
     "watch": "node ./_dev/tasker.js watch",
