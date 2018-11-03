@@ -84,13 +84,37 @@ npm run start
 
 Asset files and their dependencies are declared in `/asset`.
 
-Run `npm i` to install both asset dependencies and build tools which are in `/asset/_dev`  
+When using NodeJS system, asset dependencies are installed with setup.
 
-```text
-// todo: not implemented currently
+Or run `npm i` in `/asset` to install both asset dependencies and build tools which are in `/asset/_dev`.
 
-// todo: add content
+Tasks for the build pipelines:  
+
+```bash
+# in /asset
+
+# nothing, to be implemented
+npm run start
+# build all assets
+npm run build
+# build all assets and add file watcher
+npm run watch
+# show tasks which are available in `/asset/_dev`
+npm run help
+
+# in /asset/_dev
+
+# nothing, to be implemented
+node tasker.js start
+# build all assets
+node tasker.js build
+# build all assets and add file watcher
+node tasker.js watch
+# show available tasks
+node tasker.js --help
 ```
+
+For asset build tools guide see [/asset/_dev/README.md](/asset/_dev/README.md)
 
 ### View System
 

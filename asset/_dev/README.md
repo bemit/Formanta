@@ -14,3 +14,15 @@ Examples
 - defining new global tasks like `build` see `tasker.js` and the return of `handle.js`
 - modifying build order and groups see `handle.js`
 - adding new build support to something: write a new handler file which wraps the needed modules, register the use with needed values in `handle.js` 
+
+## Implemented Handler
+
+### handleSass - the style transpiler and optimizer 
+
+[/asset/_dev/handleSass.js](/asset/_dev/handleSass.js)
+
+- included in `build` and `watch`
+
+Using **Sass** and **postcss** with **autoprefixer** to transpile Sass to compressed and optimized CSS.
+
+Implemented file watcher adds all files automatically for each entry file declared. 

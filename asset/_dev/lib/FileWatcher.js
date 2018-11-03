@@ -116,7 +116,6 @@ class FileWatcher {
     /**
      *
      * @param cb
-     * @param watcher
      *
      * @return {FileWatcher}
      */
@@ -126,9 +125,9 @@ class FileWatcher {
             cb(path);
         };
 
-        //this.watcher.on('add', (path) => exec(path, 'new file ' + path));
+        this.watcher.on('add', (path) => exec(path, 'new file ' + path));
         this.watcher.on('change', (path, stats) => exec(path, 'changed file ' + path + ' [' + stats.size + ']'));
-        //this.watcher.on('unlink', (path) => exec(path, 'removed file ' + path));
+        this.watcher.on('unlink', (path) => exec(path, 'removed file ' + path));
 
         return this;
     }
