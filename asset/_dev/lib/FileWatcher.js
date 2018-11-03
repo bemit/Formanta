@@ -90,7 +90,7 @@ class FileWatcher {
      */
     onReady(cb = null) {
         this.watcher.on('ready', () => {
-            console.log((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + ' listening for changes');
+            console.log((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + 'listening for changes');
             if('function' === typeof cb) {
                 cb();
             }

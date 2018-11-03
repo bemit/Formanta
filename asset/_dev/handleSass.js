@@ -110,12 +110,13 @@ const render = (entry_, output_, watch, outputStyle) => {
                     }
                 }
 
-                watcher.onReady();
+                watcher.onReady(resolve);
                 watcher.onError();
 
                 watcher.onChange(sass_render_run);
+            } else {
+                resolve();
             }
-            resolve();
         })
     };
 
@@ -179,12 +180,7 @@ module.exports = (entry, output, watch = true, outputStyle = 'nested') => {
             let error = false;
             let result = [];
             res.forEach((elem) => {
-                if(elem.err) {
-                    error = true;
-                }
-                if(elem.result) {
-                    result.push(elem.result);
-                }
+                result.push(elem);
             });
             resolve({
                 err: error,

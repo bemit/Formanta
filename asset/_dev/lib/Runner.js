@@ -11,8 +11,8 @@ class Runner {
             const start = new Date();
             Runner.log(start, 'Starting `' + name + '`...');
 
-            fn(...options).then(({err, result = {}}) => {
-                if(err) {
+            fn(...options).then((data) => {
+                if(data.err) {
                     // err is only bool
                     console.error('!# Runner: error happened in task: ' + name);
                 }
@@ -20,7 +20,7 @@ class Runner {
                 const time = end.getTime() - start.getTime();
                 Runner.log(end, 'Finished `' + name + '` after ' + time + 'ms');
 
-                resolve(result);
+                resolve(data.result);
             });
         });
     }
