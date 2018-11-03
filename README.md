@@ -124,7 +124,7 @@ Both are used with modified FS Loaders for enabling extended namespace usage and
 
 The existing files in `/view` are a quick boilerplate, see [/view/base/README.md](/view/base) for technical docs.
 
-## Known Bugs
+## Known Bugs / Static Side Generator
 
 File watcher only watches the entry view file defined in `build.json` and not which files are all used by this file. Needing to modify Twig FS Loader further to save 'used' templates for each rendered file and passing them back to the Renderer and the to runtime.
 
