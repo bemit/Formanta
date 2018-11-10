@@ -91,7 +91,7 @@ Or run `npm i` in `/asset` to install both asset dependencies and build tools wh
 Tasks for the build pipelines:  
 
 ```bash
-# in /asset
+# IMPORTANT: switch to folder /asset
 
 # nothing, to be implemented
 npm run start
@@ -102,7 +102,7 @@ npm run watch
 # show tasks which are available in `/asset/_dev`
 npm run help
 
-# in /asset/_dev
+# IMPORTANT: switch to folder /asset/_dev
 
 # nothing, to be implemented
 node tasker.js start

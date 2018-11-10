@@ -4,9 +4,7 @@ const colors = require('colors/safe');
 
 const handle = (watch) => {
     const {handle} = require('./handle');
-    handle(watch).build().then(((all) => {
-        console.log(all);
-    })).catch((err) => {
+    handle(watch).build().then().catch((err) => {
         console.error(colors.red.underline('!# tasker: handle failed: ' + err));
     });
 };

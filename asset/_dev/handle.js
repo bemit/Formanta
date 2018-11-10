@@ -3,6 +3,8 @@
  */
 const Runner = require('./lib/Runner');
 
+const colors = require('colors/safe');
+
 const BUILD_DIR = __dirname + '/../../build/';
 
 /**
@@ -27,7 +29,7 @@ module.exports.handle = (watch = true) => {
                         'compressed',
                         __dirname + '/../../',
                     ],
-                    'sass--boot'
+                    'handle--sass'
                 ).then(result => {
                     resolve(result)
                 });
@@ -76,31 +78,31 @@ module.exports.handle = (watch = true) => {
                         }, // src
                         {
                             png: {
-                                quality: 90,
-                                files: ['**/*.png','**/*.peg']
+                                quality: 80,
+                                files: ['**/*.png', '**/*.peg']
                             },
-                            jpg: {
-                                quality: 90,
-                                progressive: true,
-                                files: ['**/*.{jpg,jpeg}']
-                            },
-                            svg: {
-                                quality: 90,
-                                removeViewBox: false,
-                                files: ['**/*.svg']
-                            },
-                            pdf: {
-                                quality: 90,
-                                files: ['**/*.pdf']
-                            },
-                            dynamic: {
-                                quality: 90,
-                                files: ['**/*.{gif}']
-                            }
+                            // jpg: {
+                            //     quality: 80,
+                            //     progressive: true,
+                            //     files: ['**/*.{jpg,jpeg}']
+                            // },
+                            // svg: {
+                            //     quality: 80,
+                            //     removeViewBox: false,
+                            //     files: ['**/*.svg']
+                            // },
+                            // pdf: {
+                            //     quality: 80,
+                            //     files: ['**/*.pdf']
+                            // },
+                            // dynamic: {
+                            //     quality: 80,
+                            //     files: ['**/*.{gif}']
+                            // }
                         }, // option
                         watch
                     ],
-                    'media--boot'
+                    'handle--media'
                 ).then(result => {
                     resolve(result)
                 });
@@ -127,11 +129,17 @@ module.exports.handle = (watch = true) => {
      */
     return {
         build: () => {
-            return Runner.runParallel([
-                task_group.style,
-                task.js,
-                task.media,
-            ])
+            return Runner.run(
+                () => {
+                    Runner.log().raw(new Date(), colors.yellow('Starting parallel execution of build pipeline, keep async in mind when reading times and order'));
+                    return Runner.runParallel([
+                        task_group.style,
+                        task.js,
+                        task.media,
+                    ])
+                }, [],
+                'build'
+            );
         }
     }
 };

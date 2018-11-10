@@ -3,24 +3,31 @@ const colors = require('colors/safe');
 class Runner {
 
     /**
-     * @param {Function} fn
-     * @param {Object} options
-     * @param {String} name
+     * Runs a function with data and handles the promise, will print runtime information
+     *
+     * @param {Function} fn which will be executed, must return a Promise
+     * @param {Object} params which will be used as parameters through spread selector
+     * @param {String} name of the execution, printed in runtime information
+     *
      * @return {Promise<{}>}
      */
-    static run(fn, options = {}, name = '') {
+    static run(fn, params = {}, name = '') {
         return new Promise((resolve) => {
             const start = Runner.log().start(name);
 
-            fn(...options).then((data) => {
+            fn(...params).then((data) => {
                 if(data.err) {
                     // err is only bool
-                    console.error('!# Runner: error happened in task: ' + name);
+                    console.error(colors.red.underline('!# Runner: error happened in task: ' + colors.inverse(name)));
                 }
 
                 Runner.log().end(name, start);
 
                 resolve(data.result);
+            }).catch((err) => {
+                console.error(colors.red.underline('!# Runner: error happened in task: ' + colors.inverse(name)));
+                console.error(err);
+                resolve(false);
             });
         });
     }

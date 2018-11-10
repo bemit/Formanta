@@ -12,7 +12,9 @@ const Runner = require('./lib/Runner');
 
 const fs = require('fs');
 const path = require('path');
+
 const colors = require('colors/safe');
+
 const postcss = require('postcss');
 const autoprefixer = require('autoprefixer');
 const sassGraph = require('sass-graph');

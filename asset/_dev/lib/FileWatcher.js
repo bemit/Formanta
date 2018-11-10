@@ -1,4 +1,10 @@
 const chokidar = require('chokidar');
+const colors = require('colors/safe');
+
+/**
+ * @type {Runner}
+ */
+const Runner = require('./Runner');
 
 class FileWatcher {
     /**
@@ -90,7 +96,7 @@ class FileWatcher {
      */
     onReady(cb = null) {
         this.watcher.on('ready', () => {
-            console.log((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + 'listening for changes');
+            Runner.log().raw(new Date(), (this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + colors.green('listening for changes'));
             if('function' === typeof cb) {
                 cb();
             }
@@ -105,12 +111,19 @@ class FileWatcher {
      */
     onError(cb = null) {
         this.watcher.on('error', (error) => {
-            console.log((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + 'error `' + error + '`');
+            Runner.log().raw(new Date(), ((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + colors.red('error') + ' `' + error + '`'));
             if('function' === typeof cb) {
                 cb(error);
             }
         });
         return this;
+    }
+
+    onChangeCb(cb) {
+        return (path, text) => {
+            Runner.log().raw(new Date(), (this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + text);
+            cb(path);
+        };
     }
 
     /**
@@ -120,14 +133,45 @@ class FileWatcher {
      * @return {FileWatcher}
      */
     onChange(cb) {
-        const exec = (path, text) => {
-            console.log((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + text);
-            cb(path);
-        };
+        this.onChangeAdd(cb);
+        this.onChangeChange(cb);
+        this.onChangeUnlink(cb);
 
-        this.watcher.on('add', (path) => exec(path, 'new file ' + path));
-        this.watcher.on('change', (path, stats) => exec(path, 'changed file ' + path + ' [' + stats.size + ']'));
-        this.watcher.on('unlink', (path) => exec(path, 'removed file ' + path));
+        return this;
+    }
+
+    /**
+     *
+     * @param cb
+     *
+     * @return {FileWatcher}
+     */
+    onChangeAdd(cb) {
+        this.watcher.on('add', (path) => this.onChangeCb(cb)(path, colors.green('new file ') + path));
+
+        return this;
+    }
+
+    /**
+     *
+     * @param cb
+     *
+     * @return {FileWatcher}
+     */
+    onChangeChange(cb) {
+        this.watcher.on('change', (path, stats) => this.onChangeCb(cb)(path, colors.yellow('changed file ') + path + ' [' + stats.size + ']'));
+
+        return this;
+    }
+
+    /**
+     *
+     * @param cb
+     *
+     * @return {FileWatcher}
+     */
+    onChangeUnlink(cb) {
+        this.watcher.on('unlink', (path) => this.onChangeCb(cb)(path, colors.red('removed file ') + path));
 
         return this;
     }
