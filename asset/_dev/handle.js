@@ -77,7 +77,7 @@ module.exports.handle = (watch = true) => {
                         {
                             png: {
                                 quality: 90,
-                                files: ['**/*.png']
+                                files: ['**/*.png','**/*.peg']
                             },
                             jpg: {
                                 quality: 90,
@@ -130,6 +130,7 @@ module.exports.handle = (watch = true) => {
             return Runner.runParallel([
                 task_group.style,
                 task.js,
+                task.media,
             ])
         }
     }

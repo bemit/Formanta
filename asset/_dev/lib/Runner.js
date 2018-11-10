@@ -85,9 +85,12 @@ class Runner {
              */
             raw: (time, text) => {
                 let buffer = '';
+                /*
+                // currently cascading console styling is to buggy with promises, registerChild connectors would be needed which are called from within childs
                 for(let i = 0; i < Runner.constructor.level_cur; i++) {
                     buffer += '    ';
                 }
+                */
                 console.log(buffer + colors.grey('[' + Runner.formatTime(time) + ']') + ' ' + text);
             },
             /**
