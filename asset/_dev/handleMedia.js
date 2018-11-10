@@ -2,7 +2,6 @@
  * @type {LoadEnv}
  */
 const LoadEnv = require('./lib/LoadEnv');
-
 const {FileWatcher} = require('./lib/FileWatcher');
 /**
  * @type {Runner}
@@ -12,11 +11,6 @@ const Runner = require('./lib/Runner');
 
 const fs = require('fs');
 const path = require('path');
-const colors = require('colors/safe');
-const postcss = require('postcss');
-const autoprefixer = require('autoprefixer');
-const sassGraph = require('sass-graph');
-const sass = LoadEnv.load('node-sass');
 
 /**
  * Function for parsing one entry file to one output file
@@ -24,20 +18,11 @@ const sass = LoadEnv.load('node-sass');
  * @param output_
  * @param watch
  * @param outputStyle
- * @param {string} root_dir is removed from other output on logging
  * @return {Promise<{[]}>}
  */
-const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
+const render = (entry_, output_, watch, outputStyle) => {
 
     const sass_render = (resolve) => {
-        entry_ = path.resolve(entry_);
-        output_ = path.resolve(output_);
-
-        let log_path_entry = colors.underline((root_dir ? entry_.replace(path.resolve(root_dir), '').substr(1) : entry_));
-        let log_path_output = colors.underline((root_dir ? output_.replace(path.resolve(root_dir), '').substr(1) : output_));
-
-        let start_render = Runner.log().start('transpiling ' + log_path_entry);
-
         sass.render({
             file: entry_,
             // true for no sourcemaps
@@ -52,8 +37,6 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                 console.log(url + ' #sass ' + prev + ' # ' + done);
             }*/
         }, (err, result) => {
-            Runner.log().end('transpiling ' + log_path_entry, start_render);
-
             if(err) {
                 console.error(err);
                 resolve({
@@ -61,8 +44,6 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                 });
                 return;
             }
-
-            let start_postcss = Runner.log().start('postcss ' + log_path_entry);
 
             const processor = postcss([
                 autoprefixer({
@@ -73,18 +54,16 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
             processor.process(result.css.toString(), {from: entry_, to: output_})
                 .then(
                     (result) => {
-                        Runner.log().end('postcss ' + log_path_entry, start_postcss);
-
-                        let start_saving = Runner.log().start('save ' + log_path_entry + ' to ' + log_path_output);
+                        output_ = path.resolve(output_);
+                        console.log('Saving css to `' + output_ + '` ...');
                         fs.writeFile(output_, result.css, (e, r) => {
-                            Runner.log().end('save ' + log_path_entry + ' to ' + log_path_output, start_saving);
-
                             // todo: first check if dir exists, when not, create dir and then write file
                             if(result.map) {
                                 // todo: map is not created atm [bug]
-                                Runner.log().start('saving map for ' + log_path_output + '');
+                                console.log('Saving map to `' + output_ + '` ...');
                                 fs.writeFile(output_ + '.map', result.map, () => true);
                             }
+
                             resolve({
                                 err: e,
                                 result: 'sass-finished'
@@ -154,8 +133,6 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
  * @param {Object|Array|string} output an array of entry files or one file, if array use an array of same length in entry
  * @param watch
  * @param outputStyle
- * @param root_dir
- *
  * @example
  * const handleSass = require('./handleSass');
  * handleSass([
@@ -163,7 +140,6 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
  *     __dirname + '/../../build/style/main.css', // output
  *     false, // watch
  *     'compressed' // outputStyle
- *     __dirname + '/../../' // root_dir
  * ]).then(({err, result = {}}) => {
  *     if(err) {
  *         // err is only bool
@@ -177,21 +153,15 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
  *
  * @return {Promise}
  */
-module.exports = (entry, output, watch = true, outputStyle = 'nested', root_dir = '') => {
-    if('string' === typeof entry) {
-        entry = [entry];
-    }
-    if('string' === typeof output) {
-        output = [output];
-    }
+module.exports = (src, option, watch = true) => {
 
     return new Promise((resolve) => {
         // construct transpiling for all entry files
 
         let exec = [];
-        for(let i in entry) {
-            if(entry.hasOwnProperty(i) && output.hasOwnProperty(i)) {
-                exec.push(render(entry[i], output[i], watch, outputStyle, root_dir));
+        for(let build_dir in src) {
+            if(src.hasOwnProperty(build_dir)) {
+                exec.push(render(entry[i], output[i], watch, outputStyle));
             }
         }
 

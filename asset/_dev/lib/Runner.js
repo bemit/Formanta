@@ -1,3 +1,5 @@
+const colors = require('colors/safe');
+
 class Runner {
 
     /**
@@ -8,17 +10,15 @@ class Runner {
      */
     static run(fn, options = {}, name = '') {
         return new Promise((resolve) => {
-            const start = new Date();
-            Runner.log(start, 'Starting `' + name + '`...');
+            const start = Runner.log().start(name);
 
             fn(...options).then((data) => {
                 if(data.err) {
                     // err is only bool
                     console.error('!# Runner: error happened in task: ' + name);
                 }
-                const end = new Date();
-                const time = end.getTime() - start.getTime();
-                Runner.log(end, 'Finished `' + name + '` after ' + time + 'ms');
+
+                Runner.log().end(name, start);
 
                 resolve(data.result);
             });
@@ -77,15 +77,55 @@ class Runner {
         return time.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
     }
 
-    /**
-     * Prints the time and text to the log
-     *
-     * @param time
-     * @param text
-     */
-    static log(time, text) {
-        console.log('[' + Runner.formatTime(time) + '] ' + text);
+    static log() {
+        return {
+            /**
+             * @param time
+             * @param text
+             */
+            raw: (time, text) => {
+                let buffer = '';
+                for(let i = 0; i < Runner.constructor.level_cur; i++) {
+                    buffer += '    ';
+                }
+                console.log(buffer + colors.grey('[' + Runner.formatTime(time) + ']') + ' ' + text);
+            },
+            /**
+             * @param text
+             * @param time
+             * @return {*}
+             */
+            start: (text, time = undefined) => {
+                Runner.constructor.level_cur++;
+                if('undefined' === typeof time) {
+                    time = new Date();
+                }
+                Runner.log().raw(time, colors.green.italic('Starting `' + text + '`'));
+                return time;
+            },
+            /**
+             * @param text
+             * @param time_start
+             * @param time
+             */
+            end: (text, time_start, time = undefined) => {
+                if('undefined' === typeof time) {
+                    time = new Date();
+                }
+                let end = time.getTime() - time_start.getTime();
+                Runner.log().raw(time,
+                    colors.green.bold(
+                        colors.bgGreen.white('Finished') + ' `' + text + '`' + colors.grey(' after ') + colors.blue.underline(end + 'ms')
+                    )
+                );
+                Runner.constructor.level_cur--;
+            }
+        };
     }
+}
+
+if('undefined' === typeof Runner.constructor.level_cur) {
+    Runner.constructor.level_cur = 0;
 }
 
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 const yargs = require('yargs');
+const colors = require('colors/safe');
 
 const handle = (watch) => {
     const {handle} = require('./handle');
     handle(watch).build().then(((all) => {
         console.log(all);
     })).catch((err) => {
-        console.error('!# tasker: handle failed: ' + err);
+        console.error(colors.red.underline('!# tasker: handle failed: ' + err));
     });
 };
 
@@ -22,7 +23,7 @@ let tasks = {
         },
         task: (argv) => {
             if(argv.verbose) {
-                console.info('tasker: starting `build`');
+                console.info(colors.green.italic('tasker: starting `build`'));
             }
             handle(false);
         }
@@ -33,37 +34,10 @@ let tasks = {
         },
         task: (argv) => {
             if(argv.verbose) {
-                console.info('tasker: starting `watch`');
+                console.info(colors.green.italic('tasker: starting `watch`'));
             }
 
             handle(true);
-        }
-    },
-    'sass [file] <watch> <outputStyle>': {
-        desc: 'build sass files',
-        args: (yargs) => {
-            yargs
-                .positional('file', {
-                    describe: 'which file should be rendered',
-                    default: ''
-                })
-                .positional('watch', {
-                    describe: 'if also should add file watcher to files',
-                    default: true
-                })
-                .positional('outputStyle', {
-                    describe: 'in which style the css will be rendered'
-                })
-        },
-        task: (argv) => {
-            if(argv.verbose) {
-                console.info('tasker: sass build of ' + argv.file);
-            }
-            const {handleSass} = require('./handleSass');
-            handleSass(argv.file, argv.watch, argv.outputStyle).then((d) => {
-                console.log('d . d . d . d . d . d . d . d . d . d . d . d . d . d . d');
-                console.log(d);
-            });
         }
     }
 };

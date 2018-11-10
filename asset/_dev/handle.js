@@ -3,6 +3,8 @@
  */
 const Runner = require('./lib/Runner');
 
+const BUILD_DIR = __dirname + '/../../build/';
+
 /**
  * @param {boolean} watch
  *
@@ -20,9 +22,10 @@ module.exports.handle = (watch = true) => {
                 Runner.run(
                     require('./handleSass'), [
                         __dirname + '/../style/main.scss', // entry
-                        __dirname + '/../../build/style/main.css', // output
+                        BUILD_DIR + 'style/main.css', // output
                         watch,
-                        'compressed'
+                        'compressed',
+                        __dirname + '/../../',
                     ],
                     'sass--boot'
                 ).then(result => {
@@ -32,14 +35,75 @@ module.exports.handle = (watch = true) => {
         },
         sass_clean: () => {
             return new Promise((resolve) => {
-                console.log('sass_clean!');
                 resolve('sassy cleany');
             })
         },
         js: () => {
             return new Promise((resolve) => {
-                console.log('js js js!');
-                resolve('jsy cleany');
+                /*Runner.run(
+                    require('./handleJS'), [
+                        {
+                            pack: {
+                                [BUILD_DIR + 'js']: __dirname + '/../js/interact.js'
+                            },
+                            concat: {
+                                main: {
+                                    entry: [
+                                        __dirname + '/../node_modules/package/some-vendor-file.js',
+                                        __dirname + '/../node_modules/package/another-vendor-file.js',
+                                        __dirname + '/../js/basic-file.js'
+                                    ],
+                                    output: BUILD_DIR + 'js/main.js'
+                                }
+                            }
+                        }, // entry
+                        watch
+                    ],
+                    'js--boot'
+                ).then(result => {
+                    resolve(result)
+                });*/
+                resolve(['jssy!']);
+            })
+        },
+        media: () => {
+            // JPG, PNG, SVG, PDF
+            return new Promise((resolve) => {
+                Runner.run(
+                    require('./handleMedia'), [
+                        {
+                            [BUILD_DIR + 'media']: __dirname + '/../media/'
+                        }, // src
+                        {
+                            png: {
+                                quality: 90,
+                                files: ['**/*.png']
+                            },
+                            jpg: {
+                                quality: 90,
+                                progressive: true,
+                                files: ['**/*.{jpg,jpeg}']
+                            },
+                            svg: {
+                                quality: 90,
+                                removeViewBox: false,
+                                files: ['**/*.svg']
+                            },
+                            pdf: {
+                                quality: 90,
+                                files: ['**/*.pdf']
+                            },
+                            dynamic: {
+                                quality: 90,
+                                files: ['**/*.{gif}']
+                            }
+                        }, // option
+                        watch
+                    ],
+                    'media--boot'
+                ).then(result => {
+                    resolve(result)
+                });
             })
         }
     };
