@@ -1,11 +1,25 @@
 const colors = require('colors/safe');
 
 class Runner {
+    /**
+     *Executes a fn with params or returns the fn, to be able to use functions which holds promises and promises as the same param
+     * @param fn
+     * @param params
+     * @return {*}
+     * @private
+     */
+    static _handleFN(fn, params = []) {
+        if('function' === typeof fn) {
+            // executing the `fn` with params to get the promise
+            return fn(...params);
+        }
+        return fn;
+    }
 
     /**
      * Runs a function with data and handles the promise, will print runtime information
      *
-     * @param {Function} fn which will be executed, must return a Promise
+     * @param {Function|Promise} fn which will be executed, must return a Promise
      * @param {Object} params which will be used as parameters through spread selector
      * @param {String} name of the execution, printed in runtime information
      *
@@ -15,7 +29,7 @@ class Runner {
         return new Promise((resolve) => {
             const start = Runner.log().start(name);
 
-            fn(...params).then((data) => {
+            Runner._handleFN(fn, params).then((data) => {
                 if(data.err) {
                     // err is only bool
                     console.error(colors.red.underline('!# Runner: error happened in task: ' + colors.inverse(name)));
@@ -35,7 +49,7 @@ class Runner {
     /**
      * Runs defined tasks in parallel
      *
-     * @param {[Promise, Promise, ...]} task_def array with task definitions
+     * @param {[()<Promise>, Promise, ...]} task_def array with task definitions
 
      * @todo implement multithreading parallel execution
      *
@@ -44,7 +58,7 @@ class Runner {
     static runParallel(task_def) {
         let to_run = [];
         task_def.forEach((e) => {
-            to_run.push(e());
+            to_run.push(Runner._handleFN(e));
         });
         return Promise.all(to_run);
     }
@@ -65,7 +79,7 @@ class Runner {
                 }
 
                 let e = r.shift();
-                e().then((task_value) => {
+                Runner._handleFN(e).then((task_value) => {
                     all_value.push(task_value);
                     runSequentialInner(r);
                 });

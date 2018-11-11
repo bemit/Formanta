@@ -41,6 +41,7 @@ module.exports.handle = (watch = true) => {
         },
         clean: () => {
             return new Promise((resolve) => {
+                console.log(colors.cyan('Clean: not implemented, delete `/build/**/*` manual'));
                 resolve('cleany');
             })
         },
@@ -122,9 +123,17 @@ module.exports.handle = (watch = true) => {
                 Runner.run(
                     require('./handleArchive'), [
                         {
-                            [ASSET_DIR]: 'asset',
-                            [BUILD_DIR]: 'build',
+                            include: {
+                                // from/src: to/dist
+                                [ROOT_DIR]: '',
+                            },
+                            exclude: [
+                                '.git',
+                                'node_modules',
+                                'bower_components'
+                            ]
                         }, // src
+                        ROOT_DIR + 'archive/' + (Math.floor(new Date().getTime() / 1000)), // dist
                         {}, // option
                         watch
                     ],
@@ -152,35 +161,27 @@ module.exports.handle = (watch = true) => {
         build: () => {
             run_info();
             return Runner.run(
-                () => {
-                    return Runner.runSequential([
-                        task.clean,
-                        () => {
-                            return Runner.runParallel([
-                                task_group.style,
-                                task.js,
-                                task.media,
-                            ])
-                        }
+                Runner.runSequential([
+                    task.clean,
+                    Runner.runParallel([
+                        task_group.style,
+                        task.js,
+                        task.media,
                     ])
-                }, [],
+                ]), [],
                 'build'
             );
         },
         build_no_media: () => {
             run_info();
             return Runner.run(
-                () => {
-                    return Runner.runSequential([
-                        task.clean,
-                        () => {
-                            return Runner.runParallel([
-                                task_group.style,
-                                task.js
-                            ])
-                        }
+                Runner.runSequential([
+                    task.clean,
+                    Runner.runParallel([
+                        task_group.style,
+                        task.js
                     ])
-                }, [],
+                ]), [],
                 'build_no_media'
             );
         },
