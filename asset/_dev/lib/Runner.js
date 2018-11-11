@@ -160,5 +160,4 @@ if('undefined' === typeof Runner.constructor.level_cur) {
     Runner.constructor.level_cur = 0;
 }
 
-
 module.exports = Runner;

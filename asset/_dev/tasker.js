@@ -48,7 +48,7 @@ let tasks = {
             }
 
             // handle with `watch` and building everything
-            handle(false).build().then().catch((err) => {
+            handle(true).build().then().catch((err) => {
                 console.error(colors.red.underline('!# tasker.tasks.watch: handle failed: ' + err));
             });
         }
