@@ -9,22 +9,22 @@ const colors = require('colors/safe');
 
 const glob = require('glob');
 
-const HandlePNG = require('./handlePNG');
-const HandleJPG = require('./handleJPG');
+/**
+ *
+ * @type {{png: (function(): HandlePNG), jpg: (function(): HandleJPG), svg: (function(): HandleSVG), pdf: (function(): HandlePDF), dynamic: (function(): HandleDynamic)}}
+ */
+const handler_default = {
+    png: () => require('./handlePNG'),
+    jpg: () => require('./handleJPG'),
+    svg: () => require('./handleSVG'),
+    pdf: () => require('./handlePDF'),
+    dynamic: () => require('./handleDynamic'),
+};
 
 class MediaOptimizer {
     constructor(watch) {
         this.watch = watch;
-        this.handler_list = {
-            png: HandlePNG,
-            jpg: HandleJPG,
-            svg: (src, build, option) => {
-            },
-            pdf: (src, build, option) => {
-            },
-            dynamic: (src, build, option) => {
-            }
-        };
+        this.handler_list = {};
         /**
          * Holds runtime config for each handler
          * @type {{}}
@@ -71,14 +71,13 @@ class MediaOptimizer {
             result_list.forEach((elem) => {
                 if(elem.saved) {
                     if(0 > elem.saved) {
-                        Runner.log().raw(new Date(), colors.red('MediaOptimizer: negative saved size (' + elem.saved + 'KB) found for `' + elem.file + '`'));
+                        Runner.log().raw(colors.red('MediaOptimizer: negative saved size (' + elem.saved + 'KB) found for `' + elem.file + '`'));
                     }
                     saved += elem.saved;
                     qty++;
                 }
             });
             Runner.log().raw(
-                new Date(),
                 colors.white(
                     'MediaOptimizer: optimized ' +
                     qty + ' file' + (1 < qty ? 's' : '') +
@@ -106,14 +105,20 @@ class MediaOptimizer {
             // when handler exists
             let option = this.getOption(type);
 
+            /**
+             * Scan for files foreach `files` selector provided through `option`
+             * @return {Array}
+             */
             const scanFile = () => {
                 let files = [];
                 // suffix the src path with the files glob
+
+                // todo: make async multithread glob
                 option.files.forEach((src_glob) => {
-                    // todo: make async multithread glob
-                    let found = glob(src + src_glob, {sync: true});
+                    let found = glob(path.resolve(src + '/' + src_glob), {sync: true});
                     files.push(...found);
                 });
+
                 return files;
             };
 
@@ -141,7 +146,7 @@ class MediaOptimizer {
             let exec = [];
             files.forEach((file) => {
                 /**
-                 * @type {module.HandlerBase}
+                 * @type {HandleDynamic|HandlePNG|HandleJPG}
                  */
                 let handler = this.initHandler(type, src, file, build, option);
                 exec.push(handler.run());
@@ -149,7 +154,8 @@ class MediaOptimizer {
 
 
             if(this.watch) {
-                // add watcher to rescan files
+                // add watcher to rescan for new files in folder
+                // todo: !warning! maybe this spawns too much file listeners, as is initiated for the src of each handler, so one src and 5 handler = 5 media-folder watcher active, they are watching everything and not only for change for their needed files, !warning! it is filtered through rescanning every src again with recursive glob for each handler active
                 let watcher = new FileWatcher('media-folder ' + src);
                 watcher.add(src);
 
@@ -164,7 +170,7 @@ class MediaOptimizer {
                         // only for new files
                         added.forEach((file) => {
                             /**
-                             * @type {module.HandlerBase}
+                             * @type {HandleDynamic|HandlePNG|HandleJPG}
                              */
                             let handler = this.initHandler(type, src, file, build, option);
                             this.analyzeStats([handler.run()]).then((result_list) => {
@@ -180,10 +186,18 @@ class MediaOptimizer {
         return [];
     }
 
+    /**
+     * @param type
+     * @param src
+     * @param file
+     * @param build
+     * @param option
+     * @return {HandleDynamic|HandlePNG|HandleJPG}
+     */
     initHandler(type, src, file, build, option) {
         // creating new handler for file
         /**
-         * @type {module.HandlerBase}
+         * @type {HandleDynamic|HandlePNG|HandleJPG}
          */
         let tmp_handler = new this.handler_list[type](src, path.resolve(file), path.resolve(build), option);
         // initial cleaning
@@ -232,6 +246,16 @@ class MediaOptimizer {
      */
     addHandler(type, option) {
         this.option[type] = option;
+        if('function' === typeof option.handler) {
+            this.handler_list[type] = option.handler;
+            return;
+        }
+        if('function' === typeof handler_default[type]) {
+            // if default handler is registered, execute closure for loading handler
+            this.handler_list[type] = handler_default[type]();
+            return;
+        }
+        throw Error('MediaOptimizer: no handler found for type ' + colors.underline(type));
     }
 }
 

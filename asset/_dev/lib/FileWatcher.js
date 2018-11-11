@@ -96,7 +96,7 @@ class FileWatcher {
      */
     onReady(cb = null) {
         this.watcher.on('ready', () => {
-            Runner.log().raw(new Date(), (this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + colors.green('listening for changes'));
+            Runner.log().raw((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + colors.green('listening for changes'));
             if('function' === typeof cb) {
                 cb();
             }
@@ -111,7 +111,7 @@ class FileWatcher {
      */
     onError(cb = null) {
         this.watcher.on('error', (error) => {
-            Runner.log().raw(new Date(), ((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + colors.red('error') + ' `' + error + '`'));
+            Runner.log().raw(((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + colors.red('error') + ' `' + error + '`'));
             if('function' === typeof cb) {
                 cb(error);
             }
@@ -121,7 +121,7 @@ class FileWatcher {
 
     onChangeCb(cb) {
         return (path, text) => {
-            Runner.log().raw(new Date(), (this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + text);
+            Runner.log().raw((this.name ? 'Watcher [' + this.name + '] ' : 'Watcher: ') + text);
             cb(path);
         };
     }

@@ -8,9 +8,11 @@ const colors = require('colors/safe');
 const BUILD_DIR = __dirname + '/../../build/';
 
 /**
+ * Returns all tasks to choose from
+ *
  * @param {boolean} watch
  *
- * @return {{build: (function(): Promise)}} add all tasks to choose from to this array to have autocompletion in tasker.js
+ * @return {{build: (function(): Promise<{}>), build_no_media: (function(): Promise<{}>)}}
  */
 module.exports.handle = (watch = true) => {
     /**
@@ -35,9 +37,9 @@ module.exports.handle = (watch = true) => {
                 });
             })
         },
-        sass_clean: () => {
+        clean: () => {
             return new Promise((resolve) => {
-                resolve('sassy cleany');
+                resolve('cleany');
             })
         },
         js: () => {
@@ -69,7 +71,7 @@ module.exports.handle = (watch = true) => {
             })
         },
         media: () => {
-            // JPG, PNG, SVG, PDF
+            // Asset Files like JPG, PNG, SVG, PDF and Generic Copying
             return new Promise((resolve) => {
                 Runner.run(
                     require('./handleMedia'), [
@@ -79,26 +81,26 @@ module.exports.handle = (watch = true) => {
                         {
                             png: {
                                 quality: 80,
-                                files: ['**/*.png', '**/*.peg']
+                                files: ['**/*.png', '**/*.peg'],
+                                // to provide custom handler, a lot are implemented as default
+                                // handler: require('./lib/Media/handlePNG')
                             },
                             jpg: {
-                                 quality: 80,
-                                 progressive: true,
-                                 files: ['**/*.{jpg,jpeg}']
+                                quality: 80,
+                                progressive: true,
+                                files: ['**/*.{jpg,jpeg}']
                             },
-                            // svg: {
-                            //     quality: 80,
-                            //     removeViewBox: false,
-                            //     files: ['**/*.svg']
-                            // },
+                            svg: {
+                                removeViewBox: false,
+                                files: ['**/*.svg']
+                            },
                             // pdf: {
                             //     quality: 80,
                             //     files: ['**/*.pdf']
                             // },
-                            // dynamic: {
-                            //     quality: 80,
-                            //     files: ['**/*.{gif}']
-                            // }
+                            dynamic: {
+                                files: ['**/*.{mp4,gif}']
+                            }
                         }, // option
                         watch
                     ],
@@ -118,27 +120,50 @@ module.exports.handle = (watch = true) => {
     let task_group = {
         style: () => {
             return Runner.runSequential([
-                task.sass_clean,
                 task.sass
             ])
         }
     };
+
+    const run_info = () => Runner.log().raw(colors.yellow('Starting parallel execution of build pipeline, keep async in mind when reading times and order'));
 
     /**
      * Final run definition, mixing `task_group` and single `task`, indexing with the public name of the task
      */
     return {
         build: () => {
+            run_info();
             return Runner.run(
                 () => {
-                    Runner.log().raw(new Date(), colors.yellow('Starting parallel execution of build pipeline, keep async in mind when reading times and order'));
-                    return Runner.runParallel([
-                        task_group.style,
-                        task.js,
-                        task.media,
+                    return Runner.runSequential([
+                        task.clean,
+                        () => {
+                            return Runner.runParallel([
+                                task_group.style,
+                                task.js,
+                                task.media,
+                            ])
+                        }
                     ])
                 }, [],
                 'build'
+            );
+        },
+        build_no_media: () => {
+            run_info();
+            return Runner.run(
+                () => {
+                    return Runner.runSequential([
+                        task.clean,
+                        () => {
+                            return Runner.runParallel([
+                                task_group.style,
+                                task.js
+                            ])
+                        }
+                    ])
+                }, [],
+                'build_no_media'
             );
         }
     }

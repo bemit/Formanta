@@ -87,11 +87,14 @@ class Runner {
     static log() {
         return {
             /**
-             * @param time
              * @param text
+             * @param time
+             * @param buffer
              */
-            raw: (time, text) => {
-                let buffer = '';
+            raw: (text, time = undefined, buffer = '') => {
+                if('undefined' === typeof time) {
+                    time = new Date();
+                }
                 /*
                 // currently cascading console styling is to buggy with promises, registerChild connectors would be needed which are called from within childs
                 for(let i = 0; i < Runner.constructor.level_cur; i++) {
@@ -103,30 +106,35 @@ class Runner {
             /**
              * @param text
              * @param time
-             * @return {*}
+             * @return {undefined}
              */
             start: (text, time = undefined) => {
                 Runner.constructor.level_cur++;
                 if('undefined' === typeof time) {
                     time = new Date();
                 }
-                Runner.log().raw(time, colors.green.italic('Starting `' + text + '`'));
+                Runner.log().raw(colors.green.italic('Starting `' + text + '`'), time);
                 return time;
             },
             /**
              * @param text
              * @param time_start
              * @param time
+             * @param suffix
              */
-            end: (text, time_start, time = undefined) => {
+            end: (text, time_start, time = undefined, suffix = '') => {
                 if('undefined' === typeof time) {
                     time = new Date();
                 }
                 let end = time.getTime() - time_start.getTime();
-                Runner.log().raw(time,
+                Runner.log().raw(
                     colors.green.bold(
-                        colors.bgGreen.white('Finished') + ' `' + text + '`' + colors.grey(' after ') + colors.blue.underline(end + 'ms')
-                    )
+                        colors.bgGreen.white('Finished') + ' `' + text + '`' +
+                        colors.grey(' after ') +
+                        colors.blue.underline(end + 'ms') +
+                        (0 < suffix.length ? ' ' + colors.grey(suffix) : '')
+                    ),
+                    time
                 );
                 Runner.constructor.level_cur--;
             }
