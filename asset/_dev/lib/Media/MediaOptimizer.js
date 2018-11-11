@@ -10,14 +10,14 @@ const colors = require('colors/safe');
 const glob = require('glob');
 
 const HandlePNG = require('./handlePNG');
+const HandleJPG = require('./handleJPG');
 
 class MediaOptimizer {
     constructor(watch) {
         this.watch = watch;
         this.handler_list = {
             png: HandlePNG,
-            jpg: (src, build, option) => {
-            },
+            jpg: HandleJPG,
             svg: (src, build, option) => {
             },
             pdf: (src, build, option) => {

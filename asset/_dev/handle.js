@@ -81,11 +81,11 @@ module.exports.handle = (watch = true) => {
                                 quality: 80,
                                 files: ['**/*.png', '**/*.peg']
                             },
-                            // jpg: {
-                            //     quality: 80,
-                            //     progressive: true,
-                            //     files: ['**/*.{jpg,jpeg}']
-                            // },
+                            jpg: {
+                                 quality: 80,
+                                 progressive: true,
+                                 files: ['**/*.{jpg,jpeg}']
+                            },
                             // svg: {
                             //     quality: 80,
                             //     removeViewBox: false,

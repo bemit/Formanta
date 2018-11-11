@@ -8,7 +8,7 @@ const colors = require('colors/safe');
 const HandlerBase = require('./HandlerBase');
 
 const execFile = require('child_process').execFile;
-const pngquant = require('pngquant-bin');
+const mozjpeg = require('mozjpeg');
 
 /**
  * @type {Runner}
@@ -19,13 +19,14 @@ const Runner = require('../Runner');
  *
  * @type {module.HandlePNG}
  */
-module.exports = class HandlePNG extends HandlerBase {
+module.exports = class HandleJPG extends HandlerBase {
     run() {
         return super.run((resolve => {
             let start = Runner.log().start('MediaHandler: ' + this.name);
             const size_before = fs.statSync(this.src).size / 1024;// in KB, Kilobyte in base 2
 
-            execFile(pngquant, ['-o', this.dist, this.src, '--quality', this.option.quality], err => {
+            // order of args is important, input file must be last for mozjpeg
+            execFile(mozjpeg, ['-outfile', this.dist, '-quality', this.option.quality, this.src], err => {
                 if(err) {
                     console.error(colors.red(err));
                 }
