@@ -4,6 +4,7 @@
 const LoadEnv = require('../../LoadEnv');
 
 const fs = require('fs');
+const SVGO = require('svgo');
 
 /**
  * @type {HandlerBase}
@@ -17,52 +18,49 @@ const Runner = require('../../Runner');
 
 class HandlerSVG extends HandlerBase {
     run() {
-        // inline handle dependency load for using `option` provided by FIRST handler for setup `svgo`
-        const svgo = LoadEnv.load('svgo', (SVGO) => {
-            // will run only on first load
-            return new SVGO({
-                plugins: [
-                    {cleanupAttrs: true,},
-                    /*{removeDoctype: true,},
-                    {removeXMLProcInst: true,},
-                    {removeComments: true,},*/
-                    {removeMetadata: true,},
-                    /*{removeTitle: true},
-                    {removeDesc: true},*/
-                    {removeUselessDefs: true,},
-                    {removeEditorsNSData: true,},
-                    {removeEmptyAttrs: true},
-                    /*{removeHiddenElems: true},
-                    {removeEmptyText: true},
-                    {removeEmptyContainers: true,},*/
+        // inline handle dependency load for using `option` provided by handler for setup `svgo`
+        const svgo = new SVGO({
+            plugins: [
+                {cleanupAttrs: true,},
+                /*{removeDoctype: true,},
+                {removeXMLProcInst: true,},
+                {removeComments: true,},*/
+                {removeMetadata: true,},
+                /*{removeTitle: true},
+                {removeDesc: true},*/
+                {removeUselessDefs: true,},
+                {removeEditorsNSData: true,},
+                {removeEmptyAttrs: true},
+                /*{removeHiddenElems: true},
+                {removeEmptyText: true},
+                {removeEmptyContainers: true,},*/
 
-                    // @example for using option
-                    {removeViewBox: this.option.removeViewBox,},
-                    /*{cleanupEnableBackground: true,},
-                    {convertStyleToAttrs: true,},
-                    {convertColors: true,},
-                    {convertPathData: true,},
-                    {convertTransform: true,},*/
-                    {removeUnknownsAndDefaults: true,},
-                    {removeNonInheritableGroupAttrs: true,},
-                    {removeUselessStrokeAndFill: true,},
-                    {removeUnusedNS: true,},
-                    {cleanupIDs: true,},
-                    /*{cleanupNumericValues: true,},
-                    {moveElemsAttrsToGroup: true,},
-                    {moveGroupAttrsToElems: true,},
-                    {collapseGroups: true,},
-                    {removeRasterImages: false,},
-                    {mergePaths: true,},
-                    {convertShapeToPath: true,},
-                    {sortAttrs: true,},
-                    {removeDimensions: true,},
-                    {
-                        removeAttrs:
-                            {attrs: '(stroke|fill)'},
-                    }*/
-                ]
-            });
+                // @example for using option
+                {removeViewBox: this.option.removeViewBox,},
+                /*{cleanupEnableBackground: true,},
+                {convertStyleToAttrs: true,},
+                {convertColors: true,},
+                {convertPathData: true,},
+                {convertTransform: true,},*/
+                {removeUnknownsAndDefaults: true,},
+                {removeNonInheritableGroupAttrs: true,},
+                {removeUselessStrokeAndFill: true,},
+                {removeUnusedNS: true,},
+                {cleanupIDs: true,},
+                /*{cleanupNumericValues: true,},
+                {moveElemsAttrsToGroup: true,},
+                {moveGroupAttrsToElems: true,},
+                {collapseGroups: true,},
+                {removeRasterImages: false,},
+                {mergePaths: true,},
+                {convertShapeToPath: true,},
+                {sortAttrs: true,},
+                {removeDimensions: true,},
+                {
+                    removeAttrs:
+                        {attrs: '(stroke|fill)'},
+                }*/
+            ]
         });
 
         return super.run_internal((on_finish => {

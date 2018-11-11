@@ -161,27 +161,31 @@ module.exports.handle = (watch = true) => {
         build: () => {
             run_info();
             return Runner.run(
-                Runner.runSequential([
-                    task.clean,
-                    Runner.runParallel([
-                        task_group.style,
-                        task.js,
-                        task.media,
+                () => {
+                    return Runner.runSequential([
+                        task.clean,
+                        Runner.runParallel([
+                            task_group.style,
+                            task.js,
+                            task.media,
+                        ])
                     ])
-                ]), [],
+                }, [],
                 'build'
             );
         },
         build_no_media: () => {
             run_info();
             return Runner.run(
-                Runner.runSequential([
-                    task.clean,
-                    Runner.runParallel([
-                        task_group.style,
-                        task.js
+                () => {
+                    return Runner.runSequential([
+                        task.clean,
+                        Runner.runParallel([
+                            task_group.style,
+                            task.js
+                        ])
                     ])
-                ]), [],
+                }, [],
                 'build_no_media'
             );
         },
