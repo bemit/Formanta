@@ -1,23 +1,21 @@
 /**
  * @type {LoadEnv}
  */
-const LoadEnv = require('../LoadEnv');
+const LoadEnv = require('../../LoadEnv');
 
 const fs = require('fs');
-const path = require('path');
-const colors = require('colors/safe');
 
 /**
  * @type {HandlerBase}
  */
-const HandlerBase = require('./HandlerBase');
+const HandlerBase = require('../HandlerBase');
 
 /**
  * @type {Runner}
  */
-const Runner = require('../Runner');
+const Runner = require('../../Runner');
 
-class HandleSVG extends HandlerBase {
+class HandlerSVG extends HandlerBase {
     run() {
         // inline handle dependency load for using `option` provided by FIRST handler for setup `svgo`
         const svgo = LoadEnv.load('svgo', (SVGO) => {
@@ -90,6 +88,6 @@ class HandleSVG extends HandlerBase {
 
 /**
  *
- * @type {HandleSVG}
+ * @type {HandlerSVG}
  */
-module.exports = HandleSVG;
+module.exports = HandlerSVG;

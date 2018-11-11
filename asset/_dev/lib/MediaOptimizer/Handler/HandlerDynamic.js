@@ -3,12 +3,12 @@ const fs = require('fs');
 /**
  * @type {HandlerBase}
  */
-const HandlerBase = require('./HandlerBase');
+const HandlerBase = require('../HandlerBase');
 
 /**
  * @type {Runner}
  */
-const Runner = require('../Runner');
+const Runner = require('../../Runner');
 
 //
 // Handle Dependencies
@@ -16,7 +16,7 @@ const Runner = require('../Runner');
 /**
  * Simple file copy handler
  */
-class HandleDynamic extends HandlerBase {
+class HandlerDynamic extends HandlerBase {
     run() {
         return super.run_internal((on_finish => {
             let finished = false;
@@ -44,6 +44,6 @@ class HandleDynamic extends HandlerBase {
 }
 
 /**
- * @type {HandleDynamic}
+ * @type {HandlerDynamic}
  */
-module.exports = HandleDynamic;
+module.exports = HandlerDynamic;

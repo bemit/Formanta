@@ -1,13 +1,13 @@
 /**
  * @type {LoadEnv}
  */
-const LoadEnv = require('./lib/LoadEnv');
+const LoadEnv = require('../LoadEnv');
 
-const {FileWatcher} = require('./lib/FileWatcher');
+const {FileWatcher} = require('../FileWatcher');
 /**
  * @type {Runner}
  */
-const Runner = require('./lib/Runner');
+const Runner = require('../Runner');
 
 
 const fs = require('fs');

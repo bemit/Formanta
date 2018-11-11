@@ -26,14 +26,14 @@ module.exports.handle = (watch = true) => {
         sass: () => {
             return new Promise((resolve) => {
                 Runner.run(
-                    require('./handleSass'), [
+                    require('./lib/task/taskSass'), [
                         ASSET_DIR + 'style/main.scss', // entry
                         BUILD_DIR + 'style/main.css', // output
                         watch,
                         'compressed',
                         ROOT_DIR,
                     ],
-                    'handle--sass'
+                    'task--sass'
                 ).then(result => {
                     resolve(result)
                 });
@@ -77,7 +77,7 @@ module.exports.handle = (watch = true) => {
             // Asset Files like JPG, PNG, SVG, MP4 and Generic Copying for e.g. PDF
             return new Promise((resolve) => {
                 Runner.run(
-                    require('./handleMedia'), [
+                    require('./lib/task/taskMedia'), [
                         {
                             [BUILD_DIR + 'media']: ASSET_DIR + 'media/'
                         }, // src
@@ -112,7 +112,7 @@ module.exports.handle = (watch = true) => {
                         }, // option
                         watch
                     ],
-                    'handle--media'
+                    'task--media'
                 ).then(result => {
                     resolve(result)
                 });
@@ -121,7 +121,7 @@ module.exports.handle = (watch = true) => {
         archive: () => {
             return new Promise((resolve) => {
                 Runner.run(
-                    require('./handleArchive'), [
+                    require('./lib/task/taskArchive'), [
                         {
                             include: {
                                 // from/src: to/dist
@@ -137,7 +137,7 @@ module.exports.handle = (watch = true) => {
                         {}, // option
                         watch
                     ],
-                    'handle--archive'
+                    'task--archive'
                 ).then(result => {
                     resolve(result)
                 });

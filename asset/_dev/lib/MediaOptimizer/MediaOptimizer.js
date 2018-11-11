@@ -2,7 +2,6 @@ const Runner = require('../Runner');
 
 const {FileWatcher} = require('../FileWatcher');
 
-const fs = require('fs');
 const path = require('path');
 const colors = require('colors/safe');
 
@@ -13,11 +12,11 @@ const glob = require('glob');
  * @type {{png: (function(): HandlePNG), jpg: (function(): HandleJPG), svg: (function(): HandleSVG), mp4: (function(): HandleMP4), dynamic: (function(): HandleDynamic)}}
  */
 const handler_default = {
-    png: () => require('./handlePNG'),
-    jpg: () => require('./handleJPG'),
-    svg: () => require('./handleSVG'),
-    mp4: () => require('./handleMP4'),
-    dynamic: () => require('./handleDynamic'),
+    png: () => require('./Handler/HandlerPNG'),
+    jpg: () => require('./Handler/HandlerJPG'),
+    svg: () => require('./Handler/HandlerSVG'),
+    mp4: () => require('./Handler/HandlerMP4'),
+    dynamic: () => require('./Handler/HandlerDynamic'),
 };
 
 class MediaOptimizer {

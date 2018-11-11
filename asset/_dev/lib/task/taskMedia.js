@@ -1,7 +1,7 @@
 /**
  * @type {LoadEnv}
  */
-const LoadEnv = require('./lib/LoadEnv');
+const LoadEnv = require('../LoadEnv');
 
 const fs = require('fs');
 const path = require('path');
@@ -11,11 +11,11 @@ const colors = require('colors/safe');
 /**
  * @type {Runner}
  */
-const Runner = require('./lib/Runner');
+const Runner = require('../Runner');
 /**
  * @type {MediaOptimizer}
  */
-const MediaOptimizer = require('./lib/Media/MediaOptimizer');
+const MediaOptimizer = require('../MediaOptimizer/MediaOptimizer');
 
 /**
  * Handles a src to build pair, parsing ones src_dir and all files for registered handlers into optimized build versions

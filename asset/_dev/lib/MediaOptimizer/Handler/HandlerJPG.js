@@ -1,12 +1,12 @@
 /**
  * @type {Runner}
  */
-const Runner = require('../Runner');
+const Runner = require('../../Runner');
 
 /**
  * @type {HandlerBase}
  */
-const HandlerBase = require('./HandlerBase');
+const HandlerBase = require('../HandlerBase');
 
 //
 // Handle Dependencies
@@ -14,7 +14,7 @@ const HandlerBase = require('./HandlerBase');
 const execFile = require('child_process').execFile;
 const mozjpeg = require('mozjpeg');
 
-class HandleJPG extends HandlerBase {
+class HandlerJPG extends HandlerBase {
     run() {
         return super.run_internal((on_finish => {
             // order of args is important, input file must be last for mozjpeg
@@ -25,6 +25,6 @@ class HandleJPG extends HandlerBase {
 
 /**
  *
- * @type {HandleJPG}
+ * @type {HandlerJPG}
  */
-module.exports = HandleJPG;
+module.exports = HandlerJPG;
