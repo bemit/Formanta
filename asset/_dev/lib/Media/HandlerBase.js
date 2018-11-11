@@ -88,7 +88,9 @@ class HandlerBase {
                 const round = (size) => {
                     return Math.round(size * 100) / 100 + 'KB';
                 };
-                let saved_msg = '| [' + round(size_before) + ' > ' + round(size_after) + '] ' + colors.underline(round(size_saved)) + ' ';
+
+                // Construct pretty logging message about how much saved for each file, and warn also about copied and more space after compression errors
+                let saved_msg = '| [' + round(size_before) + ((0 !== size_saved) ? ' > ' + round(size_after) : '') + '] ' + colors.underline(round(size_saved)) + ' ';
                 if(0 === size_saved) {
                     saved_msg += colors.yellow('zero') + ' space saved, copied!';
                 } else if(0 > size_saved) {

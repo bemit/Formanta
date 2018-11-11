@@ -4,20 +4,19 @@ const {FileWatcher} = require('../FileWatcher');
 
 const fs = require('fs');
 const path = require('path');
-
 const colors = require('colors/safe');
 
 const glob = require('glob');
 
 /**
  *
- * @type {{png: (function(): HandlePNG), jpg: (function(): HandleJPG), svg: (function(): HandleSVG), pdf: (function(): HandlePDF), dynamic: (function(): HandleDynamic)}}
+ * @type {{png: (function(): HandlePNG), jpg: (function(): HandleJPG), svg: (function(): HandleSVG), mp4: (function(): HandleMP4), dynamic: (function(): HandleDynamic)}}
  */
 const handler_default = {
     png: () => require('./handlePNG'),
     jpg: () => require('./handleJPG'),
     svg: () => require('./handleSVG'),
-    pdf: () => require('./handlePDF'),
+    mp4: () => require('./handleMP4'),
     dynamic: () => require('./handleDynamic'),
 };
 

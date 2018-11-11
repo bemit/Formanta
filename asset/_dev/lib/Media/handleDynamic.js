@@ -5,13 +5,13 @@ const fs = require('fs');
  */
 const HandlerBase = require('./HandlerBase');
 
-//
-// Handle Dependencies
-
 /**
  * @type {Runner}
  */
 const Runner = require('../Runner');
+
+//
+// Handle Dependencies
 
 /**
  * Simple file copy handler

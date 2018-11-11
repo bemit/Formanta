@@ -20,7 +20,7 @@ let tasks = {
             }
             // handle with `no-watch` and building everything
             handle(false).build().then().catch((err) => {
-                console.error(colors.red.underline('!# tasker: handle failed: ' + err));
+                console.error(colors.red.underline('!# tasker.tasks.build: handle failed: ' + err));
             });
         }
     },
@@ -34,7 +34,7 @@ let tasks = {
             }
             // handle with `no-watch` and building everything
             handle(false).build_no_media().then().catch((err) => {
-                console.error(colors.red.underline('!# tasker: handle failed: ' + err));
+                console.error(colors.red.underline('!# tasker.tasks.build-no-media: handle failed: ' + err));
             });
         }
     },
@@ -49,7 +49,22 @@ let tasks = {
 
             // handle with `watch` and building everything
             handle(false).build().then().catch((err) => {
-                console.error(colors.red.underline('!# tasker: handle failed: ' + err));
+                console.error(colors.red.underline('!# tasker.tasks.watch: handle failed: ' + err));
+            });
+        }
+    },
+    'archive': {
+        desc: 'archive files, rebuilds and then packs all src and dist files without tooling dependencies, backup backup backup!',
+        args: (yargs) => {
+        },
+        task: (argv) => {
+            if(argv.verbose) {
+                console.info(colors.green.italic('tasker: starting `archive`'));
+            }
+
+            // handle with `watch` and building everything
+            handle(false).archive().then().catch((err) => {
+                console.error(colors.red.underline('!# tasker.tasks.archive: handle failed: ' + err));
             });
         }
     }

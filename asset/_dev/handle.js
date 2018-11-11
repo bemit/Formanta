@@ -5,14 +5,16 @@ const Runner = require('./lib/Runner');
 
 const colors = require('colors/safe');
 
-const BUILD_DIR = __dirname + '/../../build/';
+const ROOT_DIR = __dirname + '/../../';
+const ASSET_DIR = ROOT_DIR + 'asset/';
+const BUILD_DIR = ROOT_DIR + 'build/';
 
 /**
  * Returns all tasks to choose from
  *
  * @param {boolean} watch
  *
- * @return {{build: (function(): Promise<{}>), build_no_media: (function(): Promise<{}>)}}
+ * @return {{build: ((function(): Promise<{}>)), build_no_media: ((function(): Promise<{}>)), archive: ((function(): Promise))}}
  */
 module.exports.handle = (watch = true) => {
     /**
@@ -25,11 +27,11 @@ module.exports.handle = (watch = true) => {
             return new Promise((resolve) => {
                 Runner.run(
                     require('./handleSass'), [
-                        __dirname + '/../style/main.scss', // entry
+                        ASSET_DIR + 'style/main.scss', // entry
                         BUILD_DIR + 'style/main.css', // output
                         watch,
                         'compressed',
-                        __dirname + '/../../',
+                        ROOT_DIR,
                     ],
                     'handle--sass'
                 ).then(result => {
@@ -71,17 +73,17 @@ module.exports.handle = (watch = true) => {
             })
         },
         media: () => {
-            // Asset Files like JPG, PNG, SVG, PDF and Generic Copying
+            // Asset Files like JPG, PNG, SVG, MP4 and Generic Copying for e.g. PDF
             return new Promise((resolve) => {
                 Runner.run(
                     require('./handleMedia'), [
                         {
-                            [BUILD_DIR + 'media']: __dirname + '/../media/'
+                            [BUILD_DIR + 'media']: ASSET_DIR + 'media/'
                         }, // src
                         {
                             png: {
                                 quality: 80,
-                                files: ['**/*.png', '**/*.peg'],
+                                files: ['**/*.png'],
                                 // to provide custom handler, a lot are implemented as default
                                 // handler: require('./lib/Media/handlePNG')
                             },
@@ -94,12 +96,17 @@ module.exports.handle = (watch = true) => {
                                 removeViewBox: false,
                                 files: ['**/*.svg']
                             },
-                            // pdf: {
-                            //     quality: 80,
-                            //     files: ['**/*.pdf']
-                            // },
+                            mp4: {
+                                optimize: true,
+                                // framerate, 15 for most web
+                                rate: 15,
+                                // the higher the worser
+                                quality: 24.0,
+                                // mp4, avi and more
+                                files: ['**/*.mp4']
+                            },
                             dynamic: {
-                                files: ['**/*.{mp4,gif}']
+                                files: ['**/*.{pdf,gif}']
                             }
                         }, // option
                         watch
@@ -109,8 +116,27 @@ module.exports.handle = (watch = true) => {
                     resolve(result)
                 });
             })
+        },
+        archive: () => {
+            return new Promise((resolve) => {
+                Runner.run(
+                    require('./handleArchive'), [
+                        {
+                            [ASSET_DIR]: 'asset',
+                            [BUILD_DIR]: 'build',
+                        }, // src
+                        {}, // option
+                        watch
+                    ],
+                    'handle--archive'
+                ).then(result => {
+                    resolve(result)
+                });
+            })
         }
     };
+
+    const run_info = () => Runner.log().raw(colors.yellow('Starting parallel execution of build pipeline, keep async in mind when reading times and order'));
 
     /**
      * Grouping single tasks into groups
@@ -122,15 +148,7 @@ module.exports.handle = (watch = true) => {
             return Runner.runSequential([
                 task.sass
             ])
-        }
-    };
-
-    const run_info = () => Runner.log().raw(colors.yellow('Starting parallel execution of build pipeline, keep async in mind when reading times and order'));
-
-    /**
-     * Final run definition, mixing `task_group` and single `task`, indexing with the public name of the task
-     */
-    return {
+        },
         build: () => {
             run_info();
             return Runner.run(
@@ -165,6 +183,21 @@ module.exports.handle = (watch = true) => {
                 }, [],
                 'build_no_media'
             );
+        },
+        archive: () => {
+            return Runner.runSequential([
+                task_group.build,
+                task.archive,
+            ])
         }
+    };
+
+    /**
+     * Final run definition, mixing `task_group` and single `task`, indexing with the public name of the task
+     */
+    return {
+        build: task_group.build,
+        build_no_media: task_group.build_no_media,
+        archive: task_group.archive
     }
 };
