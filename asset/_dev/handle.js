@@ -141,20 +141,23 @@ module.exports.handle = (watch = true) => {
             return new Promise((resolve) => {
                 Runner.run(
                     require('./lib/task/taskArchive'), [
-                        {
-                            include: {
-                                // from/src: to/dist
-                                [ROOT_DIR]: '',
-                            },
-                            exclude: [
-                                '.git',
-                                'node_modules',
-                                'bower_components'
-                            ]
-                        }, // src
+                        ROOT_DIR, // base
+                        [
+                            '.idea',
+                            '.git',
+                            '.gitkeep',
+                            'tmp',
+                            '/archive',
+                            'node_modules',
+                            // todo: including single node modules breaks promise resolving [bug]
+                            /*'/node_modules',
+                            '/asset/_dev/node_modules',
+                            '/asset/_dev/lib/Archiver/node_modules',
+                            '/asset/_dev/lib/ModuleOptimizer/node_modules',*/
+                            'bower_components'
+                        ], // exclude
                         ROOT_DIR + 'archive/' + (Math.floor(new Date().getTime() / 1000)), // dist
-                        {}, // option
-                        watch
+                        {} // option
                     ],
                     'task--archive'
                 ).then(result => {
