@@ -1,14 +1,8 @@
-/**
- * @type {LoadEnv}
- */
-const LoadEnv = require('../LoadEnv');
-
 const {FileWatcher} = require('../FileWatcher');
 /**
  * @type {Runner}
  */
 const Runner = require('../Runner');
-
 
 const fs = require('fs');
 const path = require('path');
@@ -18,7 +12,7 @@ const colors = require('colors/safe');
 const postcss = require('postcss');
 const autoprefixer = require('autoprefixer');
 const sassGraph = require('sass-graph');
-const sass = LoadEnv.load('node-sass');
+const sass = require('node-sass');
 
 /**
  * Function for parsing one entry file to one output file
@@ -37,10 +31,18 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                 entry_ = path.resolve(entry_);
                 output_ = path.resolve(output_);
 
+                // build preety path for logging
                 let log_path_entry = colors.underline((root_dir ? entry_.replace(path.resolve(root_dir), '').substr(1) : entry_));
                 let log_path_output = colors.underline((root_dir ? output_.replace(path.resolve(root_dir), '').substr(1) : output_));
 
                 let start_render = Runner.log().start('transpiling ' + log_path_entry);
+
+                if(false === fs.existsSync(path.dirname(output_))) {
+                    // create dist dir if not exists
+                    if(fs.mkdirSync(path.dirname(output_), {recursive: true})) {
+                        Runner.log().raw('handleArchive: could not create dist dir: ' + colors.underline(path.dirname(output_)));
+                    }
+                }
 
                 sass.render({
                     file: entry_,
@@ -80,8 +82,12 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                                 Runner.log().end('postcss ' + log_path_entry, start_postcss);
 
                                 let start_saving = Runner.log().start('save ' + log_path_entry + ' to ' + log_path_output);
-                                fs.writeFile(output_, result.css, (e, r) => {
+                                fs.writeFile(output_, result.css, (err, r) => {
                                     Runner.log().end('save ' + log_path_entry + ' to ' + log_path_output, start_saving);
+
+                                    if(err) {
+                                        console.error(err);
+                                    }
 
                                     // todo: first check if dir exists, when not, create dir and then write file
                                     if(result.map) {
@@ -90,7 +96,7 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                                         fs.writeFile(output_ + '.map', result.map, () => true);
                                     }
                                     resolve({
-                                        err: e,
+                                        err: err,
                                         result: 'sass-finished'
                                     });
                                 });

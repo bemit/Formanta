@@ -3,6 +3,7 @@
  */
 const Runner = require('./lib/Runner');
 
+const fs = require('fs');
 const colors = require('colors/safe');
 
 const ROOT_DIR = __dirname + '/../../';
@@ -14,7 +15,7 @@ const BUILD_DIR = ROOT_DIR + 'build/';
  *
  * @param {boolean} watch
  *
- * @return {{build: ((function(): Promise<{}>)), build_no_media: ((function(): Promise<{}>)), archive: ((function(): Promise))}}
+ * @return {{clean: (clean|(function(): Promise<{}>)), build: (build|(function(): Promise<{}>)), build_no_media: (build_no_media|(function(): Promise<{}>)), archive: (archive|(function(): Promise))}}
  */
 module.exports.handle = (watch = true) => {
     /**
@@ -40,10 +41,28 @@ module.exports.handle = (watch = true) => {
             })
         },
         clean: () => {
-            return new Promise((resolve) => {
-                console.log(colors.cyan('Clean: not implemented, delete `/build/**/*` manual'));
-                resolve('cleany');
-            })
+            // inline task definition example
+            // remove whole build folder
+            return Runner.run(
+                new Promise((resolve) => {
+                    const rmdir = (dir) => {
+                        if(fs.existsSync(dir)) {
+                            fs.readdirSync(dir).forEach((file) => {
+                                let cur = dir + '/' + file;
+                                if(fs.lstatSync(cur).isDirectory()) {
+                                    rmdir(cur);
+                                } else {
+                                    fs.unlinkSync(cur);
+                                }
+                            });
+                            fs.rmdirSync(dir);
+                        }
+                    };
+                    rmdir(BUILD_DIR);
+                    resolve('clean');
+                }), [],
+                'clean'
+            );
         },
         js: () => {
             return new Promise((resolve) => {
@@ -164,11 +183,13 @@ module.exports.handle = (watch = true) => {
                 () => {
                     return Runner.runSequential([
                         task.clean,
-                        Runner.runParallel([
-                            task_group.style,
-                            task.js,
-                            task.media,
-                        ])
+                        () => {
+                            return Runner.runParallel([
+                                task_group.style,
+                                task.js,
+                                task.media,
+                            ])
+                        }
                     ])
                 }, [],
                 'build'
@@ -180,10 +201,12 @@ module.exports.handle = (watch = true) => {
                 () => {
                     return Runner.runSequential([
                         task.clean,
-                        Runner.runParallel([
-                            task_group.style,
-                            task.js
-                        ])
+                        () => {
+                            return Runner.runParallel([
+                                task_group.style,
+                                task.js
+                            ])
+                        }
                     ])
                 }, [],
                 'build_no_media'
@@ -201,6 +224,7 @@ module.exports.handle = (watch = true) => {
      * Final run definition, mixing `task_group` and single `task`, indexing with the public name of the task
      */
     return {
+        clean: task.clean,
         build: task_group.build,
         build_no_media: task_group.build_no_media,
         archive: task_group.archive

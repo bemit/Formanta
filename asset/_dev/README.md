@@ -3,6 +3,7 @@
 This package uses NodeJS scripts to start and configure the building of assets files like Sass to CSS transpiling with autoprefixer and browserslist.
 
 ```bash
+# See which tasks are available through cli
 node tasker.js --help
 ```
 
@@ -37,3 +38,9 @@ Implemented file watcher adds all files automatically for each entry file declar
 - `uglify` 
 
 > concept
+
+### handleMedia
+
+#### mp4 Support handleMedia
+
+> [Extra setup required for Linux, NOT: Mac, Windows](https://www.npmjs.com/package/handbrake-js#system-requirements)

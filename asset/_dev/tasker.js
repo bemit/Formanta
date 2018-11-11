@@ -10,6 +10,20 @@ const {handle} = require('./handle');
  * @type {*}
  */
 let tasks = {
+    'clean': {
+        desc: 'clean dist files',
+        args: (yargs) => {
+        },
+        task: (argv) => {
+            if(argv.verbose) {
+                console.info(colors.green.italic('tasker: starting `clean`'));
+            }
+            // handle with `no-watch` and building everything
+            handle(false).clean().then().catch((err) => {
+                console.error(colors.red.underline('!# tasker.tasks.clean: handle failed: ' + err));
+            });
+        }
+    },
     'build': {
         desc: 'build asset files',
         args: (yargs) => {

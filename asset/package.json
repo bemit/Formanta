@@ -9,7 +9,7 @@
   },
   "scripts": {
     "install": "(cd ./_dev && (npm install))",
-    "start": "node ./_dev/tasker.js start",
+    "clean": "node ./_dev/tasker.js clean",
     "build": "node ./_dev/tasker.js build",
     "watch": "node ./_dev/tasker.js watch",
     "help": "node ./_dev/tasker.js --help"

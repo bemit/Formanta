@@ -9,6 +9,8 @@
 
 With Formanta you get a quick start boilerplate for integrated frontend development and in general a StaticSide Generator ready to go.
 
+> Scroll down for a 15 small steps to production list! 
+
 The Static Side Generator could be run with NodeJS or PHP and the CLI interface is in the root directory
 
 > Formanta is a work-in-progress and currently PHP and NodeJS features aren't alike, this will be from version 0.9 onwards.
@@ -93,8 +95,8 @@ Tasks for the build pipelines:
 ```bash
 # IMPORTANT: switch to folder /asset
 
-# nothing, to be implemented
-npm run start
+# clean build folder
+npm run clean
 # build all assets
 npm run build
 # build all assets and add file watcher
@@ -104,17 +106,20 @@ npm run help
 
 # IMPORTANT: switch to folder /asset/_dev
 
-# nothing, to be implemented
-node tasker.js start
+# clean build folder
+node tasker.js clean
 # build all assets
 node tasker.js build
+# build assets without media
+node tasker.js build-no-media
 # build all assets and add file watcher
 node tasker.js watch
 # show available tasks
 node tasker.js --help
 ```
 
-For asset build tools guide see [/asset/_dev/README.md](/asset/_dev/README.md)
+- [/asset/README.md](/asset/README.md) guide for asset files
+- [/asset/_dev/README.md](/asset/_dev/README.md) guide for asset build tools
 
 ### View System
 
@@ -141,6 +146,23 @@ Doesn't save already builded files into `system/builded.json` and thus isn't cap
 ### Known PHP Bugs
 
 The file watcher doesn't re-render, as the twig cache interferences.
+
+## 10 Steps to Dev: PHP
+
+Needed: PHP >7.2, NodeJS >10.12/NPM, Composer, (Windows: recommended: Unix Shell Extension)
+
+1. open terminal
+1. run `composer create-project bemit/formanta` for installing the latest Formanta version through [composer](https://getcomposer.org/) and [packagist](https://packagist.org/), wait till finished.
+1. go inside dir `cd formanta`
+1. build view system and start server with running `php package.php start`
+    - change `/view/demo.twig`
+    - see `/build/demo.html`
+1. open another terminal
+1. change dir for asset files `cd asset`
+1. install asset dependencies and build tools with `npm i`
+1. build all assets `npm run watch`
+1. see `/build/style`, `/build/js`, `/build/media`
+1. open localhost [localhost:25200](http://localhost:25200) to see `/build/index.html`
 
 ## Licence
 
