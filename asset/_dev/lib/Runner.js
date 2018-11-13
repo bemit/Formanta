@@ -19,25 +19,20 @@ class Runner {
     /**
      * Runs a function with data and handles the promise, will print runtime information
      *
-     * @param {Function|Promise} fn which will be executed, must return a Promise
-     * @param {Object} params which will be used as parameters through spread selector
+     * @param {Function<Promise>|Promise} fn which will be executed, must return a Promise
+     * @param {Array} params which will be used as parameters through spread selector
      * @param {String} name of the execution, printed in runtime information
      *
      * @return {Promise<{}>}
      */
-    static run(fn, params = {}, name = '') {
+    static run(fn, params = [], name = '') {
         return new Promise((resolve) => {
             const start = Runner.log().start(name);
 
             Runner._handleFN(fn, params).then((data) => {
-                if(data.err) {
-                    // err is only bool
-                    console.error(colors.red.underline('!# Runner: error happened in task: ' + colors.inverse(name)));
-                }
-
                 Runner.log().end(name, start);
 
-                resolve(data.result);
+                resolve(data);
             }).catch((err) => {
                 console.error(colors.red.underline('!# Runner: error happened in task: ' + colors.inverse(name)));
                 console.error(err);
@@ -67,13 +62,16 @@ class Runner {
      * Runs defined tasks sequential
      *
      * @param {[()<Promise>, ()<Promise>, ...]} task_def array with task definitions
+     *
+     * @todo implement 'break on failure' option, a `cb` that will - if set - be called if an error happens and depending if it returns `true` the chain will continue, if `false` it will fail, receives value of failure
+     *
      * @return {Promise}
      */
     static runSequential(task_def) {
         return new Promise((resolve) => {
             let all_value = [];
             const runSequentialInner = (r) => {
-                if(0 === r.length) {
+                if(0 >= r.length) {
                     resolve(all_value);
                     return;
                 }

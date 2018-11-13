@@ -2,6 +2,8 @@
 const yargs = require('yargs');
 const colors = require('colors/safe');
 
+const Runner = require('./lib/Runner');
+
 const {handle} = require('./handle');
 
 /**
@@ -16,7 +18,7 @@ let tasks = {
         },
         task: (argv) => {
             if(argv.verbose) {
-                console.info(colors.green.italic('tasker: starting `clean`'));
+                console.info(colors.gray.italic('tasker.js: starting `clean`'));
             }
             // handle with `no-watch` and building everything
             handle(false).clean().then().catch((err) => {
@@ -30,7 +32,7 @@ let tasks = {
         },
         task: (argv) => {
             if(argv.verbose) {
-                console.info(colors.green.italic('tasker: starting `build`'));
+                console.info(colors.gray.italic('tasker.js: starting `build`'));
             }
             // handle with `no-watch` and building everything
             handle(false).build().then().catch((err) => {
@@ -44,7 +46,7 @@ let tasks = {
         },
         task: (argv) => {
             if(argv.verbose) {
-                console.info(colors.green.italic('tasker: starting `build-no-media`'));
+                console.info(colors.gray.italic('tasker.js: starting `build-no-media`'));
             }
             // handle with `no-watch` and building everything
             handle(false).build_no_media().then().catch((err) => {
@@ -58,7 +60,7 @@ let tasks = {
         },
         task: (argv) => {
             if(argv.verbose) {
-                console.info(colors.green.italic('tasker: starting `watch`'));
+                console.info(colors.gray.italic('tasker.js: starting `watch`'));
             }
 
             // handle with `watch` and building everything
@@ -73,13 +75,28 @@ let tasks = {
         },
         task: (argv) => {
             if(argv.verbose) {
-                console.info(colors.green.italic('tasker: starting `archive`'));
+                console.info(colors.gray.italic('tasker.js: starting `archive`'));
             }
 
-            // handle with `watch` and building everything
+            // handle with no `watch`, building everything, then copy and archive current src and dist without build tools and .git and so on
             handle(false).archive().then().catch((err) => {
                 console.error(colors.red.underline('!# tasker.tasks.archive: handle failed: ' + err));
             });
+        }
+    },
+    'list task': {
+        desc: 'Listing all defined tasks that are published from handle.js',
+        args: (yargs) => {
+        },
+        task: (argv) => {
+            if(argv.verbose) {
+                console.info(colors.gray.italic('tasker.js: starting `list task`'));
+            }
+
+            let handle_tasks = Object.getOwnPropertyNames(handle(false));
+
+            Runner.log().raw('tasker.js: from ' + colors.underline('handle.js') + ' published tasks ' + colors.grey('not for CLI usage'));
+            Runner.log().raw(colors.blue(handle_tasks.join(', ')));
         }
     }
 };

@@ -9,7 +9,7 @@ const glob = require('glob');
 
 /**
  *
- * @type {{png: (function(): HandlePNG), jpg: (function(): HandleJPG), svg: (function(): HandleSVG), mp4: (function(): HandleMP4), dynamic: (function(): HandleDynamic)}}
+ * @type {{png: (function(): HandlerPNG), jpg: (function(): HandlerJPG), svg: (function(): HandlerSVG), mp4: (function(): HandlerMP4), dynamic: (function(): HandlerDynamic)}}
  */
 const handler_default = {
     png: () => require('./Handler/HandlerPNG'),

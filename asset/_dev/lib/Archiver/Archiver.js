@@ -3,16 +3,213 @@
  */
 const Runner = require('../Runner');
 
+/**
+ * @type {fs}
+ */
 const fs = require('graceful-fs');
 const path = require('path');
+const colors = require('colors/safe');
 const ignore = require('ignore');
 
+const readline = require('readline');
+
+/**
+ * @type {function<Archiver>}
+ */
+const archive_lib = require('archiver');
+
+//
+// Special Pack functions for factory
+//
+
+/**
+ *
+ * @type {{zip: (function(*=, *=): Promise)}}
+ */
+const default_handler = {
+    zip: (src, debug) => {
+
+        let dist_file = fs.createWriteStream(src + '.zip');
+
+        let archive = archive_lib('zip', {
+            zlib: {level: 9} // compression level.
+        });
+
+        // This event is fired when the data source is drained no matter what was the data source.
+        // It is not part of this library but rather from the NodeJS Stream API.
+        // @see: https://nodejs.org/api/stream.html#stream_event_end
+        dist_file.on('end', function() {
+            console.log('Archiver: zipping ' + archive.pointer() + 'bytes written');
+        });
+
+        // good practice to catch warnings (ie stat failures and other non-blocking errors)
+        archive.on('warning', function(err) {
+            if(err.code === 'ENOENT') {
+                // log warning
+            } else {
+                // throw error
+                throw err;
+            }
+        });
+
+        // good practice to catch this error explicitly
+        archive.on('error', function(err) {
+            throw err;
+        });
+
+        archive.pipe(dist_file);
+
+        let start = Runner.log().start('zip-read-dir ' + colors.underline(path.resolve(src)));
+
+        let files = Archiver.readDir(src, src, true);
+
+        Runner.log().end('zip-read-dir ' + colors.underline(path.resolve(src)), start);
+
+        return new Promise((resolve) => {
+            // listen for all archive data to be written
+            // 'close' event is fired only when a file descriptor is involved
+            dist_file.on('close', () => {
+                Runner.log().raw('Archiver finished and the output file is closed.');
+                Runner.log().raw(path.resolve(src + '.zip') + ' [' + colors.underline((Math.round(archive.pointer() / 1024 * 100) / 100) + 'KB') + '] written');
+                resolve(src + '.zip');
+            });
+
+            files.forEach(
+                /**
+                 * @param {{name: string, path: string}} file object with props `name` relative, normalized filename; `path` absolute, filesystem dependent path to src file
+                 */
+                ({name, path = {}}) => {
+                    // append a file from stream
+                    archive.append(fs.createReadStream(path), {name: name});
+                    if(debug) {
+                        console.log('zip: adding file name: ' + name);
+                    }
+                }
+            );
+
+            // finalize the archive (ie we are done appending files but streams have to finish yet)
+            // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand
+            archive.finalize();
+        });
+    }
+};
+
+/**
+ *
+ */
 class Archiver {
     constructor() {
         this.base = '';
-        this.include = {};
         this.exclude = [];
+        this.debug = false;
+        /**
+         * @type {{zip: (function(*=, *=): Promise)}}
+         */
+        this.pack_handler = default_handler;
     }
+
+    //
+    // Main API methods
+    //
+
+    /**
+     * @param dist
+     * @return {Promise}
+     */
+    copy(dist) {
+        return Runner.run(() => {
+                let start = Runner.log().start('copy-read-dir ' + colors.underline(path.resolve(dist)));
+
+                let file_writer = this.recursiveWriterGenerator(this.base, dist);
+
+                Runner.log().end('copy-read-dir ' + colors.underline(path.resolve(this.base)), start);
+
+                let start_c = Runner.log().start('copy-dir to ' + colors.underline(path.resolve(dist)));
+
+                /*let files = [];
+                let writing = [];
+                const doWriting = () => {
+                    console.log('dooo!dooo!dooo!dooo!dooo!');
+                    return new Promise(resolve => {
+                        Promise.all(writing).then(current => {
+                            console.log('mooo!mooo!mooo!mooo!mooo!mooo!');
+                            Runner.log().end('copy-dir ' + colors.underline(path.resolve(dist)), start_c, new Date(), colors.grey(' | ' + colors.underline((current.length) + '') + ' files copied.'));
+                            console.log('file_writer.lengthfile_writer.lengthfile_writer.length file_writer.length');
+                            console.log(current.length);
+                            resolve(current);
+                        }).catch(e => {
+                            console.error(colors.red('#! Archiver.copy Error: ' + e));
+                        });
+                    });
+                };
+
+                return new Promise(resolve => {
+                    file_writer.forEach((elem, i) => {
+                        writing.push(elem);
+                    });
+
+                    doWriting().then(result => {
+                        console.log('eee end 2');
+                        resolve(result);
+                    });
+                    console.log('eee end 1');
+                });*/
+
+                let writing = [];
+                file_writer.forEach((elem, i) => {
+                    writing.push(elem(this.debug));
+                });
+
+                return Promise.all(writing).then(copy => {
+                    Runner.log().end('copy-dir to ' + colors.underline(path.resolve(dist)), start_c, new Date(), colors.grey(' | ' + colors.underline(copy.length) + ' files copied.'));
+
+                    if(this.debug) {
+                        console.log(copy);
+                        return copy;
+                    } else {
+                        return 'copy';
+                    }
+                }).catch((e) => {
+                    throw new Error(e);
+                });
+            }, [],
+            'filtered-copy of ' + colors.underline(path.resolve(this.base)) + ' into ' + colors.underline(path.resolve(dist)));
+    }
+
+    /**
+     *
+     * @param pack_method
+     * @param dist string to a folder, is used as src and suffixed with e.g .zip after compressing
+     * @return {Promise}
+     */
+    pack(pack_method, dist) {
+        return new Promise((resolve) => {
+            if(this.pack_handler.hasOwnProperty(pack_method)) {
+                resolve(this.pack_handler[pack_method](dist));
+            } else {
+                resolve(false);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param {string} src absolute or relative path is transformed to normalized forward slashed relative path and checked against the exclude data
+     */
+    isAllowedPath(src) {
+        // normalize path: remove base, leading slash, change all backward slash to forward slash
+        let name = path.resolve(src).replace(path.resolve(this.base), '').substr(1).replace(/\\/g, '/');
+
+        // check the src against all excluded paths, syntax like `.gitignore`, each line is an array item
+        if(ignore().add(this.exclude).ignores(name)) {
+            return false;
+        }
+        return true;
+    }
+
+    //
+    // Utility like methods
+    //
 
     /**
      * @param dir
@@ -26,84 +223,213 @@ class Archiver {
     }
 
     /**
-     *
-     * @param {string} src
-     */
-    isAllowedPath(src) {
-        // normalize path: remove base, leading slash, change all backward slash to forward slash
-        let name = path.resolve(src).replace(path.resolve(this.base), '').substr(1).replace(/\\/g, '/');
-
-        // check the src against all excluded paths, syntax like `.gitignore`, each line is an array item
-        if(ignore().add(this.exclude).ignores(name)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
+     * Reads dir recursively and executes handler on lifecycle events
+     * @param base
      * @param src
-     * @param dist
+     * @param log
+     * @param accessCheck
+     * @param onFile
+     * @param onDir
+     * @param qty
      * @return {Array}
      */
-    copyDir(src, dist) {
+    static readDir(
+        base,
+        src,
+        log = true,
+        /**
+         * @param {string} absolute_path
+         * @return {boolean}
+         */
+        accessCheck = (path_absolute) => {
+            return true;
+        },
+        onDir = (normalized_relative, path_absolute, handler) => {
+            return handler(path_absolute);
+        },
+        onFile = (normalized_relative, path_absolute, handler) => {
+            return handler(path_absolute);
+        },
+        qty = {dir: 0, file: 0, max_length: 0}) {
+
+        let first = (0 === qty.dir && 0 === qty.file);
+        let found = [];
+
+        // todo: readdir async instead of Sync
+        let files = fs.readdirSync(src);
+
+        // is pretty loading logger, created per dir and file individually and is padded to the max occurred string for clean stdout output
+        let createMsg = (is_dir, suffix = '') => {
+            let tmp_msg = '';
+
+            // current state
+            if(is_dir) {
+                tmp_msg += colors.underline('dir') + ' ' + qty.dir + ' file ' + qty.file;
+            } else {
+                tmp_msg += 'dir ' + qty.dir + ' ' + colors.underline('file') + ' ' + qty.file;
+            }
+            tmp_msg += ' | ' + suffix;
+
+            qty.max_length = (qty.max_length < tmp_msg.length ? tmp_msg.length : qty.max_length);
+            return tmp_msg.padEnd(qty.max_length, "\0");
+        };
+
+        for(let i = 0; i < files.length; i++) {
+            let current_path = path.join(src, files[i]);
+            let current = fs.lstatSync(current_path);
+
+            // Check Access on `before parse current`
+            if(accessCheck(current_path)) {
+                if(current.isDirectory()) {
+                    // execute onDir, add the result to found
+                    found.push(...(onDir(current_path.replace(base, ''), current_path, (path_absolute) => {
+                        // push handler to event handler
+                        // call this function recursive
+
+                        // Stats and nice logging
+                        qty.dir++;
+                        // printing which dir WILL be traversed the next
+                        if(log) {
+                            process.stdout.write("\r" + createMsg(true, current_path.replace(base, '')));
+                        }
+                        return Archiver.readDir(base, path_absolute, log, accessCheck, onDir, onFile, qty);
+                    })));
+                } else if(current.isSymbolicLink()) {
+                    let symlink = fs.readlinkSync(current_path);
+                    // todo: what to do with symlinks
+                    console.log(colors.cyan('symlinksymlinksymlinksymlinksymlinksymlinksymlink'));
+                    console.log(symlink);
+                } else {
+                    // execute onFile. the actual result is formed from onFile's return value and should be [{name: string, path: string},]
+                    found.push(
+                        onFile(current_path.replace(base, ''), current_path, (path_absolute) => {
+                            // push handler to event handler
+                            // return current stats
+
+                            // Stats and nice logging
+                            qty.file++;
+                            // printing which files copy handler HAS been catched
+                            if(log) {
+                                process.stdout.write("\r" + createMsg(false, current_path.replace(base, '')));
+                            }
+                            return {
+                                name: path.resolve(current_path).replace(path.resolve(base), '').substr(1).replace(/\\/g, '/'),
+                                path: path_absolute,
+                            }
+                        })
+                    );
+                }
+            }
+        }
+
+        if(first && log) {
+            process.stdout.write("\n");
+        }
+
+        return found;
+    }
+
+    //
+    // Specialised controller methods
+    //
+
+    /**
+     * Generates needed copy writers for all files recursively found in src, with filtration through `ignore`
+     *
+     * @param src
+     * @param dist
+     * @param qty
+     * @return {[Promise, Promise]|Array}
+     */
+    recursiveWriterGenerator(src, dist, qty = {dir: 0, file: 0, max_length: 0}) {
         Archiver.mkdir(dist);
         let writers = [];
+        let first = (0 === qty.dir && 0 === qty.file);
 
         if(path.resolve(this.base) !== path.resolve(src) && !this.isAllowedPath(src)) {
             return writers;
         }
 
         let files = fs.readdirSync(src);
+
+        // is pretty loading logger, created per dir and file individually and is padded to the max occurred string for clean stdout output
+        let createMsg = (is_dir, suffix = '') => {
+            let tmp_msg = '';
+
+            // current state
+            if(is_dir) {
+                tmp_msg += colors.underline('dir') + ' ' + qty.dir + ' file ' + qty.file;
+            } else {
+                tmp_msg += 'dir ' + qty.dir + ' ' + colors.underline('file') + ' ' + qty.file;
+            }
+            tmp_msg += ' | ' + suffix;
+
+            qty.max_length = (qty.max_length < tmp_msg.length ? tmp_msg.length : qty.max_length);
+            return tmp_msg.padEnd(qty.max_length, "\0");
+        };
+
         for(let i = 0; i < files.length; i++) {
             let current = fs.lstatSync(path.join(src, files[i]));
 
             if(this.isAllowedPath(path.join(src, files[i]))) {
                 if(current.isDirectory()) {
-                    writers.push(...this.copyDir(path.join(src, files[i]), path.join(dist, files[i])));
+                    qty.dir++;
+                    // printing which dir WILL be traversed the next
+                    process.stdout.write("\r" + createMsg(true, path.resolve(path.join(src, files[i]))));
+
+                    writers.push(...this.recursiveWriterGenerator(path.join(src, files[i]), path.join(dist, files[i]), qty));
                 } else if(current.isSymbolicLink()) {
                     let symlink = fs.readlinkSync(path.join(src, files[i]));
                     fs.symlinkSync(symlink, path.join(dist, files[i]));
                 } else {
                     writers.push(this.copyFile(path.join(src, files[i]), path.join(dist, files[i])));
+
+                    qty.file++;
+                    // printing which files copy handler HAS been catched
+                    process.stdout.write("\r" + createMsg(false, path.resolve(path.join(src, files[i]))));
                 }
             }
         }
+
+        if(first) {
+            process.stdout.write("\n");
+        }
+
         return writers;
     }
 
-    /**
-     * @param dist
-     * @return {Promise<[any]>}
-     */
-    copy(dist) {
-        return Promise.all(this.copyDir(this.base, dist)).then((data) => {
-            // finished copying everything
-            console.log('oooooooooooooooooooooooooooooooooooooooooooon');
-        });
-    }
 
-    /**
-     * @param src
-     * @param dist
-     * @return {Promise<any>}
-     */
     copyFile(src, dist) {
-        return new Promise((resolve) => {
-            let src_file = fs.createReadStream(src);
-            let dist_file = fs.createWriteStream(dist);
-            src_file.on('data', (chunk) => {
-                dist_file.write(chunk);
+        return (debug = false) => {
+            return new Promise((resolve, reject) => {
+                let src_file = fs.createReadStream(src);
+                let dist_file = fs.createWriteStream(dist);
+                src_file.on('data', (chunk) => {
+                    //console.log(colors.cyan(src_file.bytesRead));
+                    dist_file.write(chunk);
+                });
+
+                // data end
+                src_file.on('end', () => {
+                    dist_file.end();
+                });
+
+                // when everything is written and file pointer is closed
+                src_file.on('close', () => {
+                    if(debug) {
+                        resolve(dist);
+                    } else {
+                        resolve(true);
+                    }
+                });
+
+                src_file.on('error', () => {
+                    Runner.log().raw(colors.red('Archiver: error on copyFile for src `' + src_file + '` to dist `' + dist_file + '`'));
+                    dist_file.end();
+                    reject(false);
+                });
             });
-            src_file.on('end', () => {
-                dist_file.end();
-                resolve();
-            });
-            src_file.on('error', () => {
-                Runner.log().raw(colors.red('Archiver: error on copyFile for src `' + src_file + '` to dist `' + dist_file + '`'));
-                dist_file.end();
-                resolve();
-            });
-        });
+        };
     }
 }
 

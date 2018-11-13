@@ -34,7 +34,7 @@ module.exports.handle = (watch = true) => {
                         'compressed',
                         ROOT_DIR,
                     ],
-                    'task--sass'
+                    colors.underline.blue('task--sass')
                 ).then(result => {
                     resolve(result)
                 });
@@ -61,7 +61,7 @@ module.exports.handle = (watch = true) => {
                     rmdir(BUILD_DIR);
                     resolve('clean');
                 }), [],
-                'clean'
+                colors.underline.blue('task--clean')
             );
         },
         js: () => {
@@ -131,7 +131,7 @@ module.exports.handle = (watch = true) => {
                         }, // option
                         watch
                     ],
-                    'task--media'
+                    colors.underline.blue('task--media')
                 ).then(result => {
                     resolve(result)
                 });
@@ -139,6 +139,9 @@ module.exports.handle = (watch = true) => {
         },
         archive: () => {
             return new Promise((resolve) => {
+                let cur_d = new Date();
+                // create pretty date in YYYY-MM-DD_HH-MM-SS
+                let pretty_d = cur_d.getFullYear() + '-' + ((cur_d.getMonth() + 1) + '').padStart(2, '0') + '-' + (cur_d.getDate() + '').padStart(2, '0') + '_' + (cur_d.getHours() + '').padStart(2, '0') + '-' + (cur_d.getMinutes() + '').padStart(2, '0') + '-' + (cur_d.getSeconds() + '').padStart(2, '0');
                 Runner.run(
                     require('./lib/task/taskArchive'), [
                         ROOT_DIR, // base
@@ -156,12 +159,16 @@ module.exports.handle = (watch = true) => {
                             '/asset/_dev/lib/ModuleOptimizer/node_modules',*/
                             'bower_components'
                         ], // exclude
-                        ROOT_DIR + 'archive/' + (Math.floor(new Date().getTime() / 1000)), // dist
-                        {} // option
+                        ROOT_DIR + 'archive/' + pretty_d, // dist: folder name; will be used as folder name to copy files first, then as name of archive
+                        {
+                            pack: 'zip', // use zip or targz
+                            delete_auto: true, // delete after packing (a pack handler must been set)
+                            debug: false
+                        } // option
                     ],
-                    'task--archive'
+                    colors.underline.blue('task--archive')
                 ).then(result => {
-                    resolve(result)
+                    resolve(result);
                 });
             })
         }

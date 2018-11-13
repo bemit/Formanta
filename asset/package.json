@@ -12,6 +12,7 @@
     "clean": "node ./_dev/tasker.js clean",
     "build": "node ./_dev/tasker.js build",
     "watch": "node ./_dev/tasker.js watch",
+    "archive": "node ./_dev/tasker.js archive",
     "help": "node ./_dev/tasker.js --help"
   }
 }
