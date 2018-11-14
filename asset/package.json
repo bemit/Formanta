@@ -5,13 +5,16 @@
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
-    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
-    "babel-plugin-es6-promise": "^1.1.1",
-    "es6-promise": "^4.2.5",
-    "eslint-loader": "^2.1.1",
     "babel-loader": "^8.0.4",
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "babel-plugin-es6-promise": "^1.1.1",
+    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
+    "es6-promise": "^4.2.5",
+    "eslint": "^5.9.0",
+    "eslint-loader": "^2.1.1",
+    "terser-webpack-plugin": "^1.1.0",
     "webpack": "^4.25.1",
-    "eslint": "^5.9.0"
+    "webpack-merge": "^4.1.4"
   },
   "dependencies": {
     "@bemit/formantajs": "git+https://bitbucket.org/bemit_eu/formantajs.git",

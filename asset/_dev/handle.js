@@ -110,8 +110,9 @@ module.exports.handle = (watch = true) => {
             config: [{
                 // use pre-defined webpack config for ES6
                 _use: taskWebpack.config.es6,
-                mode: 'development',
-                // Windows (known): `path.resolve` must be called on all paths or webpack could stuck without a message/error
+                mode: 'production',
+                //mode: 'development',
+                // Windows (known): `path.resolve` must be called on paths or webpack could stuck without a message/error
                 entry: {
                     main: path.resolve(ASSET_DIR + 'js/interact.js')
                 },
@@ -186,7 +187,7 @@ module.exports.handle = (watch = true) => {
                         poll: true
                     };
                 }
-                taskWebpack.task(config.webpack.config, config.webpack.option).then(() => {
+                taskWebpack.run(config.webpack.config, config.webpack.option).then(() => {
                     resolve();
                 });
             })
@@ -232,6 +233,7 @@ module.exports.handle = (watch = true) => {
                         task.clean,
                         () => {
                             return Runner.runParallel([
+                                task.webpack,
                                 task_group.style
                             ])
                         }
