@@ -15,6 +15,7 @@
   },
   "scripts": {
     "install": "(cd ./asset && (npm install))",
+    "update": "(cd ./asset && (npm update))",
     "start": "node ./system/nodejs/start.js",
     "build": "node ./system/nodejs/build.js",
     "watch": "node ./system/nodejs/watch.js"
