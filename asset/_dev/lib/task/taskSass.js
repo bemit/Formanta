@@ -38,9 +38,12 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                 let start_render = Runner.log().start('transpiling ' + log_path_entry);
 
                 if(false === fs.existsSync(path.dirname(output_))) {
+                    console.log(path.dirname(output_));
                     // create dist dir if not exists
                     if(fs.mkdirSync(path.dirname(output_), {recursive: true})) {
-                        Runner.log().raw('handleArchive: could not create dist dir: ' + colors.underline(path.dirname(output_)));
+                        Runner.log().raw('handleArchive: created dist dir: ' + colors.underline(path.dirname(output_)));
+                    } else {
+                        Runner.log().error('handleArchive: could not create dist dir: ' + colors.underline(path.dirname(output_)));
                     }
                 }
 

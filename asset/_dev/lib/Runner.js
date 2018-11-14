@@ -101,9 +101,9 @@ class Runner {
             /**
              * @param text
              * @param time
-             * @param buffer
+             * @param prefix
              */
-            raw: (text, time = undefined, buffer = '') => {
+            raw: (text, time = undefined, prefix = '') => {
                 if('undefined' === typeof time) {
                     time = new Date();
                 }
@@ -113,7 +113,7 @@ class Runner {
                     buffer += '    ';
                 }
                 */
-                console.log(buffer + colors.grey('[' + Runner.formatTime(time) + ']') + ' ' + text);
+                console.log(prefix + colors.grey('[' + Runner.formatTime(time) + ']') + ' ' + text);
             },
             /**
              * @param text
@@ -149,6 +149,19 @@ class Runner {
                     time
                 );
                 Runner.constructor.level_cur--;
+            },
+            /**
+             * @param text
+             * @param time
+             */
+            error: (text, time = undefined) => {
+                Runner.log().raw(
+                    colors.red.bold(
+                        colors.bgRed.white('#!') + ' ' +
+                        text
+                    ),
+                    time
+                );
             }
         };
     }

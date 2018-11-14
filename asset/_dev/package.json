@@ -16,6 +16,9 @@
   "scripts": {
     "install": "npm run installMediaOptimizer && npm run installArchiver",
     "installMediaOptimizer": "(cd ./lib/MediaOptimizer && (npm install))",
-    "installArchiver": "(cd ./lib/Archiver && (npm install))"
+    "installArchiver": "(cd ./lib/Archiver && (npm install))",
+    "update": "npm run updateMediaOptimizer && npm run updateArchiver",
+    "updateMediaOptimizer": "(cd ./lib/MediaOptimizer && (npm update))",
+    "updateArchiver": "(cd ./lib/Archiver && (npm update))"
   }
 }

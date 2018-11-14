@@ -20,6 +20,7 @@
   },
   "scripts": {
     "install": "(cd ./_dev && (npm install))",
+    "update": "(cd ./_dev && (npm update))",
     "clean": "node ./_dev/tasker.js clean",
     "build": "node ./_dev/tasker.js build",
     "watch": "node ./_dev/tasker.js watch",

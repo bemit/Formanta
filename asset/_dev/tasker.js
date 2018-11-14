@@ -7,7 +7,7 @@ const Runner = require('./lib/Runner');
 const {handle} = require('./handle');
 
 /**
- * Defining tasks
+ * Defining public tasks, see `handle.js` for the internal tasks
  *
  * @type {*}
  */
@@ -20,7 +20,7 @@ let tasks = {
             if(argv.verbose) {
                 console.info(colors.gray.italic('tasker.js: starting `clean`'));
             }
-            // handle with `no-watch` and building everything
+            // handle with `no-watch` and clean defined folders
             handle(false).clean().then().catch((err) => {
                 console.error(colors.red.underline('!# tasker.tasks.clean: handle failed: ' + err));
             });

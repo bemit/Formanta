@@ -47,10 +47,48 @@ module.exports.task = (config, option) => {
                         console.warn(info.warnings);
                     }
 
-                    console.log(stats.toString({
+                    console.log(info);
+
+                    /*console.log(stats.toString({
                         chunks: false,  // Makes the build much quieter
                         colors: true    // Shows colors in the console
-                    }));
+                    }));*/
+
+                    Runner.log().raw('Webpack [' + info.version + '] has run');
+
+                    if([] !== info.warnings) {
+                        // if global warnings are existing
+                        info.warnings.forEach(warning => {
+                            Runner.log().raw('Webpack Warning: ' + warning);
+                        });
+                    }
+
+                    if(info.children) {
+                        info.children.forEach(child => {
+                            Runner.log().raw('Webpack Compiler in Child [' + colors.underline(child.hash) + '] finished in ' + colors.underline.blue(child.time + 'ms'));
+                            if(child.warnings) {
+                                // if compiler warnings are existing
+                                child.warnings.forEach(warning => {
+                                    Runner.log().raw('Webpack Compiler Warning in Child [' + info + '] ' + warning);
+                                });
+                            }
+
+                            for(let chunk_name in child.assetsByChunkName) {
+                                if(child.assetsByChunkName.hasOwnProperty(chunk_name)) {
+
+                                }
+                            }
+                            console.log(child.assetsByChunkName);
+                            console.log(child.outputPath);
+                            // here size of buildes chunks [{name:string,size:string,chunks:string,chunkNames:string,emitted:bool}]
+                            console.log(child.assets);
+                            console.log(child.entrypoints);
+                            console.log(child.namedChunkGroups);
+                            console.log(child.chunks);
+                            console.log(child.modules);
+                        });
+                    }
+
                     resolve();
                 };
 

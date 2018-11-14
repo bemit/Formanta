@@ -29,6 +29,10 @@ module.exports.handle = (watch = true) => {
     // create pretty date in YYYY-MM-DD_HH-MM-SS
     let pretty_date = current_date.getFullYear() + '-' + ((current_date.getMonth() + 1) + '').padStart(2, '0') + '-' + (current_date.getDate() + '').padStart(2, '0') + '_' + (current_date.getHours() + '').padStart(2, '0') + '-' + (current_date.getMinutes() + '').padStart(2, '0') + '-' + (current_date.getSeconds() + '').padStart(2, '0');
 
+    /**
+     * Build Config for Tasks
+     * @type {{clean: string, sass: *[], media: *[], archive: *[], webpack: {config: *[], option: {}}}}
+     */
     const config = {
         // What to delete on build
         clean: BUILD_DIR,

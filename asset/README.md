@@ -2,11 +2,13 @@
 
 For Build Tools see [/asset/_dev/README.md](/asset/_dev/README.md).
 
-Available NPM tasks for easy `_dev/tasker.js` access:
+Convenience NPM tasks for easy `_dev/tasker.js` access:
 
 ```bash
 npm run clean
+npm run build
 npm run watch
+npm run archive
 npm run help
 ```
 
