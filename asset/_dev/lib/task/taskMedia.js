@@ -56,7 +56,7 @@ module.exports = (src, option, watch = true) => {
         // setup optimizer per src group
         for(let build_dir in src) {
             if(src.hasOwnProperty(build_dir)) {
-                // register running `optimize`
+                // register running `optimize` for each folder
                 exec.push(Runner.run(
                     optimize,
                     [

@@ -32,31 +32,30 @@ const default_handler = {
         let dist_file = fs.createWriteStream(src + '.zip');
 
         let archive = archive_lib('zip', {
-            zlib: {level: 9} // compression level.
+            // todo: make params based
+            zlib: {level: 9} // compression level
         });
 
         // This event is fired when the data source is drained no matter what was the data source.
         // It is not part of this library but rather from the NodeJS Stream API.
         // @see: https://nodejs.org/api/stream.html#stream_event_end
-        dist_file.on('end', function() {
+        /*dist_file.on('end', function() {
             console.log('Archiver: zipping ' + archive.pointer() + 'bytes written');
-        });
+        });*/
 
-        // good practice to catch warnings (ie stat failures and other non-blocking errors)
         archive.on('warning', function(err) {
             if(err.code === 'ENOENT') {
-                // log warning
+                //warning
             } else {
-                // throw error
                 throw err;
             }
         });
 
-        // good practice to catch this error explicitly
         archive.on('error', function(err) {
             throw err;
         });
 
+        // set dist, doesn't start zipping
         archive.pipe(dist_file);
 
         let start = Runner.log().start('zip-read-dir ' + colors.underline(path.resolve(src)));
@@ -65,32 +64,44 @@ const default_handler = {
 
         Runner.log().end('zip-read-dir ' + colors.underline(path.resolve(src)), start);
 
-        return new Promise((resolve) => {
-            // listen for all archive data to be written
-            // 'close' event is fired only when a file descriptor is involved
-            dist_file.on('close', () => {
-                Runner.log().raw('Archiver finished and the output file is closed.');
-                Runner.log().raw(path.resolve(src + '.zip') + ' [' + colors.underline((Math.round(archive.pointer() / 1024 * 100) / 100) + 'KB') + '] written');
-                resolve(src + '.zip');
-            });
+        return Runner.run(
+            () => {
+                return new Promise((resolve) => {
+                    let getKB = () => {
+                        return colors.underline((Math.round(archive.pointer() / 1024 * 100) / 100) + 'KB');
+                    };
 
-            files.forEach(
-                /**
-                 * @param {{name: string, path: string}} file object with props `name` relative, normalized filename; `path` absolute, filesystem dependent path to src file
-                 */
-                ({name, path = {}}) => {
-                    // append a file from stream
-                    archive.append(fs.createReadStream(path), {name: name});
-                    if(debug) {
-                        console.log('zip: adding file name: ' + name);
-                    }
-                }
-            );
+                    let saving = setInterval(() => {
+                        Runner.log().raw(getKB() + ' written, zipping ' + colors.underline(path.resolve(src + '.zip')));
+                    }, 250);
 
-            // finalize the archive (ie we are done appending files but streams have to finish yet)
-            // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand
-            archive.finalize();
-        });
+                    // 'close' event is fired only when a file descriptor is involved
+                    dist_file.on('close', () => {
+                        clearInterval(saving);
+                        Runner.log().raw('Archiver.js:zip finished and the output file is closed.');
+                        Runner.log().raw(path.resolve(src + '.zip') + ' [' + getKB() + '] written');
+                        resolve(src + '.zip');
+                    });
+
+                    files.forEach(
+                        /**
+                         * @param {{name: string, path: string}} file object with props `name` relative, normalized filename; `path` absolute, filesystem dependent path to src file
+                         */
+                        ({name, path = {}}) => {
+                            // append a file from stream
+                            archive.append(fs.createReadStream(path), {name: name});
+                            if(debug) {
+                                console.log('zip: adding file name: ' + name);
+                            }
+                        }
+                    );
+
+                    // finalize the archive (ie we are done appending files but streams have to finish yet)
+                    archive.finalize();
+                });
+            }, [],
+            'zip-write-file'
+        );
     }
 };
 
@@ -125,35 +136,6 @@ class Archiver {
                 Runner.log().end('copy-read-dir ' + colors.underline(path.resolve(this.base)), start);
 
                 let start_c = Runner.log().start('copy-dir to ' + colors.underline(path.resolve(dist)));
-
-                /*let files = [];
-                let writing = [];
-                const doWriting = () => {
-                    console.log('dooo!dooo!dooo!dooo!dooo!');
-                    return new Promise(resolve => {
-                        Promise.all(writing).then(current => {
-                            console.log('mooo!mooo!mooo!mooo!mooo!mooo!');
-                            Runner.log().end('copy-dir ' + colors.underline(path.resolve(dist)), start_c, new Date(), colors.grey(' | ' + colors.underline((current.length) + '') + ' files copied.'));
-                            console.log('file_writer.lengthfile_writer.lengthfile_writer.length file_writer.length');
-                            console.log(current.length);
-                            resolve(current);
-                        }).catch(e => {
-                            console.error(colors.red('#! Archiver.copy Error: ' + e));
-                        });
-                    });
-                };
-
-                return new Promise(resolve => {
-                    file_writer.forEach((elem, i) => {
-                        writing.push(elem);
-                    });
-
-                    doWriting().then(result => {
-                        console.log('eee end 2');
-                        resolve(result);
-                    });
-                    console.log('eee end 1');
-                });*/
 
                 let writing = [];
                 file_writer.forEach((elem, i) => {
@@ -255,7 +237,6 @@ class Archiver {
         let first = (0 === qty.dir && 0 === qty.file);
         let found = [];
 
-        // todo: readdir async instead of Sync
         let files = fs.readdirSync(src);
 
         // is pretty loading logger, created per dir and file individually and is padded to the max occurred string for clean stdout output
@@ -281,7 +262,7 @@ class Archiver {
             // Check Access on `before parse current`
             if(accessCheck(current_path)) {
                 if(current.isDirectory()) {
-                    // execute onDir, add the result to found
+                    // execute onDir, add the result to found, pretty logging
                     found.push(...(onDir(current_path.replace(base, ''), current_path, (path_absolute) => {
                         // push handler to event handler
                         // call this function recursive
@@ -296,7 +277,7 @@ class Archiver {
                     })));
                 } else if(current.isSymbolicLink()) {
                     let symlink = fs.readlinkSync(current_path);
-                    // todo: what to do with symlinks
+                    // todo: what to do with symlinks?
                     console.log(colors.cyan('symlinksymlinksymlinksymlinksymlinksymlinksymlink'));
                     console.log(symlink);
                 } else {

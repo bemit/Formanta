@@ -1,7 +1,18 @@
 {
   "name": "@bemit/formanta-asset",
   "version": "0.1.0",
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
+    "babel-plugin-es6-promise": "^1.1.1",
+    "es6-promise": "^4.2.5",
+    "eslint-loader": "^2.1.1",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.25.1",
+    "eslint": "^5.9.0"
+  },
   "dependencies": {
     "@bemit/formantajs": "git+https://bitbucket.org/bemit_eu/formantajs.git",
     "@bemit/formantasass-core": "git+https://bitbucket.org/bemit_eu/formantasass-core.git",
