@@ -87,7 +87,7 @@ const webpackResult = (err, stats) => {
             for(let chunk_name in child.assetsByChunkName) {
                 if(child.assetsByChunkName.hasOwnProperty(chunk_name)) {
                     if('string' === typeof child.assetsByChunkName[chunk_name]) {
-                        tmp_msg = colors.underline(chunk_name) + ' has 1 file saved: ' + colors.green(child.assetsByChunkName[chunk_name]);
+                        tmp_msg = colors.underline(chunk_name) + ', saved 1 file: ' + colors.green(child.assetsByChunkName[chunk_name]);
                     } else {
                         tmp_msg = colors.underline(chunk_name) + ' has ' + colors.underline(child.assetsByChunkName[chunk_name].length) + ' files';
                         child.assetsByChunkName[chunk_name].forEach((chunk) => {

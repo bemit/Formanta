@@ -13,6 +13,8 @@ const ignore = require('ignore');
 
 const readline = require('readline');
 
+const copyFileSync = require('fs-copy-file-sync');
+
 /**
  * @type {function<Archiver>}
  */
@@ -64,22 +66,23 @@ const default_handler = {
 
         Runner.log().end('zip-read-dir ' + colors.underline(path.resolve(src)), start);
 
+        let getKB = () => {
+            return colors.underline((Math.round(archive.pointer() / 1024 * 100) / 100) + 'KB');
+        };
+
         return Runner.run(
             () => {
                 return new Promise((resolve) => {
-                    let getKB = () => {
-                        return colors.underline((Math.round(archive.pointer() / 1024 * 100) / 100) + 'KB');
-                    };
 
                     let saving = setInterval(() => {
-                        Runner.log().raw(getKB() + ' written, zipping ' + colors.underline(path.resolve(src + '.zip')));
+                        Runner.log().raw('zipping ' + colors.underline(path.resolve(src + '.zip')) + ' ' + getKB() + ' written');
                     }, 250);
 
                     // 'close' event is fired only when a file descriptor is involved
                     dist_file.on('close', () => {
                         clearInterval(saving);
                         Runner.log().raw('Archiver.js:zip finished and the output file is closed.');
-                        Runner.log().raw(path.resolve(src + '.zip') + ' [' + getKB() + '] written');
+                        Runner.log().raw('Saved to: '+colors.underline(path.resolve(src + '.zip')) + ' [' + getKB() + ']');
                         resolve(src + '.zip');
                     });
 
@@ -101,6 +104,82 @@ const default_handler = {
                 });
             }, [],
             'zip-write-file'
+        );
+    },
+    targz: (src, debug) => {
+        // todo: IMPLEMENT
+        let dist_file = fs.createWriteStream(src + '.tar.gz');
+
+        /*let archive = archive_lib('zip', {
+            // todo: make params based
+            zlib: {level: 9} // compression level
+        });*/
+
+        // This event is fired when the data source is drained no matter what was the data source.
+        // It is not part of this library but rather from the NodeJS Stream API.
+        // @see: https://nodejs.org/api/stream.html#stream_event_end
+        /*dist_file.on('end', function() {
+            console.log('Archiver: zipping ' + archive.pointer() + 'bytes written');
+        });*/
+
+        archive.on('warning', function(err) {
+            if(err.code === 'ENOENT') {
+                //warning
+            } else {
+                throw err;
+            }
+        });
+
+        archive.on('error', function(err) {
+            throw err;
+        });
+
+        // set dist, doesn't start zipping
+        archive.pipe(dist_file);
+
+        let start = Runner.log().start('zip-read-dir ' + colors.underline(path.resolve(src)));
+
+        let files = Archiver.readDir(src, src, true);
+
+        Runner.log().end('zip-read-dir ' + colors.underline(path.resolve(src)), start);
+
+        return Runner.run(
+            () => {
+                return new Promise((resolve) => {
+                    let getKB = () => {
+                        return colors.underline((Math.round(archive.pointer() / 1024 * 100) / 100) + 'KB');
+                    };
+
+                    let saving = setInterval(() => {
+                        Runner.log().raw(getKB() + ' written, zipping ' + colors.underline(path.resolve(src + '.zip')));
+                    }, 250);
+
+                    // 'close' event is fired only when a file descriptor is involved
+                    dist_file.on('close', () => {
+                        clearInterval(saving);
+                        Runner.log().raw('Archiver.js:zip finished and the output file is closed.');
+                        Runner.log().raw(path.resolve(src + '.tar.gz') + ' [' + getKB() + '] written');
+                        resolve(src + '.tar.gz');
+                    });
+
+                    files.forEach(
+                        /**
+                         * @param {{name: string, path: string}} file object with props `name` relative, normalized filename; `path` absolute, filesystem dependent path to src file
+                         */
+                        ({name, path = {}}) => {
+                            // append a file from stream
+                            archive.append(fs.createReadStream(path), {name: name});
+                            if(debug) {
+                                console.log('targz: adding file name: ' + name);
+                            }
+                        }
+                    );
+
+                    // finalize the archive (ie we are done appending files but streams have to finish yet)
+                    archive.finalize();
+                });
+            }, [],
+            'targz-write-file'
         );
     }
 };
@@ -128,34 +207,20 @@ class Archiver {
      * @return {Promise}
      */
     copy(dist) {
-        return Runner.run(() => {
-                let start = Runner.log().start('copy-read-dir ' + colors.underline(path.resolve(dist)));
+        return new Promise((resolve) => {
+            let start = Runner.log().start('copy-dir ' + colors.underline(path.resolve(dist)));
 
-                let file_writer = this.recursiveWriterGenerator(this.base, dist);
+            let copied = this.copyDir(this.base, dist);
 
-                Runner.log().end('copy-read-dir ' + colors.underline(path.resolve(this.base)), start);
+            Runner.log().end('copy-dir ' + colors.underline(path.resolve(dist)), start, new Date(), colors.grey(' | ' + colors.underline(copied.length) + ' files copied.'));
 
-                let start_c = Runner.log().start('copy-dir to ' + colors.underline(path.resolve(dist)));
-
-                let writing = [];
-                file_writer.forEach((elem, i) => {
-                    writing.push(elem(this.debug));
-                });
-
-                return Promise.all(writing).then(copy => {
-                    Runner.log().end('copy-dir to ' + colors.underline(path.resolve(dist)), start_c, new Date(), colors.grey(' | ' + colors.underline(copy.length) + ' files copied.'));
-
-                    if(this.debug) {
-                        console.log(copy);
-                        return copy;
-                    } else {
-                        return 'copy';
-                    }
-                }).catch((e) => {
-                    throw new Error(e);
-                });
-            }, [],
-            'filtered-copy of ' + colors.underline(path.resolve(this.base)) + ' into ' + colors.underline(path.resolve(dist)));
+            if(this.debug) {
+                console.log(copied);
+                resolve(copied);
+            } else {
+                resolve('copy');
+            }
+        });
     }
 
     /**
@@ -363,7 +428,7 @@ class Archiver {
                     let symlink = fs.readlinkSync(path.join(src, files[i]));
                     fs.symlinkSync(symlink, path.join(dist, files[i]));
                 } else {
-                    writers.push(this.copyFile(path.join(src, files[i]), path.join(dist, files[i])));
+                    writers.push(Archiver.copyFile(path.join(src, files[i]), path.join(dist, files[i])));
 
                     qty.file++;
                     // printing which files copy handler HAS been catched
@@ -379,8 +444,83 @@ class Archiver {
         return writers;
     }
 
+    /**
+     * Generates needed copy writers for all files recursively found in src, with filtration through `ignore`
+     *
+     * @param src
+     * @param dist
+     * @param qty only used from the method itself
+     * @return {[Promise, Promise]|Array}
+     */
+    copyDir(src, dist, qty = {dir: 0, file: 0, max_length: 0}) {
+        Archiver.mkdir(dist);
+        let first = (0 === qty.dir && 0 === qty.file);
+        let copied = [];
+        if(path.resolve(this.base) !== path.resolve(src) && !this.isAllowedPath(src)) {
+            return copied;
+        }
 
-    copyFile(src, dist) {
+        //let files = fs.readdirSync(src);
+
+        // is pretty loading logger, created per dir and file individually and is padded to the max occurred string for clean stdout output
+        let createMsg = (is_dir, suffix = '') => {
+            let tmp_msg = '';
+
+            // current state
+            if(is_dir) {
+                tmp_msg += colors.underline('dir') + ' ' + qty.dir + ' file ' + qty.file;
+            } else {
+                tmp_msg += 'dir ' + qty.dir + ' ' + colors.underline('file') + ' ' + qty.file;
+            }
+            tmp_msg += ' | ' + suffix;
+
+            qty.max_length = (qty.max_length < tmp_msg.length ? tmp_msg.length : qty.max_length);
+            return tmp_msg.padEnd(qty.max_length, "\0");
+        };
+
+        if(fs.existsSync(src)) {
+            fs.readdirSync(src).forEach((file) => {
+                let current = fs.lstatSync(path.join(src, file));
+
+                if(this.isAllowedPath(path.join(src, file))) {
+                    if(current.isDirectory()) {
+                        qty.dir++;
+                        // printing which dir WILL be traversed the next
+                        process.stdout.write("\r" + createMsg(true, path.resolve(path.join(src, file))));
+
+                        copied.push(...this.copyDir(path.join(src, file), path.join(dist, file), qty));
+                    } else if(current.isSymbolicLink()) {
+                        let symlink = fs.readlinkSync(path.join(src, file));
+                        fs.symlinkSync(symlink, path.join(dist, file));
+                    } else {
+                        copyFileSync(path.join(src, file), path.join(dist, file));
+                        copied.push(path.join(src, file));
+                        qty.file++;
+                        // printing which files copy handler HAS been catched
+                        process.stdout.write("\r" + createMsg(false, path.resolve(path.join(src, file))));
+                    }
+                }
+            });
+        }
+
+        if(first) {
+            process.stdout.write("\n");
+        }
+
+        return copied;
+    }
+
+    /**
+     * Async file copy
+     *
+     * @param src
+     * @param dist
+     *
+     * @example Archiver.copyFile('./from','./dir')(true).then((res, rej)=>{boolean})
+     *
+     * @return {function(*=): Promise<any>}
+     */
+    static copyFile(src, dist) {
         return (debug = false) => {
             return new Promise((resolve, reject) => {
                 let src_file = fs.createReadStream(src);

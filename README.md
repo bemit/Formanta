@@ -55,6 +55,26 @@ The config is in `config/*.json`.
 ```text
 // todo: add content for configuration, choosing between JS and PHP and content management
 ```
+
+### Asset Files
+
+See [README.Asset.md](README.Asset.md) and [/asset](/asset).
+
+### Connect React App
+
+See [README.React.md](README.React.md).
+
+### Express API Backend
+
+See [README.Express-API.md](README.Express-API.md).
+
+### View System
+
+The view system uses Twig as template language, through [npm:twig](https://www.npmjs.com/package/twig) in JS and [composer:twig/twig](https://packagist.org/packages/twig/twig) in PHP.
+
+Both are used with modified FS Loaders for enabling extended namespace usage and file_watcher handling.
+
+The existing files in `/view` are a quick boilerplate, see [/view/base/README.md](/view/base) for technical docs.
    
 ### Run with PHP
 
@@ -81,53 +101,6 @@ npm run watch
 # Builds static view files and starts development server on localhost
 npm run start
 ```
-
-### Develop Asset Files
-
-Asset files and their dependencies are declared in `/asset`.
-
-When using NodeJS system, asset dependencies are installed with setup.
-
-Or run `npm i` in `/asset` to install both asset dependencies and build tools which are in `/asset/_dev`.
-
-Tasks for the build pipelines:  
-
-```bash
-# IMPORTANT: switch to folder /asset
-
-# clean build folder
-npm run clean
-# build all assets
-npm run build
-# build all assets and add file watcher
-npm run watch
-# show tasks which are available in `/asset/_dev`
-npm run help
-
-# IMPORTANT: switch to folder /asset/_dev
-
-# clean build folder
-node tasker.js clean
-# build all assets
-node tasker.js build
-# build assets without media
-node tasker.js build-no-media
-# build all assets and add file watcher
-node tasker.js watch
-# show available tasks
-node tasker.js --help
-```
-
-- [/asset/README.md](/asset/README.md) guide for asset files
-- [/asset/_dev/README.md](/asset/_dev/README.md) guide for asset build tools
-
-### View System
-
-The view system uses Twig as template language, through [npm:twig](https://www.npmjs.com/package/twig) in JS and [composer:twig/twig](https://packagist.org/packages/twig/twig) in PHP.
-
-Both are used with modified FS Loaders for enabling extended namespace usage and file_watcher handling.
-
-The existing files in `/view` are a quick boilerplate, see [/view/base/README.md](/view/base) for technical docs.
 
 ## Known Bugs / Static Side Generator
 

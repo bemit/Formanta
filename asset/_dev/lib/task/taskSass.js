@@ -31,7 +31,7 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                 entry_ = path.resolve(entry_);
                 output_ = path.resolve(output_);
 
-                // build preety path for logging
+                // build pretty path for logging
                 let log_path_entry = colors.underline((root_dir ? entry_.replace(path.resolve(root_dir), '').substr(1) : entry_));
                 let log_path_output = colors.underline((root_dir ? output_.replace(path.resolve(root_dir), '').substr(1) : output_));
 
@@ -40,10 +40,11 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                 if(false === fs.existsSync(path.dirname(output_))) {
                     console.log(path.dirname(output_));
                     // create dist dir if not exists
-                    if(fs.mkdirSync(path.dirname(output_), {recursive: true})) {
-                        Runner.log().raw('handleArchive: created dist dir: ' + colors.underline(path.dirname(output_)));
-                    } else {
+                    try {
+                        fs.mkdirSync(path.dirname(output_), {recursive: true})
+                    } catch(e) {
                         Runner.log().error('handleArchive: could not create dist dir: ' + colors.underline(path.dirname(output_)));
+                        Runner.log().error(e);
                     }
                 }
 

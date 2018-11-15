@@ -31,11 +31,12 @@ module.exports.handle = (watch = true) => {
 
     /**
      * Build Config for Tasks
-     * @type {{clean: string, sass: *[], media: *[], archive: *[], webpack: {config: *[], option: {}}}}
+     *
+     * @type {{clean: *[], sass: *[], media: *[], archive: *[], webpack: {config: *[], option: {}}}}
      */
     const config = {
         // What to delete on build
-        clean: BUILD_DIR,
+        clean: [BUILD_DIR],
         // Sass to CSS to optimized CSS
         sass: [
             ASSET_DIR + 'style/main.scss', // entry
@@ -169,7 +170,7 @@ module.exports.handle = (watch = true) => {
         archive: () => {
             return new Promise((resolve) => {
                 Runner.run(
-                    // todo: having more then 3500 - 5000 files, after ignore filter, breaks promise resolving, maybe because of graceful-fs activity, or because too much elements in array [bug]
+                    // todo: having more then 63054.7KB of data, after ignore filter, breaks zipping [bug]
                     require('./lib/task/taskArchive'),
                     config.archive,
                     colors.underline.blue('task--archive')
