@@ -1,0 +1,105 @@
+@import "../../../asset/style/meta";
+
+.container-pane {
+    display        : flex;
+    flex-direction : column;
+    height         : 100vh;
+
+    > .content-pane {
+        display   : flex;
+        height    : 100%;
+        width     : 100%;
+        overflow  : auto;
+
+        flex-wrap : wrap;
+
+        @include for-bp-md-up {
+            flex-wrap : nowrap;
+        }
+
+        > .sidebar {
+            display        : flex;
+            flex-direction : column;
+
+            width          : 100%;
+            height         : auto;
+
+            @include for-bp-md-up {
+                width     : auto;
+                min-width : 100px;
+                margin-right : 32px;
+                height    : 100%;
+            }
+
+            ul {
+                display         : flex;
+                // todo: on all sidebars justify-content hides child elements when there are enough that the sidebar scrolls, bug is fixed when:
+                justify-content : center;
+
+                @include for-bp-md-up {
+                    flex-direction : column;
+                }
+
+                position        : relative;
+
+                height          : 100%;
+
+                margin          : 0;
+                padding         : 0;
+                list-style-type : none;
+            }
+
+            li {
+                a {
+                    display    : block;
+                    padding    : 6px 12px 6px 6px;
+                    //color      : $theme--font--gray;
+                    background : transparent;
+                    transition : background $theme--transition;
+                    &:hover {
+                        background : rgba(#0d3349, 0.4);
+                    }
+                    &.active {
+                        background : rgba($theme--color-success, 0.4);
+                    }
+                    &.error {
+                        background : rgba($theme--color-error, 0.4);
+                    }
+                }
+            }
+        }
+
+        > .content {
+            display         : flex;
+            justify-content : center;
+            flex-direction  : column;
+
+            //@include component--content;
+            flex-grow       : 4;
+            height          : 100%;
+            width           : 100%;
+            @include for-bp-md {
+                width  : auto;
+                margin : 0 3px;
+            }
+
+            @include for-bp-md-up {
+                margin : 0 32px 0 0;
+            }
+
+            > .auth-error {
+                color      : $theme--color-error;
+                background : #cccccc;
+                text-align : center;
+                padding    : 3px;
+                @include for-bp-md-up {
+                    margin  : 0 20%;
+                    padding : 12px 0;
+                }
+            }
+            /*p {
+                color : #ffffff;
+            }*/
+        }
+    }
+}
