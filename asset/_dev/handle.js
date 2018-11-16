@@ -31,12 +31,11 @@ module.exports.handle = (watch = true) => {
 
     /**
      * Build Config for Tasks
-     *
-     * @type {{clean: *[], sass: *[], media: *[], archive: *[], webpack: {config: *[], option: {}}}}
      */
     const config = {
         // What to delete on build
         clean: [BUILD_DIR],
+
         // Sass to CSS to optimized CSS
         sass: [
             ASSET_DIR + 'style/main.scss', // entry
@@ -45,6 +44,7 @@ module.exports.handle = (watch = true) => {
             'compressed',
             ROOT_DIR,
         ],
+
         // Media optimizing
         media: [
             {
@@ -83,6 +83,7 @@ module.exports.handle = (watch = true) => {
             }, // option
             watch
         ],
+
         // Copy and pack
         archive: [
             ROOT_DIR, // base
@@ -106,6 +107,7 @@ module.exports.handle = (watch = true) => {
                 debug: false
             } // option
         ],
+
         webpack: {
             // parsed and deepmerged into `_use`, if supplied; then used as is as WebpackConfig
             config: [{
@@ -127,7 +129,13 @@ module.exports.handle = (watch = true) => {
             option: {
                 // watch: is added automatically down in task
             }
-        }
+        },
+
+        // React Apps Connection
+        react: [
+            // Define folder paths which are created with create-react-app (CRA)
+            ROOT_DIR + 'react-app/'
+        ]
     };
 
 
@@ -140,7 +148,7 @@ module.exports.handle = (watch = true) => {
         sass: () => {
             return new Promise((resolve) => {
                 Runner.run(
-                    require('./lib/task/taskSass'), // task
+                    require('./lib/task/taskSass').run, // task
                     config.sass, // config for task
                     colors.underline.blue('task--sass') // name for logging
                 ).then(result => {
@@ -188,10 +196,18 @@ module.exports.handle = (watch = true) => {
                         poll: true
                     };
                 }
-                taskWebpack.run(config.webpack.config, config.webpack.option).then(() => {
+                taskWebpack.run(config.webpack.config, config.webpack.option)().then(() => {
                     resolve();
                 });
             })
+        },
+        react: {
+            start: () => {
+                return require('./lib/task/taskReactApp').start(config.react);
+            },
+            build: () => {
+                return require('./lib/task/taskReactApp').build(config.react);
+            }
         }
     };
 
@@ -220,7 +236,12 @@ module.exports.handle = (watch = true) => {
                                 task_group.style,
                                 task.media,
                             ])
-                        }
+                        },
+                        /*
+                         * React runs async at all, so the task triggering react is finished before react is finished, this is wanted behavior
+                         * In this case `build` is finished right after `react` is started`
+                         */
+                        (watch ? task.react.start : task.react.build),
                     ])
                 }, [],
                 'build'
@@ -237,7 +258,8 @@ module.exports.handle = (watch = true) => {
                                 task.webpack,
                                 task_group.style
                             ])
-                        }
+                        },
+                        (watch ? task.react.start : task.react.build),
                     ])
                 }, [],
                 'build_no_media'

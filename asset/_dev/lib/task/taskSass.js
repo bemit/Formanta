@@ -14,42 +14,41 @@ const autoprefixer = require('autoprefixer');
 const sassGraph = require('sass-graph');
 const sass = require('node-sass');
 
-/**
- * Function for parsing one entry file to one output file
- * @param entry_
- * @param output_
- * @param watch
- * @param outputStyle
- * @param {string} root_dir is removed from other output on logging
- * @return {Promise<{[]}>}
- */
-const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
+class TaskSass {
+    constructor(entry, output, outputStyle, root_dir = '') {
+        this.entry = path.resolve(entry);
+        this.output = path.resolve(output);
+        this.outputStyle = outputStyle;
+        this.root_dir = root_dir;
+        this.postcss = postcss([
+            autoprefixer({
+                browsers: ['defaults']
+            })
+        ]);
+    }
 
-    const sass_render = () => {
+    render() {
         return Runner.run(
             new Promise((resolve) => {
-                entry_ = path.resolve(entry_);
-                output_ = path.resolve(output_);
 
                 // build pretty path for logging
-                let log_path_entry = colors.underline((root_dir ? entry_.replace(path.resolve(root_dir), '').substr(1) : entry_));
-                let log_path_output = colors.underline((root_dir ? output_.replace(path.resolve(root_dir), '').substr(1) : output_));
+                let log_path_entry = colors.underline((this.root_dir ? this.entry.replace(path.resolve(this.root_dir), '').substr(1) : this.entry));
+                let log_path_output = colors.underline((this.root_dir ? this.output.replace(path.resolve(this.root_dir), '').substr(1) : this.output));
 
                 let start_render = Runner.log().start('transpiling ' + log_path_entry);
 
-                if(false === fs.existsSync(path.dirname(output_))) {
-                    console.log(path.dirname(output_));
+                if(false === fs.existsSync(path.dirname(this.output))) {
                     // create dist dir if not exists
                     try {
-                        fs.mkdirSync(path.dirname(output_), {recursive: true})
+                        fs.mkdirSync(path.dirname(this.output), {recursive: true})
                     } catch(e) {
-                        Runner.log().error('handleArchive: could not create dist dir: ' + colors.underline(path.dirname(output_)));
+                        Runner.log().error('handleArchive: could not create dist dir: ' + colors.underline(path.dirname(this.output)));
                         Runner.log().error(e);
                     }
                 }
 
                 sass.render({
-                    file: entry_,
+                    file: this.entry,
                     // true for no sourcemaps
                     omitSourceMapUrl: false,
                     // floating point precision in css output
@@ -57,7 +56,7 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                     // helps to load @import statements
                     includePaths: [],
                     // css output: nested, expanded, compact, compressed
-                    outputStyle: outputStyle,
+                    outputStyle: this.outputStyle,
                     /*importer: (url, prev, done) => {
                         console.log(url + ' #sass ' + prev + ' # ' + done);
                     }*/
@@ -74,19 +73,13 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
 
                     let start_postcss = Runner.log().start('postcss ' + log_path_entry);
 
-                    const processor = postcss([
-                        autoprefixer({
-                            browsers: ['defaults']
-                        })
-                    ]);
-
-                    processor.process(result.css.toString(), {from: entry_, to: output_})
+                    this.postcss.process(result.css.toString(), {from: this.entry, to: this.output})
                         .then(
                             (result) => {
                                 Runner.log().end('postcss ' + log_path_entry, start_postcss);
 
                                 let start_saving = Runner.log().start('save ' + log_path_entry + ' to ' + log_path_output);
-                                fs.writeFile(output_, result.css, (err, r) => {
+                                fs.writeFile(this.output, result.css, (err, r) => {
                                     Runner.log().end('save ' + log_path_entry + ' to ' + log_path_output, start_saving);
 
                                     if(err) {
@@ -97,7 +90,7 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
                                     if(result.map) {
                                         // todo: map is not created atm [bug]
                                         Runner.log().start('saving map for ' + log_path_output + '');
-                                        fs.writeFile(output_ + '.map', result.map, () => true);
+                                        fs.writeFile(this.output + '.map', result.map, () => true);
                                     }
                                     resolve({
                                         err: err,
@@ -121,40 +114,62 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
         })
     };
 
-    const sass_watch = () => {
+    watch() {
         return new Promise((resolve) => {
-            if(watch) {
-                // only add watcher when wanted
+            // only add watcher when wanted
 
-                let watcher = new FileWatcher('sass');
-                let graph = sassGraph.parseFile(entry_);
+            let watcher = new FileWatcher('sass');
+            let graph = sassGraph.parseFile(this.entry);
 
-                for(let file in graph.index) {
-                    if(graph.index.hasOwnProperty(file)) {
-                        watcher.add(file);
-                    }
+            for(let file in graph.index) {
+                if(graph.index.hasOwnProperty(file)) {
+                    watcher.add(file);
                 }
-
-                watcher.onReady(resolve);
-                watcher.onError();
-
-                watcher.onChange(sass_render);
-            } else {
-                resolve();
             }
+
+            watcher.onReady(resolve);
+            watcher.onError();
+
+            watcher.onChange(this.render.bind(this));
         })
     };
 
-    return new Promise((resolve) => {
-        Promise.all([
-            sass_render(),
-            sass_watch()
-        ]).then(res => {
-            // resolve with sass rendering result
-            resolve(res[0]);
+    /**
+     * @return {Promise<any>}
+     */
+    run() {
+        return new Promise((resolve) => {
+            Promise.all([
+                this.render()
+            ]).then(res => {
+                // resolve with sass rendering result
+                resolve(res[0]);
+            })
         })
-    })
-};
+    }
+
+    /**
+     * @return {Promise<any>}
+     */
+    runWatch() {
+        return new Promise((resolve) => {
+            Promise.all([
+                this.render(),
+                this.watch()
+            ]).then(res => {
+                // resolve with sass rendering result
+                resolve(res[0]);
+            })
+        })
+    }
+}
+
+/**
+ * Class Export for Extension: Main WebPack Handler
+ * @type {TaskSass}
+ */
+module.exports.task = TaskSass;
+
 
 /**
  *
@@ -185,7 +200,7 @@ const render = (entry_, output_, watch, outputStyle, root_dir = '') => {
  *
  * @return {Promise}
  */
-module.exports = (entry, output, watch = true, outputStyle = 'nested', root_dir = '') => {
+module.exports.run = (entry, output, watch = true, outputStyle = 'nested', root_dir = '') => {
     if('string' === typeof entry) {
         entry = [entry];
     }
@@ -199,7 +214,14 @@ module.exports = (entry, output, watch = true, outputStyle = 'nested', root_dir 
         let exec = [];
         for(let i in entry) {
             if(entry.hasOwnProperty(i) && output.hasOwnProperty(i)) {
-                exec.push(render(entry[i], output[i], watch, outputStyle, root_dir));
+                exec.push((() => {
+                    let task = new TaskSass(entry[i], output[i], outputStyle, root_dir);
+                    if(watch) {
+                        return task.runWatch();
+                    } else {
+                        return task.run();
+                    }
+                })());
             }
         }
 
@@ -216,4 +238,12 @@ module.exports = (entry, output, watch = true, outputStyle = 'nested', root_dir 
             });
         })
     });
+};
+
+/**
+ * @type {{es6: (function(): *), jsx: (function(): *)}}
+ */
+module.exports.config = {
+    es6: () => require('./taskWebPack.config.es6'),
+    jsx: () => require('./taskWebPack.config.jsx')
 };

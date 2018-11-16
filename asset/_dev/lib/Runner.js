@@ -34,8 +34,10 @@ class Runner {
 
                 resolve(data);
             }).catch((err) => {
+                // todo: if error happens in `fn` there is no deep stacktrace thrown for really knowing the cause
                 console.error(colors.red.underline('!# Runner: error happened in task: ' + colors.inverse(name)));
                 console.error(err);
+                console.error(new Error().stack);
                 resolve(false);
             });
         });
@@ -77,10 +79,15 @@ class Runner {
                 }
 
                 let e = r.shift();
-                Runner._handleFN(e).then((task_value) => {
-                    all_value.push(task_value);
-                    runSequentialInner(r);
-                });
+                try {
+                    Runner._handleFN(e).then((task_value) => {
+                        all_value.push(task_value);
+                        runSequentialInner(r);
+                    });
+                } catch(e) {
+                    Runner.log().error('Error in Runner._handleFN execution');
+                    console.log(new Error().stack);
+                }
             };
             return runSequentialInner(task_def);
         })
