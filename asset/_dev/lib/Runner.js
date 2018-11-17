@@ -94,6 +94,36 @@ class Runner {
     };
 
     /**
+     * Define functions that get executed one after another and get pushed in the result from the previous one
+     *
+     * @param {Array} fn_list array containing functions returning promises
+     * @return {Promise<any>}
+     */
+    static runPipe(fn_list) {
+        return new Promise((resolve) => {
+            let prev_val = undefined;
+            const runInner = (fn_list_) => {
+                if(0 >= fn_list_.length) {
+                    resolve(prev_val);
+                    return;
+                }
+
+                let fn = fn_list_.shift();
+                try {
+                    Runner._handleFN(fn, [prev_val]).then((result) => {
+                        prev_val = result;
+                        runInner(fn_list_);
+                    });
+                } catch(e) {
+                    Runner.log().error('Error in Runner._handleFN execution');
+                    console.log(new Error(e).stack);
+                }
+            };
+            return runInner(fn_list);
+        })
+    };
+
+    /**
      * Formats timestamp into display time
      *
      * @param {Date} time
@@ -103,6 +133,9 @@ class Runner {
         return time.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
     }
 
+    /**
+     * Log Utility functions `raw`, `start`, `end`, `error`
+     */
     static log() {
         return {
             /**
@@ -114,12 +147,6 @@ class Runner {
                 if('undefined' === typeof time) {
                     time = new Date();
                 }
-                /*
-                // currently cascading console styling is to buggy with promises, registerChild connectors would be needed which are called from within childs
-                for(let i = 0; i < Runner.constructor.level_cur; i++) {
-                    buffer += '    ';
-                }
-                */
                 console.log(prefix + colors.grey('[' + Runner.formatTime(time) + ']') + ' ' + text);
             },
             /**

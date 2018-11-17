@@ -69,12 +69,6 @@ const pack = (base, exclude, dist, option) => {
                     )
                 }
             );
-            /*packing.push(
-                Runner.run(() => {
-                    return archive.copy(dist).then(() => 'copy');
-                }), {},
-                'archive-copy'
-            );*/
         }
 
         return Runner.runSequential(packing).then((task_names) => {
