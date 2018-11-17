@@ -1,0 +1,5 @@
+{
+  "develop": {
+    "@insulo/runner": "/dev-pkg/insulo-runner"
+  }
+}

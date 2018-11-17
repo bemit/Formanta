@@ -2,9 +2,11 @@
 const yargs = require('yargs');
 const colors = require('colors/safe');
 
-const Runner = require('./lib/Runner');
+//const Runner = require('./lib/Runner');
 
 const {handle} = require('./handle');
+
+const {Runner} = require('@insulo/runner');
 
 /**
  * Defining public tasks, see `handle.js` for the internal tasks

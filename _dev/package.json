@@ -15,8 +15,8 @@
     "yargs": "^12.0.2"
   },
   "scripts": {
+    "preinstall": "node ./insulo.js",
     "install": "npm run installMediaOptimizer && npm run installArchiver",
-    "postinstall": "npm run ./dev-pkg/insulo-develop -c insolu.json",
     "installMediaOptimizer": "(cd ./lib/MediaOptimizer && (npm install))",
     "installArchiver": "(cd ./lib/Archiver && (npm install))",
     "update": "npm run updateMediaOptimizer && npm run updateArchiver",

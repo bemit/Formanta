@@ -2,3 +2,7 @@
 	path = _dev/dev-pkg/insulo-develop
 	url = https://bitbucket.org/bemit_eu/insulo-develop.git
 	branch = master
+[submodule "insulo-runner"]
+	path = _dev/dev-pkg/insulo-runner
+	url = https://bitbucket.org/bemit_eu/insulo-runner.git
+	branch = master
