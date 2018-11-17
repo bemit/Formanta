@@ -1,0 +1,4 @@
+[submodule "insulo-develop"]
+	path = _dev/dev-pkg/insulo-develop
+	url = https://bitbucket.org/bemit_eu/insulo-develop.git
+	branch = master
