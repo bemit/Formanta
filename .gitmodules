@@ -1,0 +1,3 @@
+[submodule "asset/_dev/dev-pkg/insolu-develop"]
+	path = asset/_dev/dev-pkg/insolu-develop
+	url = https://bitbucket.org/bemit_eu/insolu-develop.git
