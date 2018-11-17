@@ -26,9 +26,9 @@ The Static Side Generator could be run with NodeJS or PHP and the CLI interface 
 
 For PHP or NodeJS, setup with Git:
 
-    git clone https://bitbucket.org/bemit_eu/formanta.git
+    git clone --recurse-submodules -j8 https://bitbucket.org/bemit_eu/formanta.git
 
-Only for PHP, setup with composer:
+Only for PHP, setup with composer, git submodule asset must be initialized extra:
 
     composer create-project bemit/formanta
     
@@ -40,7 +40,7 @@ Install dependencies with `npm i` in root directory.
 
 #### PHP System
 
-Only needed when you have setup through Git: install dependencies with `composer install` in root directory.
+Install dependencies with `composer install` in root directory.
     
 ## Usage
 

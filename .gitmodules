@@ -1,3 +1,4 @@
 [submodule "asset"]
 	path = asset
 	url = https://bitbucket.org/bemit_eu/module.formanta-asset.git
+	branch = master
