@@ -2,3 +2,6 @@
 	path = asset
 	url = https://bitbucket.org/bemit_eu/module.formanta-asset.git
 	branch = master
+[submodule "react-app"]
+	path = react-app
+	url = https://bitbucket.org/bemit_eu/formanta.module.react-app.git
