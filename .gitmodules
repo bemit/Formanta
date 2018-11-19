@@ -1,4 +1,10 @@
+[submodule "asset"]
+	path = asset
+	url = https://bitbucket.org/bemit_eu/formanta.module.asset.git
+    branch = master
+    fetchrecursesubmodules = true
 [submodule "react-app"]
 	path = react-app
 	url = https://bitbucket.org/bemit_eu/formanta.module.react-app.git
-	fetchrecursesubmodules = true
+	branch = master
+    fetchrecursesubmodules = true
