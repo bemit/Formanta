@@ -2,63 +2,79 @@
 	path = _dev/dev-pkg/insulo-runner
 	url = https://bitbucket.org/bemit_eu/insulo-runner.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "insulo-archiver"]
 	path = _dev/dev-pkg/insulo-archiver
 	url = https://bitbucket.org/bemit_eu/insulo-archiver.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "insulo-media-optimizer"]
 	path = _dev/dev-pkg/insulo-media-optimizer
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "insulo-watcher"]
 	path = _dev/dev-pkg/insulo-watcher
 	url = https://bitbucket.org/bemit_eu/insulo-watcher.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.archive"]
 	path = _dev/dev-pkg/formanta.build-task.archive
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.archive.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.clean"]
 	path = _dev/dev-pkg/formanta.build-task.clean
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.clean.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.media"]
 	path = _dev/dev-pkg/formanta.build-task.media
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.media.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.react-app"]
 	path = _dev/dev-pkg/formanta.build-task.react-app
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.react-app.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.sass"]
 	path = _dev/dev-pkg/formanta.build-task.sass
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.sass.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack"]
 	path = _dev/dev-pkg/formanta.build-task.webpack
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-es6"]
 	path = _dev/dev-pkg/formanta.build-task.webpack-config-es6
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-es6.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-jsx"]
 	path = _dev/dev-pkg/formanta.build-task.webpack-config-jsx
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-jsx.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-polymer"]
 	path = _dev/dev-pkg/formanta.build-task.webpack-config-polymer
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-polymer.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-vue"]
 	path = _dev/dev-pkg/formanta.build-task.webpack-config-vue
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-vue.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-sass"]
 	path = _dev/dev-pkg/formanta.build-task.webpack-config-sass
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-sass.git
 	branch = master
+	fetchrecursesubmodules = true
 [submodule "_dev/dev-pkg/formanta.build-task.webpack-config-html"]
 	path = _dev/dev-pkg/formanta.build-task.webpack-config-html
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-html.git
 	branch = master
+	fetchrecursesubmodules = true
