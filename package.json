@@ -12,14 +12,13 @@
     "es6-promise": "^4.2.5",
     "eslint": "^5.9.0",
     "eslint-loader": "^2.1.1",
-    "terser-webpack-plugin": "^1.1.0",
     "webpack": "^4.25.1",
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
     "@bemit/formantajs": "git+https://bitbucket.org/bemit_eu/formantajs.git",
     "@bemit/formantasass-core": "git+https://bitbucket.org/bemit_eu/formantasass-core.git",
-    "normalize.css": "^8.0.0"
+    "normalize.css": "^8.0.1"
   },
   "scripts": {
     "install": "(cd ./_dev && (npm install))",

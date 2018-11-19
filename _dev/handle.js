@@ -1,7 +1,7 @@
 /**
  * @type {Runner}
  */
-const Runner = require('./lib/Runner');
+const Runner = require('@insulo/runner');
 
 const fs = require('fs');
 const path = require('path');
@@ -10,7 +10,7 @@ const colors = require('colors/safe');
 /**
  * @type {Promise}
  */
-const taskWebpack = require('./lib/task/taskWebPack');
+const taskWebpack = require('@formanta/build-task.webpack');
 
 const ROOT_DIR = __dirname + '/../../';
 const ASSET_DIR = ROOT_DIR + 'asset/';
@@ -56,7 +56,7 @@ module.exports.handle = (watch = true) => {
                     quality: 80,
                     files: ['**/*.png'],
                     // to provide custom handler, a lot are implemented as default
-                    // handler: require('./lib/Media/handlePNG')
+                    // handler: require('@insulo/media-optimizer/lib/Handler/HandlerPNG')
                 },
                 jpg: {
                     quality: 80,
@@ -148,7 +148,7 @@ module.exports.handle = (watch = true) => {
         sass: () => {
             return new Promise((resolve) => {
                 Runner.run(
-                    require('./lib/task/taskSass').run, // task
+                    require('@formanta/build-task.sass').run, // task
                     config.sass, // config for task
                     colors.underline.blue('task--sass') // name for logging
                 ).then(result => {
@@ -158,7 +158,7 @@ module.exports.handle = (watch = true) => {
         },
         clean: () => {
             return Runner.run(
-                require('./lib/task/taskClean'),
+                require('@formanta/build-task.clean'),
                 config.clean,
                 colors.underline.blue('task--clean')
             );
@@ -167,7 +167,7 @@ module.exports.handle = (watch = true) => {
             // Asset Files like JPG, PNG, SVG, MP4 and Generic Copying for e.g. PDF
             return new Promise((resolve) => {
                 Runner.run(
-                    require('./lib/task/taskMedia'),
+                    require('@formanta/build-task.media'),
                     config.media,
                     colors.underline.blue('task--media')
                 ).then(result => {
@@ -179,7 +179,7 @@ module.exports.handle = (watch = true) => {
             return new Promise((resolve) => {
                 Runner.run(
                     // todo: having more then 63054.7KB of data, after ignore filter, breaks zipping [bug]
-                    require('./lib/task/taskArchive'),
+                    require('@formanta/build-task.archive'),
                     config.archive,
                     colors.underline.blue('task--archive')
                 ).then(result => {
@@ -203,10 +203,10 @@ module.exports.handle = (watch = true) => {
         },
         react: {
             start: () => {
-                return require('./lib/task/taskReactApp').start(config.react);
+                return require('@formanta/build-task.react-app').start(config.react);
             },
             build: () => {
-                return require('./lib/task/taskReactApp').build(config.react);
+                return require('@formanta/build-task.react-app').build(config.react);
             }
         }
     };
