@@ -73,7 +73,7 @@
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-sass.git
 	branch = master
 	fetchrecursesubmodules = true
-[submodule "_dev/dev-pkg/formanta.build-task.webpack-config-html"]
+[submodule "formanta.build-task.webpack-config-html"]
 	path = _dev/dev-pkg/formanta.build-task.webpack-config-html
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-html.git
 	branch = master
