@@ -78,3 +78,19 @@
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-html.git
 	branch = master
 	fetchrecursesubmodules = true
+[submodule "insulo-media-optimizer-handler-dynamic"]
+	path = _dev/dev-pkg/insulo.media--dynamic
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-dynamic
+	branch = master
+[submodule "insulo-media-optimizer-handler-gif"]
+	path = _dev/dev-pkg/insulo.media--gif
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-gif
+	branch = master
+[submodule "insulo-media-optimizer-handler-jpg"]
+	path = _dev/dev-pkg/insulo.media--jpg
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-jpg
+	branch = master
+[submodule "insulo-media-optimizer-handler-png"]
+	path = _dev/dev-pkg/insulo.media--png
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-png
+	branch = master
