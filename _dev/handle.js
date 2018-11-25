@@ -67,7 +67,7 @@ module.exports.handle = (watch = true) => {
                     removeViewBox: false,
                     files: ['**/*.svg']
                 },
-                mp4: {
+                handbrake: {
                     // uses handbrake, must be installed as peer dep on linux
                     optimize: true,
                     // framerate, 15 for most web
@@ -166,6 +166,15 @@ module.exports.handle = (watch = true) => {
         media: () => {
             // Asset Files like JPG, PNG, SVG, MP4 and Generic Copying for e.g. PDF
             return new Promise((resolve) => {
+                const {MediaOptimizer} = require('@insulo/media-optimizer');
+                // add default handler functions, must be activated through a config using them
+                MediaOptimizer.constructor.handler_default = {
+                    png: () => require('@insulo/media-optimizer-handler-png'),
+                    jpg: () => require('@insulo/media-optimizer-handler-jpg'),
+                    svg: () => require('@insulo/media-optimizer-handler-svg'),
+                    handbrake: () => require('@insulo/media-optimizer-handler-handbrake'),
+                    dynamic: () => require('@insulo/media-optimizer-handler-dynamic'),
+                };
                 Runner.run(
                     require('@formanta/build-task.media'),
                     config.media,

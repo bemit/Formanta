@@ -7,6 +7,12 @@
   "dependencies": {
     "@insulo/archiver": "file:./dev-pkg/insulo-archiver",
     "@insulo/media-optimizer": "file:./dev-pkg/insulo-media-optimizer",
+    "@insulo/media-optimizer-handler-dynamic": "file:./dev-pkg/insulo-media--dynamic",
+    "@insulo/media-optimizer-handler-gif": "file:./dev-pkg/insulo-media--gif",
+    "@insulo/media-optimizer-handler-handbrake": "file:./dev-pkg/insulo-media--handbrake",
+    "@insulo/media-optimizer-handler-jpg": "file:./dev-pkg/insulo-media--jpg",
+    "@insulo/media-optimizer-handler-png": "file:./dev-pkg/insulo-media--png",
+    "@insulo/media-optimizer-handler-svg": "file:./dev-pkg/insulo-media--svg",
     "@insulo/runner": "file:./dev-pkg/insulo-runner",
     "@insulo/watcher": "file:./dev-pkg/insulo-watcher",
     "@formanta/build-task.archive": "file:./dev-pkg/formanta.build-task.archive",
