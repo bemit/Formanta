@@ -82,7 +82,3 @@
 	path = _dev/dev-pkg/insulo-media--svg
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-svg
 	branch = master
-[submodule "insulo-media-optimizer-handler-handbrake"]
-	path = _dev/dev-pkg/insulo.media--handbrake
-	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-handbrake
-	branch = master
