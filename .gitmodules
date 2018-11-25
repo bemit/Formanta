@@ -82,3 +82,29 @@
 	path = _dev/dev-pkg/insulo-media--svg
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-svg
 	branch = master
+	fetchrecursesubmodules = true
+[submodule "insulo-media-optimizer-handler-dynamic"]
+	path = _dev/dev-pkg/insulo-media--dynamic
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-dynamic
+	branch = master
+	fetchrecursesubmodules = true
+[submodule "insulo-media-optimizer-handler-gif"]
+	path = _dev/dev-pkg/insulo-media--gif
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-gif
+	branch = master
+	fetchrecursesubmodules = true
+[submodule "insulo-media-optimizer-handler-handbrake"]
+	path = _dev/dev-pkg/insulo-media--handbrake
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-handbrake
+	branch = master
+	fetchrecursesubmodules = true
+[submodule "insulo-media-optimizer-handler-jpg"]
+	path = _dev/dev-pkg/insulo-media--jpg
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-jpg
+	branch = master
+	fetchrecursesubmodules = true
+[submodule "insulo-media-optimizer-handler-png"]
+	path = _dev/dev-pkg/insulo-media--png
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-png
+	branch = master
+	fetchrecursesubmodules = true
