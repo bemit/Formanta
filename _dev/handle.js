@@ -10,8 +10,9 @@ const colors = require('colors/safe');
  */
 const taskWebpack = require('@formanta/build-task.webpack');
 
-const ROOT_DIR = __dirname + '/../../';
-const ASSET_DIR = ROOT_DIR + 'asset/';
+// get root dir from env or use default
+const ROOT_DIR = (__dirname + '/' + process.env.ROOT_DIR) || (__dirname + '/../../');
+const ASSET_DIR = __dirname + '/';
 const BUILD_DIR = ROOT_DIR + 'build/';
 
 /**
