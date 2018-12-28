@@ -18,7 +18,7 @@ build: &build
     caches:
       - node
     script:
-      - rsync -av --exclude='.git' --exclude='node_modules' . ../build_tmp && mv ../build_tmp ./build
+      #- rsync -av --exclude='.git' --exclude='node_modules' . ../build_tmp && mv ../build_tmp ./build
       - rm -rf node_modules/*
       # install handbrake
       - add-apt-repository --yes ppa:stebbins/handbrake-releases
@@ -30,6 +30,8 @@ build: &build
       - cd ../react-app && yarn install && cd ../build
       # build and archive
       - npm run archive
+      - mv ../archive .
+      - mv ../build_tmp ./build
     artifacts:
       - build/**
       - archive/**
