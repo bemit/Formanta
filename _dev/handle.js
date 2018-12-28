@@ -1,10 +1,8 @@
-/**
- * @type {Runner}
- */
-const Runner = require('@insulo/runner');
+const {run, sequential, parallel, log} = require('@insulo/runner/pretty');
 
-const fs = require('fs');
+//const fs = require('fs');
 const path = require('path');
+
 const colors = require('colors/safe');
 
 /**
@@ -19,9 +17,7 @@ const BUILD_DIR = ROOT_DIR + 'build/';
 /**
  * Returns all tasks to choose from
  *
- * @param {boolean} watch global switch to turn on watching, only `clean` and `archive` are not supporting
- *
- * @return {{clean: ((function(): Promise<{}>)), build: ((function(): Promise<{}>)), build_no_media: ((function(): Promise<{}>)), archive: ((function(): Promise))}}
+ * @param {boolean} watch global switch to turn on watching, only `clean` and `archive` are not supporting `watch` at all
  */
 module.exports.handle = (watch = true) => {
 
@@ -40,6 +36,17 @@ module.exports.handle = (watch = true) => {
         sass: [
             ASSET_DIR + 'style/main.scss', // entry
             BUILD_DIR + 'style/main.css', // output
+
+            /* or as array: (atm, will be refactored to match `media` style)
+            [
+                ASSET_DIR + 'style/main.scss',
+                ASSET_DIR + 'style/second-in.scss',
+            ], // entry
+            [
+                BUILD_DIR  + 'style/main.css',
+                BUILD_DIR  + 'style/second-out.css',
+            ], // output
+            */
             watch,
             'compressed',
             ROOT_DIR,
@@ -56,7 +63,7 @@ module.exports.handle = (watch = true) => {
                     quality: 80,
                     files: ['**/*.png'],
                     // to provide custom handler, a lot are implemented as default
-                    // handler: require('@insulo/media-optimizer/lib/Handler/HandlerPNG')
+                    // handler: require('@insulo/media-optimizer-handler-png')
                 },
                 jpg: {
                     quality: 80,
@@ -68,13 +75,13 @@ module.exports.handle = (watch = true) => {
                     files: ['**/*.svg']
                 },
                 handbrake: {
-                    // uses handbrake, must be installed as peer dep on linux
+                    // uses handbrake, must be installed as peer dep. on linux
                     optimize: true,
                     // framerate, 15 for most web
                     rate: 15,
-                    // high = low quality
+                    // high no. = low quality
                     quality: 24.0,
-                    // mp4, avi and more
+                    // mp4, avi and more https://handbrake.fr
                     files: ['**/*.mp4']
                 },
                 dynamic: {
@@ -109,10 +116,9 @@ module.exports.handle = (watch = true) => {
         ],
 
         webpack: {
-            // parsed and deepmerged into `_use`, if supplied; then used as is as WebpackConfig
             config: [{
-                // use pre-defined webpack config for ES6
-                _use: taskWebpack.config.es6,
+                // `_use` = pre-defined webpack config, yours is deep-merged into _use
+                _use: require('@formanta/build-task.webpack-config-es6'),
                 mode: 'production',
                 //mode: 'development',
                 // Windows (known): `path.resolve` must be called on paths or webpack could stuck without a message/error
@@ -142,26 +148,26 @@ module.exports.handle = (watch = true) => {
     /**
      * Define single tasks in this object, key should be name and will be used to access it in groups and runner
      *
-     * @type {Object} each item should be an simple array function, including the needed module for the wanted task, it should return a Promise that is created from `Runner.run`
+     * @type {Object} each item should be an simple array function, including the needed module for the wanted task, it should return a Promise that is created from `run`
      */
     let task = {
         sass: () => {
             return new Promise((resolve) => {
-                Runner.run(
+                run(
                     require('@formanta/build-task.sass').run, // task
                     config.sass, // config for task
                     colors.underline.blue('task--sass') // name for logging
-                ).then(result => {
-                    resolve(result)
+                )().then(result => {
+                    resolve(result);
                 });
-            })
+            });
         },
         clean: () => {
-            return Runner.run(
+            return run(
                 require('@formanta/build-task.clean'),
                 config.clean,
                 colors.underline.blue('task--clean')
-            );
+            )();
         },
         media: () => {
             // Asset Files like JPG, PNG, SVG, MP4 and Generic Copying for e.g. PDF
@@ -175,26 +181,26 @@ module.exports.handle = (watch = true) => {
                     handbrake: () => require('@insulo/media-optimizer-handler-handbrake'),
                     dynamic: () => require('@insulo/media-optimizer-handler-dynamic'),
                 };
-                Runner.run(
+                run(
                     require('@formanta/build-task.media'),
                     config.media,
                     colors.underline.blue('task--media')
-                ).then(result => {
-                    resolve(result)
+                )().then(result => {
+                    resolve(result);
                 });
-            })
+            });
         },
         archive: () => {
             return new Promise((resolve) => {
-                Runner.run(
+                run(
                     // todo: having more then 63054.7KB of data, after ignore filter, breaks zipping [bug]
                     require('@formanta/build-task.archive'),
                     config.archive,
                     colors.underline.blue('task--archive')
-                ).then(result => {
+                )().then(result => {
                     resolve(result);
                 });
-            })
+            });
         },
         webpack: () => {
             return new Promise((resolve) => {
@@ -208,7 +214,7 @@ module.exports.handle = (watch = true) => {
                 taskWebpack.run(config.webpack.config, config.webpack.option)().then(() => {
                     resolve();
                 });
-            })
+            });
         },
         react: {
             start: () => {
@@ -220,66 +226,56 @@ module.exports.handle = (watch = true) => {
         }
     };
 
-    const run_info = () => Runner.log().raw(colors.yellow('Starting parallel execution of build pipeline, keep async in mind when reading times and order'));
+    const run_info = () => log.raw(colors.yellow('Starting parallel execution of build pipeline, keep async in mind when reading times and order'));
 
     /**
      * Grouping single tasks into groups
      *
      * @type {*}
      */
-    let task_group = {
-        style: () => {
-            return Runner.runSequential([
-                task.sass
-            ])
-        },
+    const task_group = {
+        style: sequential([
+            task.sass
+        ]),
         build: () => {
             run_info();
-            return Runner.run(
-                () => {
-                    return Runner.runSequential([
-                        task.clean,
-                        () => {
-                            return Runner.runParallel([
-                                task.webpack,
-                                task_group.style,
-                                task.media,
-                            ])
-                        },
-                        /*
-                         * React runs async at all, so the task triggering react is finished before react is finished, this is wanted behavior
-                         * In this case `build` is finished right after `react` is started`
-                         */
-                        (watch ? task.react.start : task.react.build),
-                    ])
-                }, [],
+            return run(
+                sequential([
+                    task.clean,
+                    parallel([
+                        task.webpack,
+                        task_group.style,
+                        task.media,
+                    ]),
+                    /*
+                     * React runs async at all, so the task triggering react is finished before react is finished, this is wanted behavior
+                     * In this case `build` is finished right after `react` is started`
+                     */
+                    (watch ? task.react.start : task.react.build),
+                ]), [],
                 'build'
-            );
+            )();
         },
         build_no_media: () => {
             run_info();
-            return Runner.run(
-                () => {
-                    return Runner.runSequential([
-                        task.clean,
-                        () => {
-                            return Runner.runParallel([
-                                task.webpack,
-                                task_group.style
-                            ])
-                        },
-                        (watch ? task.react.start : task.react.build),
-                    ])
-                }, [],
+            return run(
+                sequential([
+                    task.clean,
+                    parallel([
+                        task.webpack,
+                        task_group.style
+                    ]),
+                    (watch ? task.react.start : task.react.build),
+                ]), [],
                 'build_no_media'
-            );
+            )();
         },
         archive: () => {
-            return Runner.runSequential([
+            sequential([
                 task_group.build,
                 task.archive,
-            ])
-        }
+            ])();
+        },
     };
 
     /**
@@ -290,5 +286,5 @@ module.exports.handle = (watch = true) => {
         build: task_group.build,
         build_no_media: task_group.build_no_media,
         archive: task_group.archive
-    }
+    };
 };

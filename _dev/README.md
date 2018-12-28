@@ -20,27 +20,28 @@ Examples
 - modifying build order and groups see `handle.js`
 - adding new build support to something: write a new handler file which wraps the needed modules, register the use with needed values in `handle.js` 
 
-## Implemented Handler
+## Implemented Build Tasks 
 
-### handleSass - the style transpiler and optimizer 
+- [@formanta/build-task.archive](https://www.npmjs.com/package/@formanta/build-task.archive)
+- [@formanta/build-task.clean](https://www.npmjs.com/package/@formanta/build-task.clean)
+- [@formanta/build-task.media](https://www.npmjs.com/package/@formanta/build-task.media)
+- [@formanta/build-task.react-app](https://www.npmjs.com/package/@formanta/build-task.react-app)
+- [@formanta/build-task.sass](https://www.npmjs.com/package/@formanta/build-task.sass)
 
-[/asset/_dev/handleSass.js](/asset/_dev/handleSass.js)
+    - included in `build` and `watch`
+    
+    Using **Sass** and **postcss** with **autoprefixer** to transpile Sass to compressed and optimized CSS.
+    
+    Implemented file watcher adds all files automatically for each entry file declared.
 
-- included in `build` and `watch`
+- [@formanta/build-task.webpack](https://www.npmjs.com/package/@formanta/build-task.webpack) 
+- [@formanta/build-task.webpack-config-es6](https://www.npmjs.com/package/@formanta/build-task.webpack-config-es6) 
+- [@formanta/build-task.webpack-config-html](https://www.npmjs.com/package/@formanta/build-task.webpack-config-html) 
+- [@formanta/build-task.webpack-config-jsx](https://www.npmjs.com/package/@formanta/build-task.webpack-config-jsx) 
+- [@formanta/build-task.webpack-config-polymer](https://www.npmjs.com/package/@formanta/build-task.webpack-config-polymer) 
+- [@formanta/build-task.webpack-config-sass](https://www.npmjs.com/package/@formanta/build-task.webpack-config-sass) 
+- [@formanta/build-task.webpack-config-vue](https://www.npmjs.com/package/@formanta/build-task.webpack-config-vue) 
 
-Using **Sass** and **postcss** with **autoprefixer** to transpile Sass to compressed and optimized CSS.
-
-Implemented file watcher adds all files automatically for each entry file declared. 
-
-### handleJS
-
-- `concat`
-- `uglify` 
-
-> concept
-
-### handleMedia
-
-#### mp4 Support handleMedia
+### mp4 Support media task
 
 > [Extra setup required for Linux, NOT: Mac, Windows](https://www.npmjs.com/package/handbrake-js#system-requirements)

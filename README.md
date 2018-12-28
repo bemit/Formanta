@@ -10,8 +10,18 @@ npm run build
 npm run watch
 npm run archive
 npm run help
+
+# is equal with above, using npm pass-through args:
+npm run tasker -- clean
+npm run tasker -- --help
+```
+
+# Updating Git Submodules / Fix after Deletion
+
+```bash
+git submodule update --init --recursive
 ```
 
 ## Important
 
-> For handleMedia.HandlerMP4: [extra setup required for Linux, NOT: Mac, Windows](https://www.npmjs.com/package/handbrake-js#system-requirements)
+> For task `media`: [extra setup required for Linux, NOT: Mac, Windows](https://www.npmjs.com/package/handbrake-js#system-requirements)
