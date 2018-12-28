@@ -108,3 +108,6 @@
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-png
 	branch = master
 	fetchrecursesubmodules = true
+[submodule "_dev/dev-pkg/insulo-media--image-transform"]
+	path = _dev/dev-pkg/insulo-media--image-transform
+	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-image-transform.git
