@@ -37,8 +37,9 @@
     "mocha-junit-reporter": "^1.18.0"
   },
   "dependencies": {
-    "@bemit/formantajs": "git+https://bitbucket.org/bemit_eu/formantajs.git",
-    "@bemit/formantasass-core": "git+https://bitbucket.org/bemit_eu/formantasass-core.git",
+    "@bemit/formantajs": "file:./dev-pkg/formantajs",
+    "@bemit/formantasass": "file:./dev-pkg/formantasass",
+    "@bemit/formantasass-core": "file:./dev-pkg/formantasass-core",
     "normalize.css": "^8.0.1",
     "@insulo/archiver": "file:./_dev/dev-pkg/insulo-archiver",
     "@insulo/media-optimizer": "file:./_dev/dev-pkg/insulo-media-optimizer",

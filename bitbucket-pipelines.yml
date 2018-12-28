@@ -19,12 +19,15 @@ build: &build
       - node
     script:
       - rsync -av --exclude='.git' --exclude='node_modules' . ../build_tmp && mv ../build_tmp ./build
+      - rm -rf node_modules/*
       # install handbrake
       - add-apt-repository --yes ppa:stebbins/handbrake-releases
       - apt-get update -qq
       - apt-get install -qq handbrake-cli
       # install dep
       - npm install
+      - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
+      - cd ../react-app && yarn install && cd ./build
       # build and archive
       - npm run archive
     artifacts:

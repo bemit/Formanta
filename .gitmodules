@@ -108,6 +108,15 @@
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-png
 	branch = master
 	fetchrecursesubmodules = true
-[submodule "_dev/dev-pkg/insulo-media--image-transform"]
+[submodule "insulo-media-optimizer-handler-image-transform"]
 	path = _dev/dev-pkg/insulo-media--image-transform
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-image-transform.git
+[submodule "dev-pkg/formantasass"]
+	path = dev-pkg/formantasass
+	url = https://bitbucket.org/bemit_eu/formantasass.git
+[submodule "dev-pkg/formantasass-core"]
+	path = dev-pkg/formantasass-core
+	url = https://bitbucket.org/bemit_eu/formantasass-core.git
+[submodule "dev-pkg/formantajs"]
+	path = dev-pkg/formantajs
+	url = https://bitbucket.org/bemit_eu/formantajs.git
