@@ -29,9 +29,12 @@ build: &build
       - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
       - cd ../react-app && yarn install && cd ../build
       # build and archive
+      - npm run build
+      # move transpiled files
+      - mv ../build_tmp ./build
+      # archive all
       - npm run archive
       #- mv ../archive .
-      - mv ../build_tmp ./build
     artifacts:
       - build/**
       - archive/**

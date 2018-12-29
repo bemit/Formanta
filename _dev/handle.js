@@ -269,12 +269,7 @@ module.exports.handle = (watch = true) => {
                 'build_no_media'
             )();
         },
-        archive: () => {
-            return sequential([
-                task_group.build,
-                task.archive,
-            ])();
-        },
+        archive: task.archive,
     };
 
     /**
