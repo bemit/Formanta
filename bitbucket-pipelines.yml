@@ -30,18 +30,16 @@ build: &build
       - git submodule update --init -- react-app
       - composer install
       - npm install
-      - printf '%s\n' .* *
-      - cd ./react-app
-      - yarn install
+      - cd ./react-app && yarn install && cd ../
+      #- cd ./asset && npm install && cd ../
       # build and archive
-      - cd ../
       - php package.php build
       #- (cd ./asset && (npm run build && npm run archive))
       # move transpiled files
       #- mv ../build_tmp ./build
       # archive all
       #- npm run archive
-      #- mv ../archive .
+      - mv archive .
     artifacts:
       - build/**
       - archive/**
@@ -53,30 +51,6 @@ test: &test
       - node
     script:
       - npm run check-ci
-    artifacts:
-      - test-reports/**
-
-testVersion: &testVersion
-  step:
-    name: Test Versions
-    script:
-      - mkdir ./tmp-test-reports
-      - nvmSwitchTo89.sh
-      - npm install
-      - npm run check-ci
-      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm89
-      - npm run check
-      - nvmSwitchTo814.sh
-      - npm install
-      - npm run check-ci
-      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm814
-      - npm run check
-      - nvmSwitchTo1014.sh
-      - npm install
-      - npm run check-ci
-      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm1014
-      - npm run check
-      - mv ./tmp-test-reports/* ./test-reports
     artifacts:
       - test-reports/**
 
@@ -127,11 +101,11 @@ pipelines:
   branches:
     master:
       - <<: *build
-      - <<: *test
+      #- <<: *test
       - <<: *artifactSave
     develop:
       - <<: *build
-      - <<: *test
+      #- <<: *test
       - <<: *artifactSave
     feature/*:
       - <<: *build
