@@ -1,5 +1,6 @@
 # Build Dir
-# /build
+/build
+/build.zip
 
 # Formanta Archiver Task
 /archive

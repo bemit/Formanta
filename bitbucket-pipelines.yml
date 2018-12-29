@@ -1,0 +1,132 @@
+image: bemiteu/webbuild:latest
+
+#
+# Defaults
+
+options:
+  max-time: 10
+
+clone:
+  depth: 1
+
+#
+## Reusable Steps, define only one step per var (thus no hyphen)
+
+build: &build
+  step:
+    name: Build
+    caches:
+      - node
+    script:
+      #- rsync -av --exclude='.git' --exclude='node_modules' . ../build_tmp && mv ../build_tmp ./build
+      - rm -rf node_modules/*
+      # install handbrake
+      - add-apt-repository --yes ppa:stebbins/handbrake-releases
+      - apt-get update -qq
+      - apt-get install -qq handbrake-cli
+      # install dep
+      - npm install
+      - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
+      - cd ../react-app && yarn install && cd ../build
+      # build and archive
+      - npm run build
+      - cd ./asset && npm run build && npm run archive
+      # move transpiled files
+      #- mv ../build_tmp ./build
+      # archive all
+      #- npm run archive
+      #- mv ../archive .
+    artifacts:
+      - build/**
+      - archive/**
+
+test: &test
+  step:
+    name: Test
+    caches:
+      - node
+    script:
+      - npm run check-ci
+    artifacts:
+      - test-reports/**
+
+testVersion: &testVersion
+  step:
+    name: Test Versions
+    script:
+      - mkdir ./tmp-test-reports
+      - nvmSwitchTo89.sh
+      - npm install
+      - npm run check-ci
+      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm89
+      - npm run check
+      - nvmSwitchTo814.sh
+      - npm install
+      - npm run check-ci
+      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm814
+      - npm run check
+      - nvmSwitchTo1014.sh
+      - npm install
+      - npm run check-ci
+      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm1014
+      - npm run check
+      - mv ./tmp-test-reports/* ./test-reports
+    artifacts:
+      - test-reports/**
+
+publish: &publish
+  step:
+    name: Publish
+    script:
+      - rm -rf build/**
+      - rm -rf test-reports/**
+      - npmPublish.sh
+
+artifactSave: &artifactSave
+  step:
+    name: Artifact Save
+    script:
+      - zip -r build.zip ./build
+      - saveDownloadBranch.sh build.zip
+    artifacts:
+      - build.zip
+
+artifactSaveTag: &artifactSaveTag
+  step:
+    name: Artifact Save
+    script:
+      - zip -r build.zip ./build
+      - saveDownloadTag.sh build.zip
+    artifacts:
+      - build.zip
+
+#
+## Actual Pipeline
+
+pipelines:
+  custom:
+    testVersion:
+      - <<: *build
+      - <<: *testVersion
+  default:
+    - <<: *build
+    - <<: *test
+  tags:
+    '*.*.*':
+      - <<: *build
+      - <<: *test
+      - parallel:
+        - <<: *artifactSaveTag
+        - <<: *publish
+  branches:
+    master:
+      - <<: *build
+      - <<: *test
+      - <<: *artifactSave
+    develop:
+      - <<: *build
+      - <<: *test
+      - <<: *artifactSave
+    feature/*:
+      - <<: *build
+      - <<: *test

@@ -9,8 +9,6 @@
 
 With Formanta you get a quick start boilerplate for integrated frontend development and in general a StaticSide Generator ready to go.
 
-> Scroll down for a 15 small steps to production list! 
-
 The Static Side Generator could be run with NodeJS or PHP and the CLI interface is in the root directory
 
 > Formanta is a work-in-progress and currently PHP and NodeJS features aren't alike, this will be from version 0.9 onwards.
