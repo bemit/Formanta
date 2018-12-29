@@ -30,7 +30,7 @@ build: &build
       - cd ../react-app && yarn install && cd ../build
       # build and archive
       - npm run archive
-      - mv ../archive .
+      #- mv ../archive .
       - mv ../build_tmp ./build
     artifacts:
       - build/**
