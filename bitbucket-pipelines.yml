@@ -27,12 +27,14 @@ build: &build
       - apt-get install -qq handbrake-cli
       # install dep
       - git submodule update --init -- asset
+      - git submodule update --init -- react-app
       - composer install
       - npm install
       - printf '%s\n' .* *
-      - (cd ./react-app && printf '%s\n' .* * && (printf '%s\n' .* *))
-      - cd ./react-app && printf '%s\n' .* *
+      - cd ./react-app
+      - yarn install
       # build and archive
+      - cd ../
       - php package.php build
       #- (cd ./asset && (npm run build && npm run archive))
       # move transpiled files
