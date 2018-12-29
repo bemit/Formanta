@@ -31,15 +31,11 @@ build: &build
       - composer install
       - npm install
       - cd ./react-app && yarn install && cd ../
-      #- cd ./asset && npm install && cd ../
+      - cd ./asset && npm install && cd ../
       # build and archive
       - php package.php build
-      #- (cd ./asset && (npm run build && npm run archive))
-      # move transpiled files
-      #- mv ../build_tmp ./build
-      # archive all
-      #- npm run archive
-      - mv archive .
+      - cd ./asset && npm run build && npm run archive && cd ../
+      - mv archive/ ./build
     artifacts:
       - build/**
       - archive/**
