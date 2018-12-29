@@ -26,10 +26,10 @@ build: &build
       - apt-get install -qq handbrake-cli
       # install dep
       - npm install
-      - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
-      - cd ../react-app && yarn install && cd ../build
+      - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ./react-app
+      - cd ./react-app && yarn install && cd ../
       # build and archive
-      - npm run build
+      - php package.php build
       - cd ./asset && npm run build && npm run archive
       # move transpiled files
       #- mv ../build_tmp ./build
