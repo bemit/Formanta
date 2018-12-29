@@ -1,9 +1,4 @@
-# Build Dir
-/build
-/build.zip
-
-# Formanta Archiver Task
-/archive
+archive
 
 # Composer
 composer\.lock

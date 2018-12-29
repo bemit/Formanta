@@ -1,0 +1,120 @@
+<!doctype html>
+<html{% if meta.lang %} lang="{{ meta.lang }}"{% endif %}>
+
+<head>
+    {% block head %}
+        {% block head_begin %}{% endblock %}
+
+        {% block head_meta %}
+            <meta charset="UTF-8"/>
+
+            {% if head.title %}<title>{{ head.title }}</title>{% endif %}
+            {% if head.author %}
+                <meta name="author" content="{{ head.author }}"/>
+            {% endif %}
+            {% if meta.description %}
+                <meta name="description" content="{{ meta.description }}">
+            {% endif %}
+            {% if meta.lang %}
+                <meta http-equiv="language" content="{{ meta.lang }}">
+            {% endif %}
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% endblock %}
+
+        {% block head_misc %}{% endblock %}
+
+        {% block head_style %}
+        {% endblock %}
+
+        {% block head_js %}
+        {% endblock %}
+
+        {% block head_end %}{% endblock %}
+    {% endblock %}
+</head>
+
+{% block body %}
+    <body class="body{% if body.class %} {{ body.class|join(' ') }}{% endif %}"{% if body.attr %} {{ body.attr|join(' ') }}{% endif %}>
+
+    {% block body_begin %}{% endblock %}
+
+
+    {% block header %}
+        <div class="header">
+            {% block header_inner %}
+                <header class="header--inner">
+                    {% block header_inner__ %}{% endblock %}
+                </header>
+            {% endblock %}
+        </div>
+    {% endblock %}
+
+    {% block container_inner %}
+        <section class="container">
+
+            {% block sidebar %}
+                <div class="sidebar">
+                    <div class="sidebar--inner">
+                        {% block sidebar_inner__ %}{% endblock %}
+                    </div>
+                </div>
+            {% endblock %}
+
+            {% block content %}
+                <div class="content">
+                    {% block content_container %}
+
+                        {% block content_begin %}
+                            <section class="content-begin">
+                                {% block content_begin_inner %}
+                                    <div class="content-begin--inner">
+                                        {% block content_begin_inner__ %}{% endblock %}
+                                    </div>
+                                {% endblock %}
+                            </section>
+                        {% endblock %}
+
+                        {% block content_main %}
+                            <div class="content--main">
+                                {% block content_main_inner %}
+                                    <main class="content--main--inner">
+                                        {% block content_main_inner__ %}{% endblock %}
+                                    </main>
+                                {% endblock %}
+                            </div>
+                        {% endblock %}
+
+                        {% block content_end %}
+                            <section class="content-end">
+                                {% block content_end_inner %}
+                                    <div class="content-end--inner">
+                                        {% block content_end_inner__ %}{% endblock %}
+                                    </div>
+                                {% endblock %}
+                            </section>
+                        {% endblock %}
+
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </section>
+    {% endblock %}
+
+    {% block footer %}
+        <div class="footer">
+            {% block footer_inner %}
+                <footer class="footer--inner">
+                    {% block footer_inner__ %}{% endblock %}
+                </footer>
+            {% endblock %}
+        </div>
+    {% endblock %}
+
+    {% block body_end %}{% endblock %}
+
+    {% block foot_js %}{% endblock %}
+
+    </body>
+{% endblock %}
+
+</html>
