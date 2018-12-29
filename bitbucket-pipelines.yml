@@ -29,9 +29,9 @@ build: &build
       - git submodule update --init -- asset
       - composer install
       - npm install
-      - (cd ./react-app && echo ls && (echo ls))
-      - cd ./react-app && echo ls
-      - echo ls
+      - printf '%s\n' .* *
+      - (cd ./react-app && printf '%s\n' .* * && (printf '%s\n' .* *))
+      - cd ./react-app && printf '%s\n' .* *
       # build and archive
       - php package.php build
       #- (cd ./asset && (npm run build && npm run archive))
