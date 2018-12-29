@@ -25,8 +25,9 @@ build: &build
       - apt-get update -qq
       - apt-get install -qq handbrake-cli
       # install dep
+      - composer install
       - npm install
-      - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ./react-app
+      #- git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ./react-app
       - cd ./react-app && yarn install && cd ../
       # build and archive
       - php package.php build
