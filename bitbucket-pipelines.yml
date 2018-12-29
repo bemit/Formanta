@@ -17,6 +17,7 @@ build: &build
     name: Build
     caches:
       - node
+      - composer
     script:
       #- rsync -av --exclude='.git' --exclude='node_modules' . ../build_tmp && mv ../build_tmp ./build
       - rm -rf node_modules/*
@@ -25,13 +26,13 @@ build: &build
       - apt-get update -qq
       - apt-get install -qq handbrake-cli
       # install dep
+      - git submodule update --init -- asset
       - composer install
       - npm install
-      #- git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ./react-app
-      - cd ./react-app && yarn install && cd ../
+      - (cd ./react-app && yarn install && cd ../)
       # build and archive
       - php package.php build
-      - cd ./asset && npm run build && npm run archive
+      - (cd ./asset && npm run build && npm run archive)
       # move transpiled files
       #- mv ../build_tmp ./build
       # archive all
