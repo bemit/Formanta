@@ -34,10 +34,7 @@ build: &build
       - cd ./asset && npm install && cd ../
       # build and archive
       - php package.php build
-      - cd ./asset
-      - npm run build
-      - npm run archive
-      - cd ../
+      - cd ./asset && (npm run build) && (npm run archive) && cd ../
       - mv archive/ ./build
     artifacts:
       - build/**
