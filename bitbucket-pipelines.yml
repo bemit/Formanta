@@ -29,10 +29,10 @@ build: &build
       - git submodule update --init -- asset
       - composer install
       - npm install
-      - (cd ./react-app && yarn install && cd ../)
+      - (cd ./react-app && (yarn install))
       # build and archive
       - php package.php build
-      - (cd ./asset && npm run build && npm run archive)
+      - (cd ./asset && (npm run build && npm run archive))
       # move transpiled files
       #- mv ../build_tmp ./build
       # archive all
