@@ -9,6 +9,10 @@ const {Runner} = require('@insulo/runner');
 
 const CI = process.env.CI || false;
 
+if(CI) {
+    console.log('CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING');
+}
+
 /**
  * Defining public tasks, see `handle.js` for the internal tasks
  *
