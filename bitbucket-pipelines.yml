@@ -84,10 +84,6 @@ artifactSaveTag: &artifactSaveTag
 ## Actual Pipeline
 
 pipelines:
-  custom:
-    testVersion:
-      - <<: *build
-      - <<: *testVersion
   default:
     - <<: *build
     - <<: *test
