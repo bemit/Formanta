@@ -149,17 +149,11 @@ module.exports.handle = (watch = true) => {
      * @type {Object} each item should be an simple array function, including the needed module for the wanted task, it should return a Promise that is created from `run`
      */
     let task = {
-        sass: () => {
-            return new Promise((resolve) => {
-                run(
-                    require('@formanta/build-task.sass').run, // task
-                    config.sass, // config for task
-                    colors.underline.blue('task--sass') // name for logging
-                )().then(result => {
-                    resolve(result);
-                });
-            });
-        },
+        sass: run(
+            require('@formanta/build-task.sass').run, // task
+            config.sass, // config for task
+            colors.underline.blue('task--sass') // name for logging
+        ),
         clean: () => {
             return run(
                 require('@formanta/build-task.clean'),
@@ -233,9 +227,7 @@ module.exports.handle = (watch = true) => {
      * @type {*}
      */
     const task_group = {
-        style: sequential([
-            task.sass
-        ]),
+        style: task.sass,
         build: () => {
             run_info();
             return run(

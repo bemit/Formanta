@@ -4,14 +4,9 @@ const colors = require('colors/safe');
 // get the task creator, receives `watch` and returns all needed tasks
 const {handle} = require('./handle');
 
-// eslint-disable-next-line node/no-unpublished-require
-const {Runner} = require('@insulo/runner');
+const Runner = require('@insulo/runner');
 
 const CI = process.env.CI || false;
-
-if(CI) {
-    console.log('CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING CI IS RUNNNNNNNNNING');
-}
 
 /**
  * Defining public tasks, see `handle.js` for the internal tasks
@@ -32,7 +27,7 @@ let tasks = {
                 .clean()
                 .then()
                 .catch((err) => {
-                    console.error(colors.red.underline('!# tasker.tasks.clean: handle failed: ' + err));
+                    Runner.log().error('tasker.tasks.clean: handle failed with error:: ' + err);
                     if(CI) {
                         throw Error();
                     }
@@ -52,7 +47,7 @@ let tasks = {
                 .build()
                 .then()
                 .catch((err) => {
-                    console.error(colors.red.underline('!# tasker.tasks.build: handle failed: ' + err));
+                    Runner.log().error('tasker.tasks.build: handle failed with error:: ' + err);
                     if(CI) {
                         throw Error();
                     }
@@ -72,7 +67,7 @@ let tasks = {
                 .build_no_media()
                 .then()
                 .catch((err) => {
-                    console.error(colors.red.underline('!# tasker.tasks.build-no-media: handle failed: ' + err));
+                    Runner.log().error('tasker.tasks.build-no-media: handle failed with error:: ' + err);
                     if(CI) {
                         throw Error();
                     }
@@ -93,7 +88,7 @@ let tasks = {
                 .build()
                 .then()
                 .catch((err) => {
-                    console.error(colors.red.underline('!# tasker.tasks.watch: handle failed: ' + err));
+                    Runner.log().error('tasker.tasks.watch: handle failed with error:: ' + err);
                     if(CI) {
                         throw Error();
                     }
@@ -114,7 +109,7 @@ let tasks = {
                 .archive()
                 .then()
                 .catch((err) => {
-                    console.error(colors.red.underline('!# tasker.tasks.archive: handle failed: ' + err));
+                    Runner.log().error('tasker.tasks.archive: handle failed with error:: ' + err);
                     if(CI) {
                         throw Error();
                     }
