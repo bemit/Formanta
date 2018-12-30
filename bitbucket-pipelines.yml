@@ -45,30 +45,6 @@ test: &test
     artifacts:
       - test-reports/**
 
-testVersion: &testVersion
-  step:
-    name: Test Versions
-    script:
-      - mkdir ./tmp-test-reports
-      - nvmSwitchTo89.sh
-      - npm install
-      - npm run check-ci
-      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm89
-      - npm run check
-      - nvmSwitchTo814.sh
-      - npm install
-      - npm run check-ci
-      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm814
-      - npm run check
-      - nvmSwitchTo1014.sh
-      - npm install
-      - npm run check-ci
-      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm1014
-      - npm run check
-      - mv ./tmp-test-reports/* ./test-reports
-    artifacts:
-      - test-reports/**
-
 publish: &publish
   step:
     name: Publish
@@ -99,20 +75,9 @@ artifactSaveTag: &artifactSaveTag
 ## Actual Pipeline
 
 pipelines:
-  custom:
-    testVersion:
-      - <<: *build
-      - <<: *testVersion
   default:
     - <<: *build
     - <<: *test
-  tags:
-    '*.*.*':
-      - <<: *build
-      - <<: *test
-      - parallel:
-        - <<: *artifactSaveTag
-        - <<: *publish
   branches:
     master:
       - <<: *build
