@@ -1,5 +1,5 @@
-@import '../node_modules/@bemit/formantasass-core/calculation/function';
-@import '../node_modules/@bemit/formantasass-core/color/function';
+@import '../node_modules/@formanta/sass-core/calculation/function';
+@import '../node_modules/@formanta/sass-core/color/function';
 
 $theme--asset-path : '/data/out/';
 $theme--transition : 0.4s linear;
@@ -19,7 +19,7 @@ $theme--btn--padding : 15px 20px;
 @import 'config/output';
 @import 'config/typography';
 
-@import '../node_modules/@bemit/formantasass-core/all';
+@import '../node_modules/@formanta/sass-core/all';
 
 /*@import '../../vendor/flood/canal-asset/base';
 @import '../../vendor/flood/canal-asset/inner';*/
