@@ -3,7 +3,7 @@
  * @returns {Promise<{runner:module.Runner, builded: {}}>}
  */
 module.exports = (runner = undefined) => {
-    const {startTime, endTime} = require('@bemit/formantablocks');
+    const {startTime, endTime} = require('@formanta/blocks');
 
     return new Promise((resolve) => {
         /**

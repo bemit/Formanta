@@ -17,7 +17,7 @@ The Static Side Generator could be run with NodeJS or PHP and the CLI interface 
 > - FormantaBlocks PHP `in-work`
 > - FormantaBlocks NodeJS `in-work`
 > - FormantaSass: Core `stable, inline-doc`
-> - FormantaSass `currently not usable`
+> - FormantaSass `empty`
 > - FormantaJS `old concept files`, see [Canal: Asset](https://bitbucket.org/bemit_eu/canal-asset), [Canal: Admin](https://bitbucket.org/bemit_eu/canal-admin) for features which will be integrated
 
 ## Setup

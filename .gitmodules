@@ -8,3 +8,8 @@
 	url = https://bitbucket.org/bemit_eu/formanta.module.react-app.git
 	branch = master
     fetchrecursesubmodules = true
+[submodule "formantablocks"]
+	path = dev-pkg/formantablocks
+	url = https://bitbucket.org/bemit_eu/formantablocks-js.git
+	branch = master
+    fetchrecursesubmodules = true

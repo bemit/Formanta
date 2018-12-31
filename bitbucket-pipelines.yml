@@ -17,25 +17,25 @@ build: &build
     name: Build
     caches:
       - node
+      - composer
     script:
       #- rsync -av --exclude='.git' --exclude='node_modules' . ../build_tmp && mv ../build_tmp ./build
       - rm -rf node_modules/*
-      # install handbrake
-      - add-apt-repository --yes ppa:stebbins/handbrake-releases
-      - apt-get update -qq
-      - apt-get install -qq handbrake-cli
       # install dep
+      #- git submodule update --init -- asset
+      - git submodule update --init --recursive asset
+      - git submodule update --init -- react-app
+      - composer install
       - npm install
-      - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
-      - cd ../react-app && yarn install && cd ../build
+      - cd ./react-app && yarn install && cd ../
+      - cd ./asset && npm install && cd ../
       # build and archive
+      - php package.php build
+      - cd ./asset
       - npm run build
-      - cd ./asset && npm run build && npm run archive
-      # move transpiled files
-      #- mv ../build_tmp ./build
-      # archive all
-      #- npm run archive
-      #- mv ../archive .
+      - npm run archive
+      - cd ../
+      #- mv archive/ ./build
     artifacts:
       - build/**
       - archive/**
@@ -47,30 +47,6 @@ test: &test
       - node
     script:
       - npm run check-ci
-    artifacts:
-      - test-reports/**
-
-testVersion: &testVersion
-  step:
-    name: Test Versions
-    script:
-      - mkdir ./tmp-test-reports
-      - nvmSwitchTo89.sh
-      - npm install
-      - npm run check-ci
-      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm89
-      - npm run check
-      - nvmSwitchTo814.sh
-      - npm install
-      - npm run check-ci
-      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm814
-      - npm run check
-      - nvmSwitchTo1014.sh
-      - npm install
-      - npm run check-ci
-      - rsync -av --remove-source-files ./test-reports/ ./tmp-test-reports/nvm1014
-      - npm run check
-      - mv ./tmp-test-reports/* ./test-reports
     artifacts:
       - test-reports/**
 
@@ -104,10 +80,6 @@ artifactSaveTag: &artifactSaveTag
 ## Actual Pipeline
 
 pipelines:
-  custom:
-    testVersion:
-      - <<: *build
-      - <<: *testVersion
   default:
     - <<: *build
     - <<: *test
@@ -121,11 +93,11 @@ pipelines:
   branches:
     master:
       - <<: *build
-      - <<: *test
+      #- <<: *test
       - <<: *artifactSave
     develop:
       - <<: *build
-      - <<: *test
+      #- <<: *test
       - <<: *artifactSave
     feature/*:
       - <<: *build
