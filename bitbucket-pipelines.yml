@@ -48,9 +48,11 @@ test: &test
     artifacts:
       - test-reports/**
 
-testVersion: &testVersion
+testDev: &testDev
   step:
-    name: Test Last Prod and Dev
+    name: Test Last Dev Packages
+    caches:
+      - react-app
     script:
       # react-app dependency is the same
       - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
@@ -59,18 +61,26 @@ testVersion: &testVersion
       - rm -rf node_modules/*
       - rm -rf package-lock.json
       # check against: dev
-      - if [ -f ./package-dev.json ]; then echo "Switch To Developer Packages"; mv package.json package-prod.json; mv package-dev.json package.json; fi
+      - if [ -f ./package-dev.json ]; then echo "Switch To Developer Packages"; mv package.json package-prod.json; mv package-dev.json package.json; else echo "Developer Packages Active"; fi
       - git submodule update --init --recursive;
       ## build
       - npm install
       - npm run build
       - npm run archive
+    artifacts:
+      - archive/**
+
+testProd: &testProd
+  step:
+    name: Test Last Prod Packages
+    caches:
+      - react-app
+    script:
       # clean
       - rm -rf node_modules/*
       - rm -rf package-lock.json
       # check against: prod
-      - if [ -f ./package-prod.json ]; then echo "Switch To Prod Packages"; mv package.json package-dev.json; mv package-prod.json package.json; fi
-      - git submodule update --init --recursive;
+      - if [ -f ./package-prod.json ]; then echo "Switch To Production Packages"; mv package.json package-dev.json; mv package-prod.json package.json; else echo "Production Packages Active"; fi
       ## build
       - npm install
       - npm run build
@@ -110,7 +120,8 @@ artifactSaveTag: &artifactSaveTag
 pipelines:
   custom:
     testVersion:
-      - <<: *testVersion
+      - <<: *testDev
+      - <<: *testProd
   default:
     - <<: *build
     - <<: *test
@@ -126,3 +137,7 @@ pipelines:
     feature/*:
       - <<: *build
       - <<: *test
+
+definitions:
+  caches:
+    react-app: ../react-app/node_modules
