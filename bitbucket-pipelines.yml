@@ -78,6 +78,11 @@ testProd: &testProd
     caches:
       - react-app
     script:
+      # react-app dependency is the same, also trick the cache/git clone needs an empty dir
+      - mv ../react-app/node_modules/ ../react-app-node-modules
+      - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
+      - mv ../react-app-node-modules/ ../react-app/node_modules
+      - cd ../react-app && yarn install && cd ../build
       # clean
       - rm -rf node_modules/*
       - rm -rf package-lock.json
