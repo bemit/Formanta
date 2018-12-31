@@ -21,7 +21,8 @@ build: &build
       #- rsync -av --exclude='.git' --exclude='node_modules' . ../build_tmp && mv ../build_tmp ./build
       - rm -rf node_modules/*
       # check against: is currently the package.json for developing or production existing
-      - if [ -f ./package-dev.json ]; then echo "Installing Developer Packages"; git submodule update --init --recursive; else echo "Installing Production Packages"; fi
+      # when package-prod exists it means package.json is package-dev.json, if package-dev.json exists it means package.json is package-prod.json
+      - if [ ! -f ./package-dev.json ]; then echo "Installing Developer Packages"; git submodule update --init --recursive; else echo "Installing Production Packages"; fi
       # install dep
       - npm install
       - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
