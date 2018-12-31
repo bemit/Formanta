@@ -20,6 +20,8 @@ build: &build
     script:
       #- rsync -av --exclude='.git' --exclude='node_modules' . ../build_tmp && mv ../build_tmp ./build
       - rm -rf node_modules/*
+      # check against: is currently the package.json for developing or production existing
+      - if [ -f ./package-dev.json ]; then echo "Installing Developer Packages"; git submodule update --init --recursive; else echo "Installing Production Packages"; fi
       # install dep
       - npm install
       - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
@@ -44,6 +46,37 @@ test: &test
       - npm run check-ci
     artifacts:
       - test-reports/**
+
+testVersion: &testVersion
+  step:
+    name: Test Last Prod and Dev
+    trigger: manual
+    script:
+      # react-app dependency is the same
+      - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
+      - cd ../react-app && yarn install && cd ../build
+      # clean
+      - rm -rf node_modules/*
+      - rm -rf package-lock.json
+      # check against: dev
+      - if [ ! -f ./package-dev.json ]; then echo "Switch To Developer Packages"; mv package.json package-prod.json; mv package-dev.json package.json; fi
+      - git submodule update --init --recursive;
+      ## build
+      - npm install
+      - npm run build
+      - npm run archive
+      # clean
+      - rm -rf node_modules/*
+      - rm -rf package-lock.json
+      # check against: prod
+      - if [ ! -f ./package-prod.json ]; then echo "Switch To Prod Packages"; mv package.json package-dev.json; mv package-prod.json package.json; fi
+      - git submodule update --init --recursive;
+      ## build
+      - npm install
+      - npm run build
+      - npm run archive
+    artifacts:
+      - archive/**
 
 publish: &publish
   step:
@@ -75,6 +108,10 @@ artifactSaveTag: &artifactSaveTag
 ## Actual Pipeline
 
 pipelines:
+  custom:
+    testVersion:
+      - <<: *build
+      - <<: *testVersion
   default:
     - <<: *build
     - <<: *test
