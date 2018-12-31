@@ -50,7 +50,6 @@ test: &test
 testVersion: &testVersion
   step:
     name: Test Last Prod and Dev
-    trigger: manual
     script:
       # react-app dependency is the same
       - git clone https://bitbucket.org/bemit_eu/formanta.module.react-app ../react-app
