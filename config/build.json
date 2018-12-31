@@ -1,8 +1,4 @@
 {
-  "main": {
-    "view": "main.twig",
-    "static": "index.html"
-  },
   "demo": {
     "view": "demo.twig",
     "static": "demo.html"

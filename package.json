@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "homepage": "https://formanta.bemit.codes",
   "license": "(LGPL-3.0 OR CECILL-C)",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://bitbucket.org/bemit_eu/formanta.git"
@@ -11,10 +12,10 @@
     "docs": "https://help.formanta.bemit.codes"
   },
   "dependencies": {
-    "@bemit/formantablocks": "git+https://bitbucket.org/bemit_eu/formantablocks-js.git"
+    "@formanta/blocks": "file:./dev-pkg/formantablocks"
   },
   "scripts": {
-    "install": "(npm run installAsset) && (npm run installReactApp)",
+    "installAll": "npm i && (npm run installAsset) && (npm run installReactApp)",
     "installAsset": "(cd ./asset && (npm install))",
     "installReactApp": "(cd ./react-app && (yarn install))",
     "update": "(cd ./asset && (npm update))",

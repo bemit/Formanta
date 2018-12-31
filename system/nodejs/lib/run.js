@@ -7,7 +7,7 @@ module.exports = new Promise((resolve, reject) => {
      */
     let boot = require('./boot');
     boot.then((config) => {
-        const {Runner, Config, startTime, endTime} = require('@bemit/formantablocks');
+        const {Runner, Config, startTime, endTime} = require('@formanta/blocks');
 
         startTime('formanta--run');
         /**
