@@ -12,7 +12,7 @@
     "docs": "https://help.formanta.bemit.codes"
   },
   "dependencies": {
-    "@formanta/blocks": "^0.1.4"
+    "@formanta/blocks": "file:./dev-pkg/formantablocks"
   },
   "scripts": {
     "installAll": "npm i && (npm run installAsset) && (npm run installReactApp)",
