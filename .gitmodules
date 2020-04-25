@@ -1,133 +1,133 @@
 [submodule "insulo-runner"]
-	path = _dev/dev-pkg/insulo-runner
+	path = asset/_dev/dev-pkg/insulo-runner
 	url = https://bitbucket.org/bemit_eu/insulo-runner.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-archiver"]
-	path = _dev/dev-pkg/insulo-archiver
+	path = asset/_dev/dev-pkg/insulo-archiver
 	url = https://bitbucket.org/bemit_eu/insulo-archiver.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-media-optimizer"]
-	path = _dev/dev-pkg/insulo-media-optimizer
+	path = asset/_dev/dev-pkg/insulo-media-optimizer
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-watcher"]
-	path = _dev/dev-pkg/insulo-watcher
+	path = asset/_dev/dev-pkg/insulo-watcher
 	url = https://bitbucket.org/bemit_eu/insulo-watcher.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.archive"]
-	path = _dev/dev-pkg/formanta.build-task.archive
+	path = asset/_dev/dev-pkg/formanta.build-task.archive
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.archive.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.clean"]
-	path = _dev/dev-pkg/formanta.build-task.clean
+	path = asset/_dev/dev-pkg/formanta.build-task.clean
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.clean.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.media"]
-	path = _dev/dev-pkg/formanta.build-task.media
+	path = asset/_dev/dev-pkg/formanta.build-task.media
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.media.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.react-app"]
-	path = _dev/dev-pkg/formanta.build-task.react-app
+	path = asset/_dev/dev-pkg/formanta.build-task.react-app
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.react-app.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.sass"]
-	path = _dev/dev-pkg/formanta.build-task.sass
+	path = asset/_dev/dev-pkg/formanta.build-task.sass
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.sass.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack"]
-	path = _dev/dev-pkg/formanta.build-task.webpack
+	path = asset/_dev/dev-pkg/formanta.build-task.webpack
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-es6"]
-	path = _dev/dev-pkg/formanta.build-task.webpack-config-es6
+	path = asset/_dev/dev-pkg/formanta.build-task.webpack-config-es6
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-es6.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-jsx"]
-	path = _dev/dev-pkg/formanta.build-task.webpack-config-jsx
+	path = asset/_dev/dev-pkg/formanta.build-task.webpack-config-jsx
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-jsx.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-polymer"]
-	path = _dev/dev-pkg/formanta.build-task.webpack-config-polymer
+	path = asset/_dev/dev-pkg/formanta.build-task.webpack-config-polymer
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-polymer.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-vue"]
-	path = _dev/dev-pkg/formanta.build-task.webpack-config-vue
+	path = asset/_dev/dev-pkg/formanta.build-task.webpack-config-vue
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-vue.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-sass"]
-	path = _dev/dev-pkg/formanta.build-task.webpack-config-sass
+	path = asset/_dev/dev-pkg/formanta.build-task.webpack-config-sass
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-sass.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formanta.build-task.webpack-config-html"]
-	path = _dev/dev-pkg/formanta.build-task.webpack-config-html
+	path = asset/_dev/dev-pkg/formanta.build-task.webpack-config-html
 	url = https://bitbucket.org/bemit_eu/formanta.build-task.webpack-config-html.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-media-optimizer-handler-svg"]
-	path = _dev/dev-pkg/insulo-media--svg
+	path = asset/_dev/dev-pkg/insulo-media--svg
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-svg
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-media-optimizer-handler-dynamic"]
-	path = _dev/dev-pkg/insulo-media--dynamic
+	path = asset/_dev/dev-pkg/insulo-media--dynamic
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-dynamic
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-media-optimizer-handler-gif"]
-	path = _dev/dev-pkg/insulo-media--gif
+	path = asset/_dev/dev-pkg/insulo-media--gif
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-gif
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-media-optimizer-handler-handbrake"]
-	path = _dev/dev-pkg/insulo-media--handbrake
+	path = asset/_dev/dev-pkg/insulo-media--handbrake
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-handbrake
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-media-optimizer-handler-jpg"]
-	path = _dev/dev-pkg/insulo-media--jpg
+	path = asset/_dev/dev-pkg/insulo-media--jpg
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-jpg
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-media-optimizer-handler-png"]
-	path = _dev/dev-pkg/insulo-media--png
+	path = asset/_dev/dev-pkg/insulo-media--png
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-png
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "insulo-media-optimizer-handler-image-transform"]
-	path = _dev/dev-pkg/insulo-media--image-transform
+	path = asset/_dev/dev-pkg/insulo-media--image-transform
 	url = https://bitbucket.org/bemit_eu/insulo-media-optimizer-handler-image-transform.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formantasass"]
-	path = dev-pkg/formantasass
+	path = asset/dev-pkg/formantasass
 	url = https://bitbucket.org/bemit_eu/formantasass.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formantasass-core"]
-	path = dev-pkg/formantasass-core
+	path = asset/dev-pkg/formantasass-core
 	url = https://bitbucket.org/bemit_eu/formantasass-core.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formantajs"]
-	path = dev-pkg/formantajs
+	path = asset/dev-pkg/formantajs
 	url = https://bitbucket.org/bemit_eu/formantajs.git
 	branch = master
 	fetchrecursesubmodules = true
 [submodule "formantasass-doctheme"]
-	path = dev-pkg/formantasass-doctheme
+	path = asset/dev-pkg/formantasass-doctheme
 	url = https://bitbucket.org/bemit_eu/formantasass-doctheme.git

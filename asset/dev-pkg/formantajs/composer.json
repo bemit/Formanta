@@ -1,0 +1,24 @@
+{
+  "name": "bemit/formantajs",
+  "description": "",
+  "homepage": "https://formanta.bemit.eu/",
+  "license": [
+    "LGPL-3.0",
+    "CECILL-C"
+  ],
+  "authors": [
+    {
+      "name": "Michael Becker, bemit UG",
+      "email": "mb@project.bemit.eu",
+      "homepage": "https://bemit.eu",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "support@bemit.codes",
+    "rss": "https://bitbucket.org/bemit_eu/formantajs",
+    "docs": "https://help.formanta.bemit.codes"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

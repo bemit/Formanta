@@ -1,0 +1,48 @@
+{
+  "name": "@insulo/archiver",
+  "description": "",
+  "version": "0.1.1",
+  "authors": [
+    {
+      "name": "Michael Becker",
+      "email": "michael@bemit.codes",
+      "homepage": "https://mlbr.xyz",
+      "role": "Developer"
+    }
+  ],
+  "license": "(LGPL-3.0 OR CECILL-C)",
+  "support": {
+    "docs": ""
+  },
+  "engines": {
+    "node": ">=10.14.2"
+  },
+  "scripts": {
+    "check": "npm test && npm run lint",
+    "test": "mocha test",
+    "lint": "eslint ./lib/Archiver.js",
+    "check-ci": "npm run test-ci && npm run lint-ci",
+    "test-ci": "mocha test --reporter mocha-junit-reporter --reporter-options mochaFile=./test-reports/mocha.xml",
+    "lint-ci": "eslint ./lib/Archiver.js -f junit -o ./test-reports/eslint.xml"
+  },
+  "main": "index.js",
+  "peerDependencies": {},
+  "dependencies": {
+    "@insulo/runner": "^0.1.3",
+    "archiver": "^3.0.0",
+    "fs-copy-file-sync": "^1.1.1",
+    "colors": "^1.3",
+    "glob": "^7.1.3",
+    "graceful-fs": "^4.1.15",
+    "ignore": "^5.0.4",
+    "jszip": "^3.1.5",
+    "targz": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.10.0",
+    "eslint-plugin-node": "^8.0.0",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0"
+  }
+}
