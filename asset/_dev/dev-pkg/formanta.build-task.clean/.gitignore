@@ -1,0 +1,20 @@
+# PHP Storm
+.idea
+
+# IntelliJ
+/*.iml
+
+# NodeJS
+node_modules
+
+# Build
+build
+build.zip
+
+# Tests test-reports
+test-reports
+test-reports.zip
+test-data
+
+# Mac
+.DS_Store\

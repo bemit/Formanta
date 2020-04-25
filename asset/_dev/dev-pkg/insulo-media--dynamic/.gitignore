@@ -1,0 +1,14 @@
+# PHP Storm
+.idea
+
+# IntelliJ
+/*.iml
+
+# NodeJS
+node_modules
+
+# Tests
+test-reports
+
+# Mac
+.DS_Store\
