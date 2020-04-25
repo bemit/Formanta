@@ -6,7 +6,12 @@ const {handle} = require('./handle');
 
 const Runner = require('@insulo/runner');
 
-const CI = process.env.CI || false;
+const failForCI = (code = 1) => {
+    if(process.env.CI) {
+        // eslint-disable-next-line no-process-exit
+        process.exit(code);
+    }
+};
 
 /**
  * Defining public tasks, see `handle.js` for the internal tasks
@@ -28,9 +33,7 @@ let tasks = {
                 .then()
                 .catch((err) => {
                     Runner.log().error('tasker.tasks.clean: handle failed with error:: ' + err);
-                    if(CI) {
-                        throw Error();
-                    }
+                    failForCI();
                 });
         }
     },
@@ -48,9 +51,7 @@ let tasks = {
                 .then()
                 .catch((err) => {
                     Runner.log().error('tasker.tasks.build: handle failed with error:: ' + err);
-                    if(CI) {
-                        throw Error();
-                    }
+                    failForCI();
                 });
         }
     },
@@ -68,9 +69,7 @@ let tasks = {
                 .then()
                 .catch((err) => {
                     Runner.log().error('tasker.tasks.build-no-media: handle failed with error:: ' + err);
-                    if(CI) {
-                        throw Error();
-                    }
+                    failForCI();
                 });
         }
     },
@@ -89,9 +88,7 @@ let tasks = {
                 .then()
                 .catch((err) => {
                     Runner.log().error('tasker.tasks.watch: handle failed with error:: ' + err);
-                    if(CI) {
-                        throw Error();
-                    }
+                    failForCI();
                 });
         }
     },
@@ -110,9 +107,7 @@ let tasks = {
                 .then()
                 .catch((err) => {
                     Runner.log().error('tasker.tasks.archive: handle failed with error:: ' + err);
-                    if(CI) {
-                        throw Error();
-                    }
+                    failForCI();
                 });
         }
     },

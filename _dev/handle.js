@@ -1,6 +1,5 @@
 const {run, sequential, parallel, log} = require('@insulo/runner/pretty');
 
-//const fs = require('fs');
 const path = require('path');
 
 const colors = require('colors/safe');
@@ -18,10 +17,7 @@ const {ROOT_DIR, ASSET_DIR, BUILD_DIR} = require('../path');
  * @param {boolean} watch global switch to turn on watching, only `clean` and `archive` are not supporting `watch` at all
  */
 module.exports.handle = (watch = true) => {
-
-    let current_date = new Date();
-    // create pretty date in YYYY-MM-DD_HH-MM-SS
-    let pretty_date = current_date.getFullYear() + '-' + ((current_date.getMonth() + 1) + '').padStart(2, '0') + '-' + (current_date.getDate() + '').padStart(2, '0') + '_' + (current_date.getHours() + '').padStart(2, '0') + '-' + (current_date.getMinutes() + '').padStart(2, '0') + '-' + (current_date.getSeconds() + '').padStart(2, '0');
+    let pretty_date = log.longDate();
 
     /**
      * Build Config for Tasks
@@ -154,13 +150,11 @@ module.exports.handle = (watch = true) => {
             config.sass, // config for task
             colors.underline.blue('task--sass') // name for logging
         ),
-        clean: () => {
-            return run(
-                require('@formanta/build-task.clean'),
-                config.clean,
-                colors.underline.blue('task--clean')
-            )();
-        },
+        clean: run(
+            require('@formanta/build-task.clean'),
+            config.clean,
+            colors.underline.blue('task--clean')
+        ),
         media: () => {
             // Asset Files like JPG, PNG, SVG, MP4 and Generic Copying for e.g. PDF
             return new Promise((resolve) => {

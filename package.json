@@ -18,7 +18,6 @@
     "lint-ci": "eslint ./_dev/handle.js ./_dev/tasker.js -f junit -o ./test-reports/eslint.xml"
   },
   "devDependencies": {
-    "fs-copy-file-sync": "^1.1.1",
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
@@ -55,7 +54,7 @@
     "@formanta/build-task.clean": "^0.1.2",
     "@formanta/build-task.media": "^0.1.1",
     "@formanta/build-task.react-app": "^0.1.3",
-    "@formanta/build-task.sass": "^0.1.2",
+    "@formanta/build-task.sass": "^0.1.3",
     "@formanta/build-task.webpack": "^0.1.1",
     "@formanta/build-task.webpack-config-es6": "^0.1.1",
     "@formanta/build-task.webpack-config-html": "^0.1.1",
