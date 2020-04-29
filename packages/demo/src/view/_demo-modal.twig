@@ -1,0 +1,20 @@
+<section class="demo">
+    <h2 class="demo-title">Modal</h2>
+
+    <button onclick="this.nextElementSibling.classList.toggle('hide')">Open</button>
+
+    <div class="modal-mask hide" onclick="this.classList.toggle('hide')">
+        <div class="modal" onclick="event.stopPropagation();">
+            <div class="modal-head flex">
+                <p class="modal-title mt0">Modal Example</p>
+                <button class="btn-round mba mla" onclick="this.parentNode.parentNode.parentNode.classList.toggle('hide')">X</button>
+            </div>
+            <div class="modal-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="button-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</section>

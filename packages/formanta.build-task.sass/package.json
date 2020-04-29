@@ -1,0 +1,53 @@
+{
+  "name": "@formanta/build-task.sass",
+  "description": "Sass to CSS with intelligent file watcher, integrated postcss autoprefixer.",
+  "version": "0.1.5",
+  "authors": [
+    {
+      "name": "Michael Becker",
+      "email": "michael@bemit.codes",
+      "homepage": "https://mlbr.xyz",
+      "role": "Developer"
+    }
+  ],
+  "license": "MIT",
+  "support": {
+    "docs": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/bemit_eu/formanta.build-task.sass.git"
+  },
+  "bugs": {
+    "url": "https://bemit-eu.atlassian.net/projects/EFORBSASS/issues"
+  },
+  "engines": {
+    "node": ">=10.14.2"
+  },
+  "scripts": {
+    "check": "npm test && npm run lint",
+    "test": "mocha test",
+    "lint": "eslint index.js",
+    "check-ci": "npm run test-ci && npm run lint-ci",
+    "test-ci": "mocha test --reporter mocha-junit-reporter --reporter-options mochaFile=./test-reports/mocha.xml",
+    "lint-ci": "eslint index.js -f junit -o ./test-reports/eslint.xml"
+  },
+  "main": "index.js",
+  "peerDependencies": {},
+  "dependencies": {
+    "@insulo/runner": "^0.1.4",
+    "@insulo/watcher": "^0.1.1",
+    "autoprefixer": "^9.3.1",
+    "colors": "^1.3",
+    "node-sass": "^4.9.4",
+    "postcss": "^7.0.5",
+    "sass-graph": "^3.0.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.10.0",
+    "eslint-plugin-node": "^8.0.0",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0"
+  }
+}

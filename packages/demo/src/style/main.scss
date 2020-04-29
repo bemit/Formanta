@@ -1,0 +1,35 @@
+//@import "node_modules/@formanta/sass/main.scss";
+@import "../../../formantasass/meta";
+
+.bg-grey {
+    min-height: 2rem;
+    position: relative;
+
+    &:after {
+        background: grey;
+        content: '';
+        margin: space(1);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+}
+
+.bg-grey-raw {
+    background: grey;
+    color: white;
+}
+
+
+.demo-title {
+    background: lightgrey;
+    color: black;
+    font-style: italic;
+    padding: space(2) space(4);
+    margin-top: space(5)
+}
+
+@import "../../../formantasass/style";

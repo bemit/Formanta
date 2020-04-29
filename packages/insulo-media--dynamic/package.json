@@ -1,0 +1,41 @@
+{
+  "name": "@insulo/media-optimizer-handler-dynamic",
+  "description": "",
+  "version": "0.1.2",
+  "authors": [
+    {
+      "name": "Michael Becker",
+      "email": "michael@bemit.codes",
+      "homepage": "https://mlbr.xyz",
+      "role": "Developer"
+    }
+  ],
+  "license": "MIT",
+  "support": {
+    "docs": ""
+  },
+  "engines": {
+    "node": ">=10.14.2"
+  },
+  "scripts": {
+    "check": "npm test && npm run lint",
+    "test": "mocha test",
+    "lint": "eslint index.js",
+    "check-ci": "npm run test-ci && npm run lint-ci",
+    "test-ci": "mocha test --reporter mocha-junit-reporter --reporter-options mochaFile=./test-reports/mocha.xml",
+    "lint-ci": "eslint index.js -f junit -o ./test-reports/eslint.xml"
+  },
+  "main": "index.js",
+  "peerDependencies": {
+    "@insulo/media-optimizer": "^0.1.4"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@insulo/media-optimizer": "^0.1.x",
+    "chai": "^4.2.0",
+    "eslint": "^5.10.0",
+    "eslint-plugin-node": "^8.0.0",
+    "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0"
+  }
+}

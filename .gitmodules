@@ -1,0 +1,3 @@
+[submodule "packages/formantasass"]
+	path = packages/formantasass
+	url = https://github.com/bemit/FormantaSass.git
