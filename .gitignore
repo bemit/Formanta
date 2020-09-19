@@ -10,7 +10,7 @@
 /dist
 
 # Composer
-/vendor
+#/vendor
 
 # NodeJS
 node_modules
