@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - 12
 install:
+  - bash deploy.sh
   - npm install -g codecov
   - npm ci
   - npm run bootstrap && npm run hoist
