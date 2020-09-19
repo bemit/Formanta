@@ -1,6 +1,7 @@
 //@import "node_modules/@formanta/sass/main.scss";
 @import "../../../formantasass/meta";
 
+
 .bg-grey {
     min-height: 2rem;
     position: relative;
@@ -30,6 +31,18 @@
     font-style: italic;
     padding: space(2) space(4);
     margin-top: space(5)
+}
+
+.copy-success {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+    padding: 3px;
+    background: rgba(200, 200, 200, 0.9);
+    color: #000000;
 }
 
 @import "../../../formantasass/style";

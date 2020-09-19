@@ -1,50 +1,48 @@
 {
-  "name": "@formanta/blocks",
-  "description": "StaticSide Generator for NodeJS with Twig.",
-  "homepage": "https://formanta.bemit.codes",
-  "version": "0.1.4",
-  "authors": [
-    {
-      "name": "Michael Becker",
-      "email": "michael@bemit.codes",
-      "homepage": "https://mlbr.xyz",
-      "role": "Developer"
+    "name": "@formanta/blocks",
+    "description": "StaticSide Generator for NodeJS with Twig.",
+    "homepage": "https://formanta.bemit.codes",
+    "version": "0.1.5",
+    "authors": [
+        {
+            "name": "Michael Becker",
+            "email": "michael@bemit.codes",
+            "homepage": "https://mlbr.xyz",
+            "role": "Developer"
+        },
+        {
+            "name": "bemit UG (haftungsbeschränkt)",
+            "email": "project@bemit.codes",
+            "homepage": "https://bemit.eu",
+            "role": "Sponsor"
+        }
+    ],
+    "license": "MIT",
+    "engines": {
+        "node": ">=10.14.2"
     },
-    {
-      "name": "bemit UG (haftungsbeschränkt)",
-      "email": "project@bemit.codes",
-      "homepage": "https://bemit.eu",
-      "role": "Sponsor"
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bemit/Formanta.git",
+        "directory": "packages/formantablocks"
+    },
+    "scripts": {
+        "check": "npm test && npm run lint",
+        "test": "mocha test",
+        "lint": "eslint index.js src",
+        "check-ci": "npm run test-ci && npm run lint-ci",
+        "test-ci": "mocha test --reporter mocha-junit-reporter --reporter-options mochaFile=./test-reports/mocha.xml",
+        "lint-ci": "eslint index.js src -f junit -o ./test-reports/eslint.xml"
+    },
+    "main": "index.js",
+    "dependencies": {
+        "twig": "^1.12.0"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "eslint": "^7.9.0",
+        "eslint-plugin-node": "^11.1.0",
+        "mocha": "^8.1.3",
+        "mocha-junit-reporter": "^2.0.0"
     }
-  ],
-  "license": "MIT",
-  "support": {
-    "docs": "https://help.formanta.bemit.codes"
-  },
-  "engines": {
-    "node": ">=10.14.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://bitbucket.org/bemit_eu/formantablocks-js.git"
-  },
-  "scripts": {
-    "check": "npm test && npm run lint",
-    "test": "mocha test",
-    "lint": "eslint index.js src",
-    "check-ci": "npm run test-ci && npm run lint-ci",
-    "test-ci": "mocha test --reporter mocha-junit-reporter --reporter-options mochaFile=./test-reports/mocha.xml",
-    "lint-ci": "eslint index.js src -f junit -o ./test-reports/eslint.xml"
-  },
-  "main": "index.js",
-  "dependencies": {
-    "twig": "^1.12.0"
-  },
-  "devDependencies": {
-    "chai": "^4.2.0",
-    "eslint": "^5.10.0",
-    "eslint-plugin-node": "^8.0.0",
-    "mocha": "^5.2.0",
-    "mocha-junit-reporter": "^1.18.0"
-  }
 }

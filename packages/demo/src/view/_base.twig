@@ -6,8 +6,146 @@
 
 {% block footer_inner__ %}
     <div class="footer--end">
-        <p>© 2015 - 2020 <a href="https://bemit.eu">bemit
-                <small> UG (haftungsbeschränkt)</small>
-            </a> | <a href="https://support.bemit.codes">Support</a></p>
+        <p>
+            © 2015 - 2020
+            <a href="https://mlbr.xyz">Michael Becker</a>,
+            <a href="https://bemit.eu">bemit<small> UG (haftungsbeschränkt)</small></a>
+        </p>
     </div>
+    <script>
+        let selectorInspectState = {inspect: false};
+        let toggleInspectBtn = document.getElementById('toggle-inspect');
+
+        function isSelectorInspect() {
+            return selectorInspectState.inspect;
+        }
+
+        function toggleInspectFunction(cb) {
+            return function() {
+                let inspect = isSelectorInspect();
+                selectorInspectState.inspect = !inspect;
+                window.localStorage.setItem('selector-inspect', selectorInspectState.inspect ? '1' : '0');
+                if(selectorInspectState.inspect) {
+                    toggleInspectBtn.innerText = 'Disable Inspect';
+                    toggleInspectBtn.classList.add('btn-danger');
+                } else {
+                    toggleInspectBtn.innerText = 'Enable Inspect';
+                    toggleInspectBtn.classList.remove('btn-danger');
+                }
+                if(cb) {
+                    cb()
+                }
+            }
+        }
+
+        if(window.localStorage.getItem('selector-inspect') * 1) {
+            selectorInspectState.inspect = true;
+            toggleInspectBtn.innerText = 'Disable Inspect';
+            toggleInspectBtn.classList.add('btn-danger');
+        }
+
+        toggleInspectBtn.addEventListener('click', toggleInspectFunction());
+
+        function doCopy(evt) {
+            let tmp_inp = document.createElement('textarea');
+            tmp_inp.value = evt.target.parentNode.parentNode.querySelector('.classes').innerText;
+            tmp_inp.setAttribute('readonly', '');
+            tmp_inp.style = {position: 'absolute', left: '-9999px'};
+            document.body.appendChild(tmp_inp);
+            tmp_inp.select();
+            document.execCommand('copy');
+            document.body.removeChild(tmp_inp);
+
+            let tmp_success = document.createElement('span');
+            tmp_success.classList.add('copy-success');
+            tmp_success.innerText = 'Copied to clipboard!';
+            evt.target.classList.add('active');
+            evt.target.appendChild(tmp_success);
+
+            setTimeout(() => {
+                evt.target.classList.remove('active');
+                evt.target.removeChild(tmp_success);
+            }, 1200);
+        }
+
+
+        function getParentClass(element) {
+            if(element.classList.contains('demo')) return undefined;
+            let classes = '';
+
+            if(element && element.tagName) {
+                classes = element.tagName.toLowerCase();
+            }
+
+            if(element && element.classList && element.classList.length) {
+                classes = classes + '.' + Array.from(element.classList).join('.');
+            }
+            if(element.parentNode) {
+                let parentClass = getParentClass(element.parentNode);
+                classes = (parentClass ? parentClass + ' > ' : '') + classes
+            }
+
+            return classes;
+        }
+
+        let demoNodes = Array.from(document.querySelectorAll('.demo'));
+        let popup = null;
+        demoNodes.forEach(function(node) {
+            node.addEventListener('mousemove', function(e) {
+                if(popup) {
+                    popup.remove();
+                }
+                if(!(window.localStorage.getItem('selector-inspect') * 1)) {
+                    return;
+                }
+                let x = e.clientX, y = e.clientY,
+                    elementMouseIsOver = document.elementFromPoint(x, y);
+
+                let classes = getParentClass(elementMouseIsOver);
+                if(!classes) return;
+
+                popup = document.createElement('span');
+                popup.style.border = '1px solid #666';
+                popup.style.background = '#ffffff';
+                popup.style.position = 'fixed';
+                popup.style.zIndex = '100';
+                popup.style.left = x + 'px';
+                popup.style.top = y + 'px';
+                popup.style.padding = '6px 9px';
+                popup.style.marginLeft = '4px';
+                popup.classList.add('font-family-mono');
+
+                let copy = document.createElement('button');
+                copy.classList.add('px1')
+                copy.classList.add('btn')
+                copy.innerText = '📄';
+                copy.title = 'Copy to Clipboard'
+                copy.alt = 'Copy to Clipboard'
+                copy.addEventListener('click', doCopy);
+                popup.appendChild(copy);
+
+                let end = document.createElement('button');
+                end.classList.add('px1')
+                end.classList.add('btn')
+                end.innerText = '⭕'
+                end.title = 'End Inspect'
+                end.alt = 'End Inspect'
+                end.addEventListener('click', toggleInspectFunction(function() {
+                    popup.remove()
+                }));
+                popup.appendChild(end);
+
+                let label = document.createElement('span');
+                label.classList.add('classes');
+                label.classList.add('inline-block');
+                label.classList.add('ml1');
+                label.innerText = classes;
+                popup.appendChild(label);
+
+                if(popup.innerText) {
+                    document.body.appendChild(popup);
+                }
+            })
+        })
+    </script>
 {% endblock %}

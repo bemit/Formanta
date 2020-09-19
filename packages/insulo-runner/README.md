@@ -207,10 +207,6 @@ log.end('Name', start_date, new Date(), 'Suffix');
 // [10:45:50] Finished `Name` after 50ms Suffix
 ```
 
-## Help & Support
-
-- [Issues](https://bemit-eu.atlassian.net/projects/EINSRUN/issues)
-
 ## Licence
 
 This project is free software distributed under the terms of two licences, the CeCILL-C and the GNU Lesser General Public License. You can use, modify and/ or redistribute the software under the terms of CeCILL-C (v1) for Europe or GNU LGPL (v3) for the rest of the world.

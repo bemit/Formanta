@@ -1,7 +1,7 @@
 {
   "name": "@insulo/media-optimizer",
   "description": "",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "authors": [
     {
       "name": "Michael Becker",
@@ -11,9 +11,6 @@
     }
   ],
   "license": "MIT",
-  "support": {
-    "docs": ""
-  },
   "engines": {
     "node": ">=10.14.2"
   },
@@ -26,25 +23,17 @@
     "lint-ci": "eslint index.js -f junit -o ./test-reports/eslint.xml"
   },
   "main": "index.js",
-  "peerDependencies": {
-    "@insulo/media-optimizer-handler-dynamic": "^0.1.2",
-    "@insulo/media-optimizer-handler-gif": "^0.1.2",
-    "@insulo/media-optimizer-handler-handbrake": "^0.1.2",
-    "@insulo/media-optimizer-handler-jpg": "^0.1.2",
-    "@insulo/media-optimizer-handler-png": "^0.1.1",
-    "@insulo/media-optimizer-handler-svg": "^0.1.2"
-  },
   "dependencies": {
     "colors": "^1.3",
-    "glob": "^7.1.3",
-    "@insulo/runner": "^0.1.3",
-    "@insulo/watcher": "^0.1.1"
+    "glob": "^7.1.6",
+    "@insulo/runner": "~0.1.6",
+    "@insulo/watcher": "~0.1.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint": "^5.10.0",
-    "eslint-plugin-node": "^8.0.0",
-    "mocha": "^5.2.0",
-    "mocha-junit-reporter": "^1.18.0"
+    "eslint": "^7.9.0",
+    "eslint-plugin-node": "^11.1.0",
+    "mocha": "^8.1.3",
+    "mocha-junit-reporter": "^2.0.0"
   }
 }

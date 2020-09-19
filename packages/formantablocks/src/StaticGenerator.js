@@ -32,11 +32,10 @@ module.exports = class StaticGenerator {
                     console.error('!# BuildedInfo file not valid: ' + this.config.storeBuildedInfo());
                 }
             } catch(e) {
-                console.error('!# BuildedInfo file not readable/writeable: ' + this.config.storeBuildedInfo());
+                //throw new Error('!# BuildedInfo file not readable/writeable: ' + this.config.storeBuildedInfo());
                 //return;
             }
         }
-
         this.renderer = new Renderer(this.config);
     }
 

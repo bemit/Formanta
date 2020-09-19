@@ -62,16 +62,7 @@ module.exports.handle = (watch = true) => {
                         'src/view': 'module'
                     }
                 },
-                build: {
-                    index: {
-                        view: 'index.twig',
-                        static: 'index.html'
-                    },
-                    demo: {
-                        view: 'demo.twig',
-                        static: 'demo.html'
-                    }
-                }
+                build: require('./pages')
             }));
 
             if(watch) {
@@ -211,7 +202,7 @@ module.exports.handle = (watch = true) => {
                     task.clean,
                     parallel([
                         task_group.style,
-                        //task.twig,
+                        () => watch ? Promise.resolve() : task.twig(),
                         task.media,
                     ]),
                 ]), [],

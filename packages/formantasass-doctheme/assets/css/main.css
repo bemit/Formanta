@@ -132,7 +132,7 @@ body {
 a {
     transition      : 0.15s;
     text-decoration : none;
-    color           : #ff840990;
+    color           : #fda146;
 }
 
 a:hover, a:hover code {
@@ -144,7 +144,7 @@ table p {
 }
 
 :not(pre) > code {
-    color       : #ff840990;
+    color       : #fda146;
     white-space : pre-wrap;
     font-weight : normal
 }
@@ -411,7 +411,7 @@ table p {
 }
 
 .sidebar__item--heading:hover:after, .sidebar__item--sub-heading:hover:after {
-    color : #ff840990;
+    color : #fda146;
 }
 
 .sidebar__item--heading:after, .sidebar__item--sub-heading:after {
@@ -515,7 +515,7 @@ table p {
 
 .main__heading--secondary {
     font-size      : 3em;
-    color          : #ff840990;
+    color          : #ff8409;
     text-transform : uppercase;
     font-weight    : bold;
     padding-top    : 0;
@@ -536,7 +536,7 @@ table p {
     right            : 0;
     bottom           : 0.19em;
     height           : 0.1em;
-    background-color : #ff840990
+    background-color : #ff8409
 }
 
 .footer {
@@ -589,7 +589,7 @@ table p {
 }
 
 .item__name {
-    color : #ff840990
+    color : #fda146
 }
 
 .item__example {
@@ -1002,7 +1002,7 @@ li.item__description {
     }
 
     .sidebar__body > div > .sidebar__item.sidebar__item--sub-heading:hover a {
-        color : #ff840990;
+        color : #fda146;
     }
 
     .sidebar__body > div > .sidebar__item.sidebar__item--sub-heading {
