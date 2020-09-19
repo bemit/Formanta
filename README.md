@@ -1,149 +1,33 @@
-# Formanta Project
+<p align="center">
+  <a href="https://formanta.bemit.codes" rel="noopener noreferrer" target="_blank"><img width="125" src="https://formanta.bemit.codes/formanta_logo.svg" alt="Formanta Logo"></a>
+</p>
 
-- [Formanta](https://bitbucket.org/bemit_eu/formanta)
-    - [FormantaBlocks](https://bitbucket.org/bemit_eu/formantablocks)
-    - [FormantaBlocks-JS](https://bitbucket.org/bemit_eu/formantablocks-js)
-- [FormantaSass: Core](https://bitbucket.org/bemit_eu/formantasass-core)
-    - [FormantaSass](https://bitbucket.org/bemit_eu/formantasass), extension with further components for web-apps
-- [FormantaJS](https://bitbucket.org/bemit_eu/formantajs)
+<h1 align="center">Formanta & Insulo Monorepo</h1>
 
-With Formanta you get a quick start boilerplate for integrated frontend development and in general a StaticSide Generator ready to go.
+Two libraries to empower assets related tasks and help to build & style web pages and more.
 
-The Static Side Generator could be run with NodeJS or PHP and the CLI interface is in the root directory
+Only ready package is `@formanta/sass`.
 
-> Formanta is a work-in-progress and currently PHP and NodeJS features aren't alike, this will be from version 0.9 onwards.
-> Current versions:
-> - Formanta `in-work`
-> - FormantaBlocks PHP `in-work`
-> - FormantaBlocks NodeJS `in-work`
-> - FormantaSass: Core `stable, inline-doc`
-> - FormantaSass `empty`
-> - FormantaJS `old concept files`, see [Canal: Asset](https://bitbucket.org/bemit_eu/canal-asset), [Canal: Admin](https://bitbucket.org/bemit_eu/canal-admin) for features which will be integrated
-
-## Setup
-
-For PHP or NodeJS, setup with Git:
-
-    git clone --recurse-submodules -j8 https://bitbucket.org/bemit_eu/formanta.git
-
-Only for PHP, setup with composer, git submodule asset must be initialized extra:
-
-    composer create-project bemit/formanta
-    
-### Install Static Side Generator
-
-#### NodeJS System
-
-Install dependencies with `npm i` in root directory.
-
-#### PHP System
-
-Install dependencies with `composer install` in root directory.
-    
-## Usage
-
-### Config, Universal for PHP and NodeJS
-
-The config is in `config/*.json`.
-
-- `build.json` which static files should be made
-- `url.json` used for dev-server and output URL; index `view` is not used, concept
-- `view_system.json` Twig environment and declaring storage paths
-
-```text
-// todo: add content for configuration, choosing between JS and PHP and content management
-```
-
-### Asset Files
-
-See [README.Asset.md](README.Asset.md) and [/asset](/asset).
-
-### Connect React App
-
-See [README.React.md](README.React.md).
-
-### Express API Backend
-
-See [README.Express-API.md](README.Express-API.md).
-
-### View System
-
-The view system uses Twig as template language, through [npm:twig](https://www.npmjs.com/package/twig) in JS and [composer:twig/twig](https://packagist.org/packages/twig/twig) in PHP.
-
-Both are used with modified FS Loaders for enabling extended namespace usage and file_watcher handling.
-
-The existing files in `/view` are a quick boilerplate, see [/view/base/README.md](/view/base) for technical docs.
-   
-### Run with PHP
-
-Through the `package.php` file the runtime tasks are available:
-
-```bash
-# Builds static view files
-php package.php build
-# Builds static view files and adds file watcher onto the rendered views
-php package.php watch
-# Builds static view files and starts development server on localhost
-php package.php start
-```
- 
-### Run with NodeJS
-
-Through normal NPM tasks the runtime is available:
-
-```bash
-# Builds static view files
-npm run build
-# Builds static view files and adds file watcher onto the rendered views
-npm run watch
-# Builds static view files and starts development server on localhost
-npm run start
-```
-
-## Known Bugs / Static Side Generator
-
-File watcher only watches the entry view file defined in `build.json` and not which files are all used by this file. Needing to modify Twig FS Loader further to save 'used' templates for each rendered file and passing them back to the Renderer and the to runtime.
-
-Data is only possible to push globally to all templates, FormantaBlocks NodeJS hasn't implemented data loading at all, PHP tasks haven't implemented FormantaBlocks loading function.
-
-Data is only fetched once and not updated correctly on watcher.
-
-### Known NodeJS Bugs
-
-> atm. NodeJS feature set is not in parity with PHP
-
-Doesn't save already builded files into `system/builded.json` and thus isn't capable of cleaning old files.
-
-### Known PHP Bugs
-
-The file watcher doesn't re-render, as the twig cache interferences.
-
-## 10 Steps to Dev: PHP
-
-Needed: PHP >7.2, NodeJS >10.12/NPM, Composer, (Windows: recommended: Unix Shell Extension)
-
-1. open terminal
-1. run `composer create-project bemit/formanta` for installing the latest Formanta version through [composer](https://getcomposer.org/) and [packagist](https://packagist.org/), wait till finished.
-1. go inside dir `cd formanta`
-1. build view system and start server with running `php package.php start`
-    - change `/view/demo.twig`
-    - see `/build/demo.html`
-1. open another terminal
-1. change dir for asset files `cd asset`
-1. install asset dependencies and build tools with `npm i`
-1. build all assets `npm run watch`
-1. see `/build/style`, `/build/js`, `/build/media`
-1. open localhost [localhost:25200](http://localhost:25200) to see `/build/index.html`
-
-## Licence
-
-This project is free software distributed under the terms of two licences, the CeCILL-C and the GNU Lesser General Public License. You can use, modify and/ or redistribute the software under the terms of CeCILL-C (v1) for Europe or GNU LGPL (v3) for the rest of the world.
-
-This file and the LICENCE.* files need to be distributed and not changed when distributing.
-For more informations on the licences which are applied read: [LICENCE.md](LICENCE.md)
+- @formanta/build-task.archive [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.archive?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.archive)
+- @formanta/build-task.clean [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.clean?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.clean)
+- @formanta/build-task.media [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.media?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.media)
+- @formanta/build-task.sass [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.sass?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.sass)
+- @formanta/blocks [![npm (scoped)](https://img.shields.io/npm/v/@formanta/blocks?style=flat-square)](https://www.npmjs.com/package/@formanta/blocks)
+- @formanta/sass [![npm (scoped)](https://img.shields.io/npm/v/@formanta/sass?style=flat-square)](https://www.npmjs.com/package/@formanta/sass)
 
 
-# Copyright
+- @insulo/runner [![npm (scoped)](https://img.shields.io/npm/v/@insulo/runner?style=flat-square)](https://www.npmjs.com/package/@insulo/runner)
+- @insulo/watcher [![npm (scoped)](https://img.shields.io/npm/v/@insulo/watcher?style=flat-square)](https://www.npmjs.com/package/@insulo/watcher)
+- @insulo/archiver [![npm (scoped)](https://img.shields.io/npm/v/@insulo/archiver?style=flat-square)](https://www.npmjs.com/package/@insulo/archiver)
 
-    2018 | bemit UG (haftungsbeschränkt) - project@bemit.codes
-    Author: Michael Becker - michael@bemit.codes
+## License
+
+This project is free software distributed under the **MIT License**.
+
+See: [LICENSE](LICENSE).
+
+© 2015 - 2020 [Michael Becker](https://mlbr.xyz), bemit UG (haftungsbeschränkt)
+
+### Contributors
+
+By committing your code/creating a pull request to this repository you agree to release the code under the MIT License attached to the repository.

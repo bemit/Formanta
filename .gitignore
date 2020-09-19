@@ -1,34 +1,35 @@
-# Build Dir
-/build
-/build.zip
+# env variables
+.env
+.npmrc
 
-# Formanta Archiver Task
-/archive
+# default upload dir
+/upload
+
+# default tmp dir
+/tmp
+/dist
 
 # Composer
-composer\.lock
-
-# PHP Storm
-.idea
-
-# IntelliJ
-/*.iml
+#/vendor
 
 # NodeJS
 node_modules
-/package-lock.json
-/yarn.lock
-/yarn-error.log
 
-# Composer
-vendor
+lerna-debug.log
 
-# Bower
-bower_components
+# Temporary created by packer
+babel.config.json
 
-# Cache
-tmp
-!tmp/.gitkeep
+# Webpack profiling
+profile.json
+
 
 # Mac
-.DS_Store\
+.DS_Store
+
+#
+## JetBrains IDE's
+
+.idea/
+*.iml
+*.iws

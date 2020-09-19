@@ -1,0 +1,40 @@
+{
+  "name": "@insulo/media-optimizer-handler-jpg",
+  "description": "",
+  "version": "0.1.3",
+  "authors": [
+    {
+      "name": "Michael Becker",
+      "email": "michael@bemit.codes",
+      "homepage": "https://mlbr.xyz",
+      "role": "Developer"
+    }
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.14.2"
+  },
+  "scripts": {
+    "check": "npm test && npm run lint",
+    "test": "mocha test",
+    "lint": "eslint index.js",
+    "check-ci": "npm run test-ci && npm run lint-ci",
+    "test-ci": "mocha test --reporter mocha-junit-reporter --reporter-options mochaFile=./test-reports/mocha.xml",
+    "lint-ci": "eslint index.js -f junit -o ./test-reports/eslint.xml"
+  },
+  "main": "index.js",
+  "peerDependencies": {
+    "@insulo/media-optimizer": "~0.1.6"
+  },
+  "dependencies": {
+    "mozjpeg": "^7.0.0"
+  },
+  "devDependencies": {
+    "@insulo/media-optimizer": "0.1.x",
+    "chai": "^4.2.0",
+    "eslint": "^7.9.0",
+    "eslint-plugin-node": "^11.1.0",
+    "mocha": "^8.1.3",
+    "mocha-junit-reporter": "^2.0.0"
+  }
+}
