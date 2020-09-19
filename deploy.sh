@@ -6,8 +6,9 @@ echo "Token length: ${#NPM_TOKEN}"
 
 git submodule update --init --recursive
 
-npm ping
+# npm ping
+
 #npm run release
-#npm run release -- --yes
+npm run release -- --yes
 
 rm .npmrc
