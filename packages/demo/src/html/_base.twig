@@ -1,7 +1,6 @@
 {% extends '_main.twig' %}
 
 {% block head_style %}
-    <link href="{{ url.asset }}/style/main.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block footer_inner__ %}
@@ -13,28 +12,28 @@
         </p>
     </div>
     <script>
+        let popup = null;
         let selectorInspectState = {inspect: false};
         let toggleInspectBtn = document.getElementById('toggle-inspect');
+        let ignoreSystemClasses = ['bg-grey', 'bg-grey-raw', 'demo-title', 'copy-success'];
 
         function isSelectorInspect() {
             return selectorInspectState.inspect;
         }
 
-        function toggleInspectFunction(cb) {
-            return function() {
-                let inspect = isSelectorInspect();
-                selectorInspectState.inspect = !inspect;
-                window.localStorage.setItem('selector-inspect', selectorInspectState.inspect ? '1' : '0');
-                if(selectorInspectState.inspect) {
-                    toggleInspectBtn.innerText = 'Disable Inspect';
-                    toggleInspectBtn.classList.add('btn-danger');
-                } else {
-                    toggleInspectBtn.innerText = 'Enable Inspect';
-                    toggleInspectBtn.classList.remove('btn-danger');
+        function toggleInspectFunction() {
+            let inspect = isSelectorInspect();
+            selectorInspectState.inspect = !inspect;
+            window.localStorage.setItem('selector-inspect', selectorInspectState.inspect ? '1' : '0');
+            if(selectorInspectState.inspect) {
+                toggleInspectBtn.innerText = 'Disable Inspect';
+                toggleInspectBtn.classList.add('btn-danger');
+                if(popup) {
+                    popup.remove();
                 }
-                if(cb) {
-                    cb()
-                }
+            } else {
+                toggleInspectBtn.innerText = 'Enable Inspect';
+                toggleInspectBtn.classList.remove('btn-danger');
             }
         }
 
@@ -44,7 +43,7 @@
             toggleInspectBtn.classList.add('btn-danger');
         }
 
-        toggleInspectBtn.addEventListener('click', toggleInspectFunction());
+        toggleInspectBtn.addEventListener('click', toggleInspectFunction);
 
         function doCopy(evt) {
             let tmp_inp = document.createElement('textarea');
@@ -68,7 +67,6 @@
             }, 1200);
         }
 
-
         function getParentClass(element) {
             if(element.classList.contains('demo')) return undefined;
             let classes = '';
@@ -78,7 +76,12 @@
             }
 
             if(element && element.classList && element.classList.length) {
-                classes = classes + '.' + Array.from(element.classList).join('.');
+                let classesToJoin = Array.from(element.classList).filter(function(elem) {
+                    return ignoreSystemClasses.indexOf(elem) === -1
+                });
+                if(classesToJoin.length > 0) {
+                    classes = classes + '.' + classesToJoin.join('.');
+                }
             }
             if(element.parentNode) {
                 let parentClass = getParentClass(element.parentNode);
@@ -89,7 +92,6 @@
         }
 
         let demoNodes = Array.from(document.querySelectorAll('.demo'));
-        let popup = null;
         demoNodes.forEach(function(node) {
             node.addEventListener('mousemove', function(e) {
                 if(popup) {
@@ -130,9 +132,7 @@
                 end.innerText = '⭕'
                 end.title = 'End Inspect'
                 end.alt = 'End Inspect'
-                end.addEventListener('click', toggleInspectFunction(function() {
-                    popup.remove()
-                }));
+                end.addEventListener('click', toggleInspectFunction);
                 popup.appendChild(end);
 
                 let label = document.createElement('span');
