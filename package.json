@@ -9,7 +9,7 @@
         "bootstrap": "lerna bootstrap",
         "hoist": "lerna bootstrap --hoist",
         "test": "lerna run test",
-        "build": "lerna run build",
+        "build": "lerna run build && cp -a ./packages/formantasass/build/ ./packages/demo/build/docs",
         "release": "lerna publish from-package --no-git-reset"
     },
     "author": "",
