@@ -1,23 +1,32 @@
 'use strict'
-const twig = require('gulp-twig')
+// system
 const fs = require('fs')
+const path = require('path')
 const colors = require('colors/safe')
-const autoprefixer = require('autoprefixer')
-const postcssImport = require('postcss-import')
-const browsersync = require('browser-sync').create()
-const cssnano = require('cssnano')
-const del = require('del')
+// General
 const {series, parallel, ...gulp} = require('gulp')
-const replace = require('gulp-replace')
-const imagemin = require('gulp-imagemin')
-const newer = require('gulp-newer')
-const postcss = require('gulp-postcss')
-const sass = require('gulp-sass')
-const plumber = require('gulp-plumber')
 const logger = require('gulplog')
 const gulpCopy = require('gulp-copy')
-const historyApiFallback = require('connect-history-api-fallback')
+const del = require('del')
+const replace = require('gulp-replace')
+const plumber = require('gulp-plumber')
+// Sass / CSS
+const autoprefixer = require('autoprefixer')
+const postcssImport = require('postcss-import')
+const cssnano = require('cssnano')
+const postcss = require('gulp-postcss')
+const sass = require('gulp-sass')
 const tildeImporter = require('node-sass-tilde-importer')
+// Static Server
+const browsersync = require('browser-sync').create()
+const historyApiFallback = require('connect-history-api-fallback')
+// Image
+const imagemin = require('gulp-imagemin')
+const newer = require('gulp-newer')
+// Template Rendering
+const twigGulp = require('gulp-twig')
+const data = require('gulp-data')
+const fm = require('front-matter')
 
 module.exports = function({
                               paths,
@@ -25,6 +34,7 @@ module.exports = function({
                               prettyUrlExtensions,
                               historyFallback,
                               serveStaticMiddleware = [],
+                              twig,
                           }) {
     function browserSync(done) {
         browsersync.init({
@@ -87,7 +97,7 @@ module.exports = function({
     function cssFactory(fail = true) {
         return function css(done) {
             return gulp
-                .src(paths.styles + '/**/*.scss')
+                .src(paths.styles + '/**/*.{scss,sass}')
                 .pipe(plumber({
                     errorHandler: function(error) {
                         logger.error(colors.red('Error in css build:') + '\n' + error.message)
@@ -110,16 +120,36 @@ module.exports = function({
     function htmlFactory(requireCss = true) {
         return function html() {
             return gulp.src(paths.htmlPages + '/*.twig')
-                .pipe(twig({
+                .pipe(data(function(file) {
+                    let data = twig && twig.data ? twig.data : {}
+                    if(twig && twig.json) {
+                        if(twig.customMerge) {
+                            data = this.customMerge(data, JSON.parse(fs.readFileSync(twig.json(file.path))))
+                        } else {
+                            data = {
+                                ...data,
+                                ...JSON.parse(fs.readFileSync(twig.json(file.path))),
+                            }
+                        }
+                    }
+
+                    if(twig && twig.fm && twig.fmMap) {
+                        const content = fm(String(fs.readFileSync(twig.fm(file.path))))
+                        file.contents = Buffer.from(content.body)
+                        if(twig.customMerge) {
+                            data = this.customMerge(data, twig.fmMap(content))
+                        } else {
+                            data = {
+                                ...data,
+                                ...twig.fmMap(content),
+                            }
+                        }
+                    }
+
+                    return data
+                }))
+                .pipe(twigGulp({
                     base: paths.html,
-                    data: {
-                        title: 'Gulp and Twig',
-                        benefits: [
-                            'Fast',
-                            'Flexible',
-                            'Secure',
-                        ],
-                    },
                 }))
                 .pipe(replace(/style amp-custom>/, function() {
                     if(!paths.stylesInject) return 'style amp-custom>'
