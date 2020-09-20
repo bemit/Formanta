@@ -1,6 +1,5 @@
-This package uses NodeJS scripts to start and configure the building of assets files like Sass to CSS transpiling with autoprefixer and browserslist.
+# Home Page and Demo of Formanta
 
-```bash
-# See which tasks are available through cli
-node tasker.js --help
-```
+- `npm run tasks` get list of gulp tasks
+- `npm start`
+- `npm run build`

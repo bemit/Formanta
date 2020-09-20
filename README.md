@@ -6,19 +6,21 @@
 
 Two libraries to empower assets related tasks and help to build & style web pages and more.
 
-Only ready package is `@formanta/sass`.
+Only ready package are [`@formanta/sass`](./packages/formantasass), [`create-amp-page`](./packages/create-amp-page). 
 
-- @formanta/build-task.archive [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.archive?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.archive)
-- @formanta/build-task.clean [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.clean?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.clean)
-- @formanta/build-task.media [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.media?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.media)
-- @formanta/build-task.sass [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.sass?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.sass)
-- @formanta/blocks [![npm (scoped)](https://img.shields.io/npm/v/@formanta/blocks?style=flat-square)](https://www.npmjs.com/package/@formanta/blocks)
-- @formanta/sass [![npm (scoped)](https://img.shields.io/npm/v/@formanta/sass?style=flat-square)](https://www.npmjs.com/package/@formanta/sass)
-
-
-- @insulo/runner [![npm (scoped)](https://img.shields.io/npm/v/@insulo/runner?style=flat-square)](https://www.npmjs.com/package/@insulo/runner)
-- @insulo/watcher [![npm (scoped)](https://img.shields.io/npm/v/@insulo/watcher?style=flat-square)](https://www.npmjs.com/package/@insulo/watcher)
-- @insulo/archiver [![npm (scoped)](https://img.shields.io/npm/v/@insulo/archiver?style=flat-square)](https://www.npmjs.com/package/@insulo/archiver)
+- Formanta
+    - @formanta/build-task.archive [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.archive?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.archive)
+    - @formanta/build-task.clean [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.clean?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.clean)
+    - @formanta/build-task.media [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.media?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.media)
+    - @formanta/build-task.sass [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.sass?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.sass)
+    - @formanta/blocks [![npm (scoped)](https://img.shields.io/npm/v/@formanta/blocks?style=flat-square)](https://www.npmjs.com/package/@formanta/blocks)
+    - @formanta/sass [![npm (scoped)](https://img.shields.io/npm/v/@formanta/sass?style=flat-square)](https://www.npmjs.com/package/@formanta/sass)
+- Insulo
+    - @insulo/runner [![npm (scoped)](https://img.shields.io/npm/v/@insulo/runner?style=flat-square)](https://www.npmjs.com/package/@insulo/runner)
+    - @insulo/watcher [![npm (scoped)](https://img.shields.io/npm/v/@insulo/watcher?style=flat-square)](https://www.npmjs.com/package/@insulo/watcher)
+    - @insulo/archiver [![npm (scoped)](https://img.shields.io/npm/v/@insulo/archiver?style=flat-square)](https://www.npmjs.com/package/@insulo/archiver)
+- misc
+    - create-amp-page [![npm (scoped)](https://img.shields.io/npm/v/create-amp-page?style=flat-square)](https://www.npmjs.com/package/create-amp-page)
 
 ## License
 
