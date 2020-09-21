@@ -1,6 +1,6 @@
 {
     "name": "create-amp-page",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "license": "MIT",
     "homepage": "https://github.com/bemit/Formanta/tree/master/packages/create-amp-page",
     "main": "index.js",
@@ -10,6 +10,7 @@
         "directory": "packages/create-amp-page"
     },
     "dependencies": {
+        "@types/twig": "^1.12.3",
         "autoprefixer": "^9.7.6",
         "browser-sync": "^2.26.7",
         "colors": "^1.3",

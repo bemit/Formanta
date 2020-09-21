@@ -4,9 +4,12 @@
 
 <h1 align="center">Formanta & Insulo Monorepo</h1>
 
+[![Travis (.com) master build](https://img.shields.io/travis/com/bemit/Formanta/master?style=flat-square)](https://travis-ci.com/bemit/Formanta)
+![Partly Typed with TypeScript](https://flat.badgen.net/badge/icon/partly%20Typed?icon=typescript&label&labelColor=blue&color=555555)
+
 Two libraries to empower assets related tasks and help to build & style web pages and more.
 
-Only ready package are [`@formanta/sass`](./packages/formantasass), [`create-amp-page`](./packages/create-amp-page). 
+Only ready package are [`@formanta/sass`](https://github.com/bemit/FormantaSass), [`create-amp-page`](./packages/create-amp-page). 
 
 - Formanta
     - @formanta/build-task.archive [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.archive?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.archive)

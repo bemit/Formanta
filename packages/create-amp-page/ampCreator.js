@@ -1,7 +1,6 @@
 'use strict'
 // system
 const fs = require('fs')
-const path = require('path')
 const colors = require('colors/safe')
 // General
 const {series, parallel, ...gulp} = require('gulp')
@@ -135,13 +134,13 @@ module.exports = function({
 
                     if(twig && twig.fm && twig.fmMap) {
                         const content = fm(String(fs.readFileSync(twig.fm(file.path))))
-                        file.contents = Buffer.from(content.body)
+                        //file.contents = Buffer.from(content.body)
                         if(twig.customMerge) {
-                            data = this.customMerge(data, twig.fmMap(content))
+                            data = this.customMerge(data, twig.fmMap(content, file.path))
                         } else {
                             data = {
                                 ...data,
-                                ...twig.fmMap(content),
+                                ...twig.fmMap(content, file.path),
                             }
                         }
                     }
@@ -150,6 +149,10 @@ module.exports = function({
                 }))
                 .pipe(twigGulp({
                     base: paths.html,
+                    trace: twig && twig.trace,
+                    extend: twig && twig.extend,
+                    functions: twig && twig.functions,
+                    filters: twig && twig.filters,
                 }))
                 .pipe(replace(/style amp-custom>/, function() {
                     if(!paths.stylesInject) return 'style amp-custom>'

@@ -9,11 +9,12 @@
     "dependencies": {
         "@formanta/sass": "~0.20.0",
         "normalize.css": "^8.0.1",
-        "create-amp-page": "0.0.2"
+        "create-amp-page": "~0.0.3"
     },
     "scripts": {
         "tasks": "gulp --tasks",
         "start": "gulp watch",
-        "build": "gulp build"
+        "build": "gulp build",
+        "clean": "gulp clean"
     }
 }
