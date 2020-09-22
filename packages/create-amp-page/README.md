@@ -5,7 +5,7 @@ Fast development of fast pages.
 [![npm (scoped)](https://img.shields.io/npm/v/create-amp-page?style=flat-square)](https://www.npmjs.com/package/create-amp-page)
 [![Travis (.com) master build](https://img.shields.io/travis/com/bemit/Formanta/master?style=flat-square)](https://travis-ci.com/bemit/Formanta)
 ![Typed with TypeScript](https://flat.badgen.net/badge/icon/Typed?icon=typescript&label&labelColor=blue&color=555555)
-[![Run on CodeSandbox](https://img.shields.io/badge/run%20demo%20sandbox-grey?labelColor=fff&logoColor=505050&style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/bemit/create-amp-page-starter)
+[![Run on CodeSandbox](https://img.shields.io/badge/run%20starter%20sandbox-grey?labelColor=fff&logoColor=505050&style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/bemit/create-amp-page-starter)
 
 Static side generator built with gulp tasks, using Twig templates, optimized for building [AMP](https://amp.dev) pages.
 
@@ -13,7 +13,9 @@ Support for Sass, CSS optimizing, media file compressing, copy tasks, Twig globa
 
 ## Quick Start
 
-Create a `Gulpfile.js` and paste the following content in it:
+**1.** Create a project folder, init your project with `npm init`
+
+**2.** Create a `Gulpfile.js` and paste the following content in it. For all options and docs see the [AmpCreatorOptions typing](https://github.com/bemit/Formanta/blob/master/packages/create-amp-page/ampCreator.d.ts). 
 
 ```js
 const path = require('path')
@@ -27,10 +29,10 @@ module.exports = ampCreator({
         html: 'src/html',
         htmlPages: 'src/html/pages',
         media: 'src/media',
-        copy: [
+        /* copy: [
             {src: ['./src/api/*'], prefix: 1},
             {src: ['./public/*'], prefix: 2},
-        ],
+        ], */
         dist: 'build',
         distMedia: 'media',
         distStyles: 'styles',
@@ -43,9 +45,7 @@ module.exports = ampCreator({
 })
 ```
 
-For all options and docs see the [AmpCreatorOptions typing](https://github.com/bemit/Formanta/blob/master/packages/create-amp-page/ampCreator.d.ts). 
-
-Add those scripts into `package.json`:
+**3.** Add those scripts into `package.json`:
 
 ```json
 {
@@ -58,7 +58,7 @@ Add those scripts into `package.json`:
 }
 ```
 
-Create `postcss.config.js` with:
+**4.** Create a `postcss.config.js` with:
 
 ```js
 module.exports = {
@@ -74,9 +74,13 @@ module.exports = {
 }
 ```
 
-Add `src` folders & files, install `npm i --save create-amp-page`, run `npm start` and happy coding!
+**5.** Add your `src` folders & files, minimum for this config: `src/styles/main.scss` and `src/html/pages/index.twig` and `src/media/.gitkeep`
 
-Checkout the [AMP page demo](https://github.com/bemit/create-amp-page-starter) for a preconfigured starter repository.
+**6.** Install this SSR: `npm i --save create-amp-page`
+
+**7.** Run `npm start` and happy coding!
+
+Checkout this [AMP page start](https://github.com/bemit/create-amp-page-starter) for a preconfigured template repository.
 
 ## License
 
