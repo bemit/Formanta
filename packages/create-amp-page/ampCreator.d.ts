@@ -1,4 +1,5 @@
 import { extendFilter, extendFunction, extendTest, extendTag } from 'twig'
+import { Gulp } from 'gulp'
 
 export interface CopyInfo {
     // array of paths / glob patterns that will be copied
@@ -57,14 +58,14 @@ export interface AmpCreatorOptions {
         fm?: (file: string) => string
         // receives the front matter and absolute path, for mapping to template values;
         // required when `fm` exists, otherwise not used
-        fmMap?: (data: Object, file: string) => Object
+        fmMap?: (data: { attributes: Object, body: string, bodyBegin: number, frontmatter: string }, file: string) => Object
         // merge function to produce data from multiple sources for twig, optional;
         // used for merging the three twig data sources: global (`twig.data`), `twig.json` and `twig.fm`;
         // like let data = customMerge(globalTwigData, jsonData); data = customMerge(data, fmData);
         customMerge?: (data1: Object, data2: Object) => Object
         // enables tracing info logging
         trace?: boolean
-        // extends Twig with new tags types. The Twig attribute is Twig.js's internal object;
+        // extends Twig with new tags types, the `Twig` parameter is the internal Twig.js object;
         // https://github.com/twigjs/twig.js/wiki/Extending-twig.js-With-Custom-Tags
         extend?: (
             Twig: {
@@ -81,6 +82,25 @@ export interface AmpCreatorOptions {
         // add custom filters to Twig
         filters?: TwigFunction[]
     }
+    // configuring the watched folders for the main tasks
+    watchFolders?: {
+        sass?: []
+        twig?: []
+        media?: []
+    }
+    // overrides the default watch function used, receives the gulp instance;
+    // must return the actual watch task function using;
+    watchOverride?: (
+        gulp: Gulp,
+        factories: {
+            // returns the actual function handling Sass to CSS and CSS optimized, fail=true = fail-on-warnings
+            cssFactory: (fail?: boolean) => Function
+            // returns the actual function handling Twig to HTML, requireCss=true = fail if CSS is bigger then 75KB (AMP compatibility)
+            htmlFactory: (requireCss?: boolean) => Function
+            // returns the actual function handling media optimizes
+            imagesFactory: () => Function
+        }
+    ) => Function
 }
 
 export function ampCreator(options: AmpCreatorOptions): {

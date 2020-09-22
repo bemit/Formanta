@@ -34,6 +34,12 @@ module.exports = function({
                               historyFallback,
                               serveStaticMiddleware = [],
                               twig,
+                              watchFolders = {
+                                  sass: [],
+                                  twig: [],
+                                  media: [],
+                              },
+                              watchOverride,
                           }) {
     function browserSync(done) {
         browsersync.init({
@@ -70,27 +76,29 @@ module.exports = function({
         }
     }
 
-    function images() {
-        return gulp
-            .src(paths.media + '/**/*')
-            .pipe(newer(paths.dist + '/' + paths.distMedia))
-            .pipe(
-                imagemin([
-                    imagemin.gifsicle({interlaced: true}),
-                    imagemin.mozjpeg({progressive: true}),
-                    imagemin.optipng({optimizationLevel: 5}),
-                    imagemin.svgo({
-                        plugins: [
-                            {
-                                removeViewBox: false,
-                                collapseGroups: true,
-                            },
-                        ],
-                    }),
-                ]),
-            )
-            .pipe(gulp.dest(paths.dist + '/' + paths.distMedia))
-            .pipe(browsersync.stream())
+    function imagesFactory() {
+        return function images() {
+            return gulp
+                .src(paths.media + '/**/*')
+                .pipe(newer(paths.dist + '/' + paths.distMedia))
+                .pipe(
+                    imagemin([
+                        imagemin.gifsicle({interlaced: true}),
+                        imagemin.mozjpeg({progressive: true}),
+                        imagemin.optipng({optimizationLevel: 5}),
+                        imagemin.svgo({
+                            plugins: [
+                                {
+                                    removeViewBox: false,
+                                    collapseGroups: true,
+                                },
+                            ],
+                        }),
+                    ]),
+                )
+                .pipe(gulp.dest(paths.dist + '/' + paths.distMedia))
+                .pipe(browsersync.stream())
+        }
     }
 
     function cssFactory(fail = true) {
@@ -180,9 +188,12 @@ module.exports = function({
     }
 
     function watchFiles() {
-        gulp.watch([paths.styles + '/**/*.(scss|sass)'], {ignoreInitial: false}, series(cssFactory(false), htmlFactory(false)))
-        gulp.watch(paths.html + '/**/*.twig', {ignoreInitial: false}, htmlFactory(false))
-        gulp.watch(paths.media + '/**/*', {ignoreInitial: false}, images)
+        gulp.watch([paths.styles + '/**/*.(scss|sass)', ...watchFolders.sass], {ignoreInitial: false},
+            // only when the stylesheet should be injected, HTML must be build after CSS
+            paths.stylesInject ? series(cssFactory(false), htmlFactory(false)) : cssFactory(false),
+        )
+        gulp.watch([paths.html + '/**/*.twig', ...watchFolders.twig], {ignoreInitial: false}, htmlFactory(false))
+        gulp.watch([paths.media + '/**/*', ...watchFolders.media], {ignoreInitial: false}, imagesFactory())
 
         let copies = paths.copy
         if(!Array.isArray(copies)) {
@@ -202,14 +213,14 @@ module.exports = function({
                 )) : copyFactory(paths.copy)] : []),
                 series(
                     cssFactory(true),
-                    parallel(htmlFactory(true), images),
+                    parallel(htmlFactory(true), imagesFactory()),
                 ),
             ),
         )
-    const watch = parallel(watchFiles, browserSync)
+    const watch = parallel(watchOverride ? watchOverride(gulp, {cssFactory, htmlFactory, imagesFactory}) : watchFiles, browserSync)
 
     return {
-        images,
+        images: imagesFactory(),
         clean,
         build,
         watch,
