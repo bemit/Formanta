@@ -1,1 +1,0 @@
-exports.ampCreator = require('./ampCreator')
