@@ -23,12 +23,6 @@
     }
 }
 
-.border-grey {
-    min-height: 2rem;
-    border: 1px solid grey;
-    position: relative;
-}
-
 .bg-blue {
     height: 2rem;
     position: relative;
@@ -46,15 +40,23 @@
     }
 }
 
-.grid-s1 .bg-grey,
-.grid-s1 .bg-blue,
-.grid-s05 .bg-grey,
-.grid-s05 .bg-blue,
-.grid-s2 .bg-grey,
-.grid-s2 .bg-blue {
-    height: calc(2rem - 10px);
-    &:after {
-        margin: 0;
+.grid-s05, .grid-s1, .grid-s2 {
+    & .bg-grey {
+        height: auto;
+
+        &:after {
+            margin: 0;
+        }
+    }
+}
+
+.grid-s05, .grid-s1, .grid-s2 {
+    & .bg-blue {
+        height: calc(2rem - 10px);
+
+        &:after {
+            margin: 0;
+        }
     }
 }
 

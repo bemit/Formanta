@@ -75,7 +75,7 @@
         <h3 class="demo-title">Nested Grid / Grid with Spacings</h3>
         <p>Nested grids have the spacings integrated, they currently use
             <code>$spacing-def</code>: 1, 0.5 and 2. The spacing is applied to direct children which have a class that begins with
-            <code>col-</code></p>
+            <code>col-</code>. Blue background cells are second level, grey first level.</p>
         <p class="mb0">Classes for wrapper:</p>
         <ul class="mt0">
             <li><code>flex flex-wrap grid-s05</code></li>
@@ -84,7 +84,7 @@
         </ul>
 
         <div class="flex flex-wrap grid-s05">
-            <div class="col-6">
+            <div class="col-5">
                 <div class="flex flex-wrap grid-s05">
                     <div class="col-4">
                         <div class="bg-blue">
@@ -108,7 +108,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-2 flex">
+                <div class="bg-grey col-12">
+                </div>
+            </div>
+            <div class="col-5">
                 <div class="flex flex-wrap grid-s05">
                     <div class="col-4">
                         <div class="bg-blue">
@@ -132,8 +136,8 @@
 
         <div class="mb4"></div>
         <div class="flex flex-wrap grid-s1">
-            <div class="col-3">
-                <div class="bg-blue" style="height: calc(4rem - 10px)">
+            <div class="col-3 flex">
+                <div class="bg-grey col-12">
                 </div>
             </div>
             <div class="col-4">
@@ -209,7 +213,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-5">
                 <div class="flex flex-wrap grid-s2">
                     <div class="col-4">
                         <div class="bg-blue">
@@ -227,6 +231,10 @@
                         <div class="bg-blue">
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-1 flex">
+                <div class="bg-grey col-12">
                 </div>
             </div>
         </div>
