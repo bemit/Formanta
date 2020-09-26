@@ -144,7 +144,7 @@ table p {
 }
 
 :not(pre) > code {
-    color       : #fda146;
+    color       : #ffb569;
     white-space : pre-wrap;
     font-weight : normal
 }
@@ -183,7 +183,7 @@ table p {
 }
 
 .list-unstyled {
-    font-size     : 0.8em;
+    font-size     : 1em;
     padding-left  : 0;
     list-style    : none;
     line-height   : 1.1;
@@ -201,7 +201,7 @@ table p {
 }
 
 .list-unstyled .sidebar__item {
-    font-size  : 1.1em;
+    font-size  : 1em;
     transition : 0.4s background-color linear;
 }
 
@@ -371,7 +371,7 @@ table p {
 }
 
 .sidebar__item {
-    font-size : 0.9em
+    font-size : 1em
 }
 
 .sidebar__item a {
@@ -394,20 +394,20 @@ table p {
 }
 
 .sidebar__item--heading {
-    padding : 2em 1.5em;
+    padding : 0.75em 1.5em;
     margin  : 0;
 }
-
 .sidebar__item--heading a {
-    font-weight : bold
+    pointer-events : none;
 }
 
 .sidebar__item--sub-heading a {
-    color : #ff8409
+    color : #ff8409;
 }
 
 .sidebar__item--heading, .sidebar__item--sub-heading {
-    position : relative
+    cursor : pointer;
+    position : relative;
 }
 
 .sidebar__item--heading:hover:after, .sidebar__item--sub-heading:hover:after {
@@ -697,10 +697,12 @@ table p {
 }
 
 .item__sub-heading {
-    color         : #7d7d7d;
+    color         : #d4d4d4;
     margin-top    : 0;
     margin-bottom : 0.3rem;
-    font-size     : 0.8em
+    font-size     : 1em;
+    font-weight   : 400;
+    text-decoration: underline;
 }
 
 .item__parameters {
@@ -903,6 +905,9 @@ li.item__description {
 .item__description p {
     margin : 0.3em 0;
 }
+.item__description p code {
+    font-size : 1.1em;
+}
 
 .sidebar__body > div > .list-unstyled .sidebar__item a {
     padding : 0.75em 3em;
@@ -919,7 +924,7 @@ li.item__description {
 
 @media (max-width : 800px) {
     .sidebar {
-        position   : fixed;
+        /*position   : fixed;*/
         left       : 0;
         right      : 0;
         z-index    : 2;
@@ -943,7 +948,7 @@ li.item__description {
     }
 
     .main {
-        position : fixed;
+        /*position : fixed;*/
         overflow : hidden;
     }
 
@@ -1066,7 +1071,7 @@ li.item__description {
         position : absolute;
         top      : 43px;
         right    : 2rem;
-        color    : #7d7d7d;
+        color    : #d4d4d4;
     }
 
     .main__section .main__sub-section .main__item.container.item:before {
@@ -1074,7 +1079,7 @@ li.item__description {
         display          : block;
         width            : 17px;
         height           : 3px;
-        background-color : #7d7d7d;
+        background-color : #d4d4d4;
         position         : absolute;
         /*left: 360px;*/
         left             : 0;
