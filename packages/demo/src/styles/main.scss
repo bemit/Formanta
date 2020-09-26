@@ -7,7 +7,7 @@
 //
 
 .bg-grey {
-    min-height: 2rem;
+    height: 2rem;
     position: relative;
 
     &:after {
@@ -20,6 +20,41 @@
         right: 0;
         bottom: 0;
         z-index: -1;
+    }
+}
+
+.border-grey {
+    min-height: 2rem;
+    border: 1px solid grey;
+    position: relative;
+}
+
+.bg-blue {
+    height: 2rem;
+    position: relative;
+
+    &:after {
+        background: cornflowerblue;
+        content: '';
+        margin: space(1);
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+}
+
+.grid-s1 .bg-grey,
+.grid-s1 .bg-blue,
+.grid-s05 .bg-grey,
+.grid-s05 .bg-blue,
+.grid-s2 .bg-grey,
+.grid-s2 .bg-blue {
+    height: calc(2rem - 10px);
+    &:after {
+        margin: 0;
     }
 }
 

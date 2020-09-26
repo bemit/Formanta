@@ -9,7 +9,7 @@
 
 Two libraries to empower assets related tasks and help to build & style web pages and more.
 
-Only ready package are [`@formanta/sass`](https://github.com/bemit/FormantaSass), [`create-amp-page`](./packages/create-amp-page). 
+Only ready package is [`@formanta/sass`](https://github.com/bemit/FormantaSass). 
 
 - Formanta
     - @formanta/build-task.archive [![npm (scoped)](https://img.shields.io/npm/v/@formanta/build-task.archive?style=flat-square)](https://www.npmjs.com/package/@formanta/build-task.archive)
@@ -22,8 +22,6 @@ Only ready package are [`@formanta/sass`](https://github.com/bemit/FormantaSass)
     - @insulo/runner [![npm (scoped)](https://img.shields.io/npm/v/@insulo/runner?style=flat-square)](https://www.npmjs.com/package/@insulo/runner)
     - @insulo/watcher [![npm (scoped)](https://img.shields.io/npm/v/@insulo/watcher?style=flat-square)](https://www.npmjs.com/package/@insulo/watcher)
     - @insulo/archiver [![npm (scoped)](https://img.shields.io/npm/v/@insulo/archiver?style=flat-square)](https://www.npmjs.com/package/@insulo/archiver)
-- misc
-    - create-amp-page [![npm (scoped)](https://img.shields.io/npm/v/create-amp-page?style=flat-square)](https://www.npmjs.com/package/create-amp-page)
 
 ## License
 
