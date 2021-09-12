@@ -1,11 +1,9 @@
-<section class="demo demo-grid flex flex-wrap">
-    <div class="col-12">
-        <h2 class="demo-title">Grid</h2>
-    </div>
+<section class="demo demo-grid">
+    <h2 class="demo-title">Grid</h2>
 
-    <p class="col-12 mb1">Normal flexbox grids have no spacings integrated, the spacing must exist at the child, here this is faked for the grey background.</p>
+    <p class="mb1">Normal flexbox grids have no spacings integrated, the spacing must exist at the child, here this is faked for the grey background.</p>
 
-    <ul class="col-12 mt1">
+    <ul class="mt1">
         <li><code>flex flex-wrap</code> are classes for the wrapper</li>
         <li><code>col-1</code>, <code>col-2</code>,
             <code>col-3</code> till <code>12</code> (or otherwise configured) are column classes
@@ -18,64 +16,66 @@
         </li>
     </ul>
 
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
+    <div class="flex flex-wrap" style="margin: 0 -5px">
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
 
-    <div class="col-2 bg-grey"></div>
-    <div class="col-2 bg-grey"></div>
-    <div class="col-2 bg-grey"></div>
-    <div class="col-2 bg-grey"></div>
-    <div class="col-2 bg-grey"></div>
-    <div class="col-2 bg-grey"></div>
+        <div class="col-2 bg-grey"></div>
+        <div class="col-2 bg-grey"></div>
+        <div class="col-2 bg-grey"></div>
+        <div class="col-2 bg-grey"></div>
+        <div class="col-2 bg-grey"></div>
+        <div class="col-2 bg-grey"></div>
 
-    <div class="col-3 bg-grey"></div>
-    <div class="col-3 bg-grey"></div>
-    <div class="col-3 bg-grey"></div>
-    <div class="col-3 bg-grey"></div>
+        <div class="col-3 bg-grey"></div>
+        <div class="col-3 bg-grey"></div>
+        <div class="col-3 bg-grey"></div>
+        <div class="col-3 bg-grey"></div>
 
-    <div class="col-4 bg-grey"></div>
-    <div class="col-4 bg-grey"></div>
-    <div class="col-4 bg-grey"></div>
+        <div class="col-4 bg-grey"></div>
+        <div class="col-4 bg-grey"></div>
+        <div class="col-4 bg-grey"></div>
 
-    <div class="col-5 bg-grey"></div>
-    <div class="col-2 bg-grey"></div>
-    <div class="col-5 bg-grey"></div>
+        <div class="col-5 bg-grey"></div>
+        <div class="col-2 bg-grey"></div>
+        <div class="col-5 bg-grey"></div>
 
-    <div class="col-6 bg-grey"></div>
-    <div class="col-6 bg-grey"></div>
+        <div class="col-6 bg-grey"></div>
+        <div class="col-6 bg-grey"></div>
 
-    <div class="col-7 bg-grey"></div>
-    <div class="col-5 bg-grey"></div>
+        <div class="col-7 bg-grey"></div>
+        <div class="col-5 bg-grey"></div>
 
-    <div class="col-8 bg-grey"></div>
-    <div class="col-4 bg-grey"></div>
+        <div class="col-8 bg-grey"></div>
+        <div class="col-4 bg-grey"></div>
 
-    <div class="col-9 bg-grey"></div>
-    <div class="col-3 bg-grey"></div>
+        <div class="col-9 bg-grey"></div>
+        <div class="col-3 bg-grey"></div>
 
-    <div class="col-10 bg-grey"></div>
-    <div class="col-2 bg-grey"></div>
+        <div class="col-10 bg-grey"></div>
+        <div class="col-2 bg-grey"></div>
 
-    <div class="col-11 bg-grey"></div>
-    <div class="col-1 bg-grey"></div>
+        <div class="col-11 bg-grey"></div>
+        <div class="col-1 bg-grey"></div>
 
-    <div class="col-12 bg-grey"></div>
+        <div class="col-12 bg-grey"></div>
+    </div>
 
-    <div class="col-12">
+    <div>
         <h3 class="demo-title">Nested Grid / Grid with Spacings</h3>
         <p>Nested grids have the spacings integrated, they currently use
             <code>$spacing-def</code>: 1, 0.5 and 2. The spacing is applied to direct children which have a class that begins with
-            <code>col-</code></p>
+            <code>col-</code>. Blue background cells are second level, grey first level.</p>
         <p class="mb0">Classes for wrapper:</p>
         <ul class="mt0">
             <li><code>flex flex-wrap grid-s05</code></li>
@@ -84,7 +84,7 @@
         </ul>
 
         <div class="flex flex-wrap grid-s05">
-            <div class="col-6">
+            <div class="col-5">
                 <div class="flex flex-wrap grid-s05">
                     <div class="col-4">
                         <div class="bg-blue">
@@ -108,7 +108,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-2 flex">
+                <div class="bg-grey col-12">
+                </div>
+            </div>
+            <div class="col-5">
                 <div class="flex flex-wrap grid-s05">
                     <div class="col-4">
                         <div class="bg-blue">
@@ -132,8 +136,8 @@
 
         <div class="mb4"></div>
         <div class="flex flex-wrap grid-s1">
-            <div class="col-3">
-                <div class="bg-blue" style="height: calc(4rem - 10px)">
+            <div class="col-3 flex">
+                <div class="bg-grey col-12">
                 </div>
             </div>
             <div class="col-4">
@@ -209,7 +213,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-5">
                 <div class="flex flex-wrap grid-s2">
                     <div class="col-4">
                         <div class="bg-blue">
@@ -229,20 +233,23 @@
                     </div>
                 </div>
             </div>
+            <div class="col-1 flex">
+                <div class="bg-grey col-12">
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="col-12">
-        <h3 class="demo-title">Grid Offset</h3>
+    <h3 class="demo-title">Grid Offset</h3>
+
+    <div class="flex flex-wrap" style="margin: 0 -5px">
+        <div class="col-3 bg-grey"></div>
+        <div class="offset-3 col-3 bg-grey"></div>
+        <div class="col-3 bg-grey"></div>
+
+        <div class="col-7 offset-5 bg-grey"></div>
+
+        <div class="col-4 bg-grey"></div>
+        <div class="offset-4 col-4 bg-grey"></div>
     </div>
-
-    <div class="col-3 bg-grey"></div>
-    <div class="offset-3 col-3 bg-grey"></div>
-    <div class="col-3 bg-grey"></div>
-
-    <div class="col-7 offset-5 bg-grey"></div>
-
-    <div class="col-4 bg-grey"></div>
-    <div class="offset-4 col-4 bg-grey"></div>
-
 </section>
