@@ -14,6 +14,9 @@ ij_formatter_tags_enabled = true
 ij_smart_tabs = false
 ij_wrap_on_typing = false
 
+[*.md]
+max_line_length = 90000
+
 [*.twig]
 ij_twig_keep_indents_on_empty_lines = false
 ij_twig_spaces_inside_comments_delimiters = true
@@ -188,7 +191,7 @@ ij_javascript_use_double_quotes = false
 ij_javascript_use_explicit_js_extension = global
 ij_javascript_use_path_mapping = always
 ij_javascript_use_public_modifier = false
-ij_javascript_use_semicolon_after_statement = false
+ij_javascript_use_semicolon_after_statement = true
 ij_javascript_var_declaration_wrap = normal
 ij_javascript_while_brace_force = never
 ij_javascript_while_on_new_line = false

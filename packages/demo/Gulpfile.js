@@ -1,12 +1,12 @@
-'use strict'
-const path = require('path')
-const {ampCreator} = require('create-amp-page')
+'use strict';
+const path = require('path');
+const {ampCreator} = require('create-amp-page');
 
 module.exports = ampCreator({
     port: 4488,
     paths: {
         styles: 'src/styles',
-        stylesInject: 'main.css',
+        //stylesInject: 'main.css',
         html: 'src/html',
         htmlPages: 'src/html/pages',
         media: 'src/media',
@@ -19,6 +19,9 @@ module.exports = ampCreator({
         distStyles: 'styles',
     },
     twig: {
+        data: {
+            ampEnabled: false,
+        },
         fm: (file) => './src/data/' + path.basename(file).replace('.twig', '') + '.md',
         fmMap: (data) => ({
             head: {
@@ -28,5 +31,15 @@ module.exports = ampCreator({
             },
         }),
     },
+    watchFolders: {
+        sass: [
+            '../formantasass/**/*.scss',
+        ],
+    },
+    ampOptimize: false,
+    minifyHtml: true,
+    cleanInlineCSS: false,
+    cleanInlineCSSWhitelist: ['#toggle-inspect', '.demo'],
+    //cssInjectTag: '<style>',
     prettyUrlExtensions: ['html'],
-})
+});

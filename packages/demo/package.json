@@ -7,14 +7,14 @@
     "author": "Michael Becker <michael@bemit.codes>",
     "license": "MIT",
     "dependencies": {
-        "@formanta/sass": "~0.20.0",
-        "create-amp-page": "~0.0.3",
+        "@formanta/sass": "~0.21.0",
+        "create-amp-page": "~0.3.0",
         "normalize.css": "^8.0.1"
     },
     "scripts": {
         "tasks": "gulp --tasks",
-        "start": "gulp watch",
-        "build": "gulp build",
+        "start": "cross-env NODE_ENV=development gulp watch",
+        "build": "cross-env NODE_ENV=production gulp build",
         "clean": "gulp clean"
     }
 }
