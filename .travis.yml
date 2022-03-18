@@ -11,7 +11,7 @@ addons:
 install:
     - npm install -g codecov
     - npm ci
-    - npm run bootstrap && npm run link
+    - npm run bootstrap && npm run bootstrap && npm run link
 script:
     - npm test
     - codecov -f coverage/*.json --disable=gcov
