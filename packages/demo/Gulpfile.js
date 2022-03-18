@@ -36,9 +36,9 @@ const tasks = ampCreator({
     dist: 'build',
     srcMedia: 'src/media',
     distMedia: 'media',
-    minifyHtml: !isDev,
-    cleanInlineCSS: !isDev,
-    cleanInlineCSSWhitelist: ['#toggle-inspect', '.demo'],
+    minifyHtml: false,
+    cleanInlineCSS: false,
+    //cleanInlineCSSWhitelist: ['#toggle-inspect', '.demo'],
     pages: pages,
     collections: [{
         //data: 'src/data',
