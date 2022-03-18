@@ -8,6 +8,7 @@
         "clean": "lerna clean -y",
         "bootstrap": "lerna bootstrap",
         "hoist": "lerna bootstrap --hoist",
+        "link": "lerna link --force-local",
         "test": "lerna run test",
         "build": "lerna run build && cp -a ./packages/formantasass/build/ ./packages/demo/build/docs",
         "release": "lerna publish from-package --no-git-reset"

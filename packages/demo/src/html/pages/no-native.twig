@@ -1,4 +1,4 @@
-{% set styleSheet = '/styles/main-no-native.css' %}
+{% set styleSheet = 'styles/main-no-native.css' %}
 {% extends '_base.twig' %}
 
 {% block content %}
@@ -32,8 +32,8 @@
         <pre><code>@import '~@formanta/sass/selector-no-native';</code></pre>
         <div class="px2">
             <button id="toggle-inspect" class="btn btn-primary">Enable Inspect</button>
-            <a href="/docs" class="inline-block mx4">Documentation</a>
-            <a href="/" class="inline-block mx4">with Native Selectors</a>
+            <a href="{{ links.origin }}docs" class="inline-block mx4">Documentation</a>
+            <a href="{{ links.origin }}" class="inline-block mx4">with Native Selectors</a>
         </div>
         <p class="body2 mt0 mb2 px2">
             Inspect ignores custom example-page selectors: background blue, grey(s) and title.
