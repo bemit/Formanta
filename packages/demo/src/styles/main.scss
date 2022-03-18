@@ -1,6 +1,11 @@
 @import '~normalize.css/normalize.css';
 @import '~@formanta/sass/meta';
 
+// a global reset, as there is no `p` rule included since formanta `0.22.0`
+p {
+    margin: 0
+}
+
 //
 // all custom selectors must be added to `ignoreSystemClasses` in `_base.twig`
 // so they are ignored with the inspect mode

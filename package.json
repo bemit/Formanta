@@ -10,7 +10,7 @@
         "hoist": "lerna bootstrap --hoist",
         "link": "lerna link --force-local",
         "test": "lerna run test",
-        "build": "lerna run build && cp -a ./packages/formantasass/build/ ./packages/demo/build/docs",
+        "build": "lerna run build && cp -a ./packages/formantasass/build/ ./packages/demo/build/demo/docs && cp -a ./packages/demo/build/media ./packages/demo/build/demo/media",
         "release": "lerna publish from-package --no-git-reset"
     },
     "author": "",
