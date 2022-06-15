@@ -29,7 +29,7 @@ This project is free software distributed under the **MIT License**.
 
 See: [LICENSE](LICENSE).
 
-© 2015 - 2021 [Michael Becker](https://mlbr.xyz), bemit UG (haftungsbeschränkt)
+© 2015 - 2021 [Michael Becker](https://i-am-digital.eu), bemit UG (haftungsbeschränkt)
 
 ### Contributors
 

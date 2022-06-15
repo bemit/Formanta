@@ -2,7 +2,7 @@
 {% extends '_base.twig' %}
 
 {% block content %}
-    <section class="content-intro">
+    <section class="bg-paper">
         <h1 class="demo-title bold normal mt0">Formanta
             <a href="https://github.com/bemit/FormantaSass" style="vertical-align: top; padding: 1px;">
                 <svg role="img" style="width: 32px; display: inline-block;" viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
@@ -11,30 +11,34 @@
                 </svg>
             </a></h1>
         <p class="body1 px2">
-            Mini CSS Framework with modular Sass files, configuration by Sass or (some) CSS variables and
-            <strong>especially made for
-                <a href="https://amp.dev" rel="noreferrer noopener" target="_blank">AMP</a>!</strong></p>
-        <p class="body1 px2">Size: <code>41KB</code> <i>(gzip <code>~8KB</code>)</i> - or only
-            <code>24KB</code> without responsive spacings!</p>
-        <p class="body1 px2">
+            Mini CSS Framework with modular Sass files, configuration by Sass variables and
+            <strong>compatible with
+                <a href="https://amp.dev" rel="noreferrer noopener" target="_blank">AMP</a></strong>.</p>
+        <p class="body1 px2">Size: <code>45KB</code> <i>(gzip <code>~9KB</code>)</i> - or only
+            <code>25.8KB</code> without responsive spacings!</p>
+        <div class="mb0 px2">
+            <pre class="my0"><code>npm i --save-dev @formanta/sass</code></pre>
+        </div>
+        <p class="body2 px2">
             Checkout the
             <a href="https://github.com/bemit/FormantaSass" class="italic">quick start, features and issues</a> of the current version.
         </p>
-        <p class="body1 mb4 px2">
-            <code>npm i --save-dev @formanta/sass</code>
+        <p class="body1 mt2 mb1 px2">
+            Examples on this page are <strong>using no native CSS selectors</strong>, only rules with classes.
         </p>
-        <p class="body1 px2">
-            You find examples for all styles on this page, <strong>using no native CSS selectors.</strong>
-        </p>
-        <p class="body1 mb4 px2">
+        <p class="body1 mb1 px2">
             Simply import this variable set for no-native css selectors:
         </p>
-        <pre><code>@import '~@formanta/sass/selector-no-native';</code></pre>
-        <div class="px2 mb1">
+        <div class="mb0 px2">
+            <pre class="my0"><code>@import '~@formanta/sass/selector-no-native';</code></pre>
+        </div>
+
+        <div class="px2 mt3 mb1">
             <button id="toggle-inspect" class="btn btn-primary">Enable Inspect</button>
             <a href="{{ links.origin }}docs" class="inline-block mx4">Documentation</a>
             <a href="{{ links.origin }}" class="inline-block mx4">with Native Selectors</a>
         </div>
+
         <p class="body2 px2">
             Inspect ignores custom example-page selectors: background blue, grey(s) and title.
         </p>

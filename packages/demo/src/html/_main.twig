@@ -24,11 +24,13 @@
         <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     {% endblock %}
 
+    {% block head_style %}
+    {% endblock %}
     {% block head_end %}
         <link href="{{ links.origin }}{{ styleSheet ?: 'styles/main.css' }}" rel="stylesheet" type="text/css"/>
     {% endblock %}
 </head>
-<body>
+<body class="bg-body">
 {% block body %}
     {% block header %}
         <div class="header">

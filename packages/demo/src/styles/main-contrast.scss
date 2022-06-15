@@ -1,0 +1,44 @@
+@import '~normalize.css/normalize.css';
+@import '~@formanta/sass/meta-base';
+
+@import 'config/vars-contrast';
+
+@import '~@formanta/sass/meta-attributes';
+@import '~@formanta/sass/meta-components';
+
+@import 'shared';
+
+.bg-grey {
+    &:after {
+        background: #6e7979;
+    }
+}
+
+.bg-blue {
+    &:after {
+        background: #1f5bd7;
+    }
+}
+
+.bg-grey-raw {
+    background: #6e7979;
+    color: $bg-paper;
+}
+
+.demo-title {
+    background: $bg-paper;
+    border-bottom: $base-border-width solid $color-divider;
+    color: $title-font-color;
+}
+
+.copy-overlay {
+    background: $bg-paper;
+}
+
+.copy-success {
+    background: rgba(30, 37, 40, 0.9);
+    color: #000000;
+}
+
+@import '~@formanta/sass/style';
+

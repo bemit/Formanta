@@ -1,7 +1,26 @@
-<section class="demo demo-spacings">
-    <h2 class="demo-title">Spacings</h2>
+<section class="demo demo-spacings mb5">
+    <h2 class="demo-title mb0">Spacings</h2>
 
-    <div class="bg-grey-raw mxa center" style="width: 50%; color: white;">mxa</div>
+    <div class="bg-paper py1 px2 mb2">
+        <p class="body1"><code>m*</code> for margin,
+            <code>p*</code> for padding, support of responsive gutters with e.g.
+            <code>-sm, -md, ...</code> and multiple affected sides.</p>
+
+        <ul class="mb0">
+            <li><code>mx, px</code> = margins and paddings on x-axis</li>
+            <li><code>my, py</code> = margins and paddings on y-axis</li>
+            <li><code>mt, pt</code> = margins and paddings on top side</li>
+            <li><code>mr, pr</code> = margins and paddings on right side</li>
+            <li><code>mb, pb</code> = margins and paddings on right side</li>
+            <li><code>ml, pl</code> = margins and paddings on left side</li>
+            <li><code>mxa, mla, mra</code> = margin <code>auto</code> on different sides</li>
+        </ul>
+        <p class="body2 italic">only compact overview.</p>
+    </div>
+
+    <div class="bg-grey-raw mxa center" style="width: 66%;">mxa</div>
+    <div class="bg-grey-raw mra center" style="width: 66%;">mra</div>
+    <div class="bg-grey-raw mla center" style="width: 66%;">mla</div>
 
     <div class="bg-grey-raw mt0">mt0</div>
     <div class="bg-grey-raw mt05">mt05</div>
@@ -11,8 +30,11 @@
     <div class="bg-grey-raw mt4">mt4</div>
     <div class="bg-grey-raw mt5">mt5</div>
 
-    <div class="pl5">
-        <h3 class="demo-title">Spacings Negative</h3>
+    <div class="pb3"></div>
+
+    <h3 class="demo-title">Spacings Negative</h3>
+    <div class="ml5 relative">
+        <div class="left-0 top-0 bottom-0 ol o-thick o-primary z2 absolute" style="opacity:0.45"></div>
         <div class="bg-grey-raw no-m mln0 mt1">mln0</div>
         <div class="bg-grey-raw no-m mln05 mt1">mln05</div>
         <div class="bg-grey-raw no-m mln1 mt1">mln1</div>
@@ -21,6 +43,8 @@
         <div class="bg-grey-raw no-m mln4 mt1">mln4</div>
         <div class="bg-grey-raw no-m mln5 mt1">mln5</div>
     </div>
+
+    <div class="pb3"></div>
 
     <h3 class="demo-title">Spacings Padding</h3>
     <div class="bg-grey-raw p0 mt1">p0</div>
@@ -32,4 +56,6 @@
     <div class="bg-grey-raw p5 mt1">p5</div>
 
     <div class="bg-grey-raw px4 py2 mt1">px4 py2</div>
+
+    <div class="bg-grey-raw px2 py1 px3-md px4-lg px5-lg py3-md py4-lg py5-xl mt1">px2 py1 px3-md px4-lg px5-lg py3-md py4-lg py5-xl</div>
 </section>

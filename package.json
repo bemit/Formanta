@@ -10,7 +10,11 @@
         "hoist": "lerna bootstrap --hoist",
         "link": "lerna link --force-local",
         "test": "lerna run test",
-        "build": "lerna run build && cp -a ./packages/formantasass/build/ ./packages/demo/build/demo/docs && cp -a ./packages/demo/build/media ./packages/demo/build/demo/media",
+        "build": "lerna run build",
+        "start": "cd packages/demo && npm start",
+        "postbuild": "npm run copy-docs",
+        "build-docs": "cd packages/formantasass && npm run build && cd ../../ && cp -r ./packages/formantasass/build/ ./packages/demo/build/demo/docs",
+        "copy-docs": "cp -a ./packages/formantasass/build/ ./packages/demo/build/demo/docs && cp -a ./packages/demo/build/media ./packages/demo/build/demo/media",
         "release": "lerna publish from-package --no-git-reset"
     },
     "author": "",

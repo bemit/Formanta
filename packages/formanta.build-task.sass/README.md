@@ -28,7 +28,7 @@ run(entry, output, watch = true, outputStyle = 'nested', root_dir = '', includeP
 - root_dir: for building a prettier output, removing the root_dir from log. e.g. `__dirname`.
 - includePaths: array with paths for resolving `@imports`
 
-Builds upon those other open-source projects: 
+Builds upon those other open-source projects:
 - [LibSass](https://github.com/sass/libsass)
 - [node-sass](https://github.com/sass/node-sass)
 - [Autoprefixer](https://www.npmjs.com/package/autoprefixer)
@@ -48,4 +48,4 @@ For more informations on the licences which are applied read: [LICENCE.md](LICEN
 
 2018 - 2019 | [bemit UG](https://bemit.eu) (haftungsbeschränkt)
 
-Author: [Michael Becker](mlbr.xyz)
+Author: [Michael Becker](i-am-digital.eu)

@@ -1,14 +1,18 @@
-<section class="demo demo-form">
+<section class="demo demo-form mb5">
     <h2 class="demo-title">Form</h2>
 
     <div class="form-control">
-        <label>Normal Field</label>
-        <input type="text" placeholder="Enter some info">
+        <label>
+            <span>Normal Field</span>
+            <input type="text" placeholder="Enter some info">
+        </label>
     </div>
 
-    <div class="form-control">
-        <label>Dropdown Field</label>
-        <select class="body1">
+    <div class="form-control flex flex-column">
+        <label class="" for="inp-sel-0">
+            <span>Dropdown Field</span>
+        </label>
+        <select class="" id="inp-sel-0">
             <option>Option 1</option>
             <option>Option 2</option>
             <option>Option 3</option>
@@ -16,8 +20,10 @@
     </div>
 
     <div class="form-control">
-        <label>Dropdown Dense</label>
-        <select class="body1 dense">
+        <label for="inp-sel-1">
+            <span>Dropdown Dense</span>
+        </label>
+        <select class="dense" id="inp-sel-1">
             <option>Option 1</option>
             <option>Option 2</option>
             <option>Option 3</option>
@@ -26,37 +32,48 @@
 
     <fieldset>
         <legend>Toggled Inputs</legend>
-        <div class="form-control">
-            <label class="body1"><input type="checkbox">Checkbox</label>
-        </div>
-        <div class="form-control">
-            <label class="body1"><input type="radio" name="radio">Radio</label>
-        </div>
-        <div class="form-control">
-            <label class="body1"><input type="radio" name="radio">Radio</label>
+        <label class="block mb1"><input type="checkbox">Checkbox</label>
+        <label class="block mb1"><input type="radio" name="radio">Radio</label>
+        <label class="block mb1"><input type="radio" name="radio">Radio</label>
+    </fieldset>
+
+    <fieldset>
+        <legend>Toggled Inputs</legend>
+        <div class="flex flex-wrap">
+            <label class="block mb1 mr2"><input type="checkbox">Checkbox</label>
+            <label class="block mb1 mr2"><input type="radio" name="radio">Radio</label>
+            <label class="block mb1 mr2"><input type="radio" name="radio">Radio</label>
         </div>
     </fieldset>
 
     <div class="form-control">
-        <label>Invalid Field</label>
-        <input class="invalid" type="text" placeholder="Enter valid info">
+        <label>
+            <span>Invalid Field</span>
+            <input class="invalid" type="text" placeholder="Enter valid info">
+        </label>
         <p class="validation-error">Please enter a valid value.</p>
     </div>
 
     <div class="form-control-group">
         <div class="form-control mr2-md">
-            <label>Grouped Field 1</label>
-            <input type="text" placeholder="Enter valid value 1">
+            <label>
+                <span>Grouped Field 1</span>
+                <input type="text" placeholder="Enter valid value 1">
+            </label>
         </div>
 
         <div class="form-control grow-2x">
-            <label>Grouped Field 2</label>
-            <input type="text" placeholder="Enter valid value 2">
+            <label>
+                <span>Grouped Field 2</span>
+                <input type="text" placeholder="Enter valid value 2">
+            </label>
         </div>
     </div>
 
     <div class="form-control">
-        <label class="label">Text Area</label>
-        <textarea class="inp-text">Lorem ipsum.</textarea>
+        <label class="label">
+            <span>Text Area</span>
+            <textarea class="inp-text">Lorem ipsum.</textarea>
+        </label>
     </div>
 </section>
