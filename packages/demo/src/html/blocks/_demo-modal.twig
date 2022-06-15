@@ -1,21 +1,67 @@
-<section class="demo">
+<section class="demo mb5">
     <h2 class="demo-title">Modal</h2>
 
-    <button onclick="this.nextElementSibling.classList.toggle('hide')">Open</button>
+    <button class="btn" onclick="this.nextElementSibling.classList.toggle('hide')">Open</button>
 
     <div class="modal-mask hide" onclick="this.classList.toggle('hide')">
-        <div class="modal container-fixed container container-small" onclick="event.stopPropagation();">
+        <div class="modal container-fixed container container-sm" onclick="event.stopPropagation();">
             <div class="modal-head flex">
                 <p class="modal-title mb0">Modal Example</p>
-                <button class="btn btn-icon mya mla" onclick="this.parentNode.parentNode.parentNode.classList.toggle('hide')">
-                    <img src="https://icon1.bemit.codes/icon/material-ui/close.svg" alt="Close"/>
+                <button class="btn btn-ic mya mla" onclick="this.parentNode.parentNode.parentNode.classList.toggle('hide')">
+                    <img src="https://icon1.bemit.codes/icon/material-ui/close.svg{{ iconColor ? '?color=' ~ iconColor : '' }}" alt="Close"/>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
             </div>
             <div class="modal-footer">
-                <button class="button-primary">Save</button>
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn" onclick="this.nextElementSibling.classList.toggle('hide')">Open Fullscreen</button>
+
+    <div class="modal-mask hide" onclick="this.classList.toggle('hide')">
+        <div class="modal fullscreen o-rect" onclick="event.stopPropagation();">
+            <div class="modal-head ob o-thick o-primary flex">
+                <p class="modal-title mb0">Modal Example</p>
+                <button class="btn btn-ic mya mla" onclick="this.parentNode.parentNode.parentNode.classList.toggle('hide')">
+                    <img src="https://icon1.bemit.codes/icon/material-ui/close.svg{{ iconColor ? '?color=' ~ iconColor : '' }}" alt="Close"/>
+                </button>
+            </div>
+            <div class="modal-body grow-1x overflow-auto">
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="subtitle1">List in Modal</p>
+                <ul>
+                    <li>List Item 1</li>
+                    <li>List Item 2</li>
+                    <li>List Item 3</li>
+                    <li>List Item 4</li>
+                    <li>List Item 5</li>
+                    <li>List Item 6</li>
+                    <li>List Item 7</li>
+                    <li>List Item 8</li>
+                    <li>List Item 9</li>
+                    <li>List Item 10</li>
+                    <li>List Item 11</li>
+                    <li>List Item 12</li>
+                    <li>List Item 13</li>
+                    <li>List Item 14</li>
+                    <li>List Item 15</li>
+                </ul>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+                <p class="body1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur! Architecto culpa expedita totam aperiam, aliquid, consectetur! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto culpa expedita totam aperiam, aliquid, consectetur!</p>
+            </div>
+            <div class="modal-footer pt2 pb4 flex justify-end">
+                <button class="btn btn-lg btn-primary mr1 mr3-md">Save</button>
             </div>
         </div>
     </div>

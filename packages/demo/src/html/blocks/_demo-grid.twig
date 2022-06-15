@@ -1,20 +1,22 @@
-<section class="demo demo-grid">
-    <h2 class="demo-title">Grid</h2>
+<section class="demo demo-grid mb5">
+    <h2 class="demo-title mb0">Grid</h2>
 
-    <p class="body1">Normal flexbox grids have no spacings integrated, the spacing must exist at the child, here this is faked for the grey background.</p>
+    <div class="px2 py1 bg-paper mb2">
+        <p class="body1">Normal flexbox grids have no spacings integrated, the spacing must exist at the child, here this is faked for the grey background.</p>
 
-    <ul class="mt1">
-        <li><code>flex flex-wrap</code> are classes for the wrapper</li>
-        <li><code>col-1</code>, <code>col-2</code>,
-            <code>col-3</code> till <code>12</code> (or otherwise configured) are column classes
-        </li>
-        <li><code>col-sm-1</code>, <code>col-md-1</code>, <code>col-lg-1</code>,
-            <code>col-xl-1</code>, are for responsive column classes in bootstrap naming style
-        </li>
-        <li><code>sm-col-1</code>, <code>md-col-1</code>, <code>lg-col-1</code>,
-            <code>xl-col-1</code>, are for responsive column classes in Basscss naming style
-        </li>
-    </ul>
+        <ul class="mt1">
+            <li><code>flex flex-wrap</code> are classes for the wrapper</li>
+            <li><code>col-1</code>, <code>col-2</code>,
+                <code>col-3</code> till <code>12</code> (or otherwise configured) are column classes
+            </li>
+            <li><code>col-sm-1</code>, <code>col-md-1</code>, <code>col-lg-1</code>,
+                <code>col-xl-1</code>, are for responsive column classes in bootstrap naming style
+            </li>
+            <li><code>sm-col-1</code>, <code>md-col-1</code>, <code>lg-col-1</code>,
+                <code>xl-col-1</code>, are for responsive column classes in Basscss naming style
+            </li>
+        </ul>
+    </div>
 
     <div class="flex flex-wrap" style="margin: 0 -5px">
         <div class="col-1 bg-grey"></div>
@@ -71,174 +73,212 @@
         <div class="col-12 bg-grey"></div>
     </div>
 
-    <div>
-        <h3 class="demo-title">Nested Grid / Grid with Spacings</h3>
+    <div class="mb3"></div>
+
+    <h3 class="demo-title mb0">Nested Grid / Grid with Spacings</h3>
+    <div class="px2 py1 bg-paper mb2">
         <p class="body1">Nested grids have the spacings integrated, they currently use
-            <code>$spacing-def</code>: 1, 0.5 and 2. The spacing is applied to direct children which have a class that begins with
+            <code>$spacing-def</code>: 1, 0.5, 2 and 3. The spacing is applied to direct children which have a class that begins with
             <code>col-</code>. Blue background cells are second level, grey first level.</p>
         <p class="mb0">Classes for wrapper:</p>
         <ul class="mt0">
             <li><code>flex flex-wrap grid-s05</code></li>
             <li><code>flex flex-wrap grid-s1</code></li>
             <li><code>flex flex-wrap grid-s2</code></li>
+            <li><code>flex flex-wrap grid-s3</code></li>
         </ul>
+    </div>
 
-        <div class="flex flex-wrap grid-s05">
-            <div class="col-5">
-                <div class="flex flex-wrap grid-s05">
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="bg-blue">
-                        </div>
+    <div class="flex flex-wrap grid-s05">
+        <div class="col-5">
+            <div class="flex flex-wrap grid-s05">
+                <div class="col-4">
+                    <div class="bg-blue">
                     </div>
                 </div>
-            </div>
-            <div class="col-2 flex">
-                <div class="bg-grey col-12">
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
                 </div>
-            </div>
-            <div class="col-5">
-                <div class="flex flex-wrap grid-s05">
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
+                <div class="col-4">
+                    <div class="bg-blue">
                     </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-blue">
                     </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="bg-blue">
-                        </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-blue">
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="mb4"></div>
-        <div class="flex flex-wrap grid-s1">
-            <div class="col-3 flex">
-                <div class="bg-grey col-12">
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="flex flex-wrap grid-s1">
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="flex flex-wrap grid-s1">
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                </div>
+        <div class="col-2 flex">
+            <div class="bg-grey col-12">
             </div>
         </div>
-
-        <div class="mb4"></div>
-
-        <div class="flex flex-wrap grid-s2">
-            <div class="col-6">
-                <div class="flex flex-wrap grid-s2">
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="bg-blue">
-                        </div>
+        <div class="col-5">
+            <div class="flex flex-wrap grid-s05">
+                <div class="col-4">
+                    <div class="bg-blue">
                     </div>
                 </div>
-            </div>
-            <div class="col-5">
-                <div class="flex flex-wrap grid-s2">
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="bg-blue">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="bg-blue">
-                        </div>
+                <div class="col-4">
+                    <div class="bg-blue">
                     </div>
                 </div>
-            </div>
-            <div class="col-1 flex">
-                <div class="bg-grey col-12">
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="bg-blue">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="mb4"></div>
+    <div class="flex flex-wrap grid-s1">
+        <div class="col-3 flex">
+            <div class="bg-grey col-12">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="flex flex-wrap grid-s1">
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="flex flex-wrap grid-s1">
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb4"></div>
+
+    <div class="flex flex-wrap grid-s2">
+        <div class="col-6">
+            <div class="flex flex-wrap grid-s2">
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="flex flex-wrap grid-s2">
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-1 flex">
+            <div class="bg-grey col-12">
+            </div>
+        </div>
+    </div>
+
+    <div class="mb4"></div>
+
+    <div class="flex flex-wrap grid-s2">
+        <div class="col-6">
+            <div class="flex flex-wrap grid-s3">
+                <div class="col-6">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-blue">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-5 flex flex-column">
+            <div class="bg-grey-raw col-12 grow-1x">
+            </div>
+        </div>
+        <div class="col-1 flex flex-column">
+            <div class="bg-grey-raw col-12 grow-1x">
+            </div>
+        </div>
+    </div>
+
+    <div class="mb4"></div>
 
     <h3 class="demo-title">Grid Offset</h3>
 

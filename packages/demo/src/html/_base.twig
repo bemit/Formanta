@@ -109,18 +109,22 @@
                 }
 
                 popup = document.createElement('span');
-                popup.style.border = '1px solid #666';
-                popup.style.background = '#ffffff';
                 popup.style.position = 'fixed';
                 popup.style.zIndex = '100';
                 popup.style.left = x + 'px';
                 popup.style.top = y + 'px';
+                popup.style.right = '4px';
+                popup.style.wordBreak = 'break-word';
                 popup.style.padding = '6px 9px';
                 popup.style.marginLeft = '4px';
+                popup.classList.add('copy-overlay');
+                popup.classList.add('o');
+                popup.classList.add('o-divider');
                 popup.classList.add('font-family-mono');
 
                 let copy = document.createElement('button');
                 copy.classList.add('px1');
+                copy.classList.add('mr1');
                 copy.classList.add('btn');
                 copy.innerText = '📄';
                 copy.title = 'Copy to Clipboard';
@@ -130,6 +134,7 @@
 
                 let end = document.createElement('button');
                 end.classList.add('px1');
+                end.classList.add('mr1');
                 end.classList.add('btn');
                 end.innerText = '⭕';
                 end.title = 'End Inspect';
@@ -149,5 +154,91 @@
                 }
             });
         });
+        const collapse = (toggles) => {
+            const unsub = toggles.map((node) => {
+                const handleToggle = (target) => {
+                    const nextSibling = target.nextElementSibling;
+                    if(!nextSibling) return;
+                    if(nextSibling.classList.contains('closed')) {
+                        if(nextSibling.style.height !== '0') {
+                            nextSibling.style.height = '0';
+                        }
+                        nextSibling.classList.remove('closed');
+                        nextSibling.style.height = nextSibling.scrollHeight + 'px';
+                    } else {
+                        nextSibling.classList.add('closed');
+                        nextSibling.style.height = '0';
+                    }
+                };
+                const onClick = (e) => {
+                    handleToggle(e.target);
+                };
+                const onKeyPress = (e) => {
+                    if(e.key === 'Enter') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleToggle(e.target);
+                    }
+                };
+                node.addEventListener('click', onClick);
+                node.addEventListener('keypress', onKeyPress);
+                return () => {
+                    node.removeEventListener('click', onClick);
+                    node.removeEventListener('keypress', onKeyPress);
+                };
+            });
+            const onResize = () => {
+                toggles.forEach((toggle) => {
+                    const nextSibling = toggle.nextElementSibling;
+                    if(!nextSibling) return;
+                    if(!nextSibling.classList.contains('closed')) {
+                        nextSibling.style.height = nextSibling.scrollHeight + 'px';
+                    }
+                });
+            };
+            window.addEventListener('resize', onResize);
+            return () => {
+                unsub.forEach(u => u());
+                window.removeEventListener('resize', onResize);
+            };
+        };
+        collapse(
+                Array.from(document.querySelectorAll('[data-toggle]'))
+        );
+        const toc = document.querySelector('[data-toc="embed"]');
+        const titles = Array.from(document.querySelectorAll('.demo-title:not([data-toc="ignore"])'))
+                .map(title => {
+                    const tagName = Number(title.localName.slice(1));
+                    const text = title.innerText;
+                    title.id = text.toLowerCase()
+                            .replace(/[ \/,:\\'`´"°~]/g, '-')
+                            .replace(/--/g, '-').replace(/--/g, '-')
+                            .slice(0, 25);
+                    return {
+                        label: text,
+                        id: title.id,
+                        level: tagName - 1,
+                    };
+                });
+        toc.innerHTML = titles.map(title => `<li style="margin-left: ${title.level * 16}px" "><a href="#${title.id}">${title.label}</a></li>`).join('');
+
+        (() => {
+            const initialState = { current: undefined };
+            const cssVarHead = document.querySelector('[data-cssvars="source"]');
+            if(!cssVarHead) return;
+            const cssVarInput = document.querySelector('[data-cssvars="input"]');
+            if(!cssVarInput) return;
+            const cssVarReset = document.querySelector('[data-cssvars="reset"]');
+            const cssVarSubmit = document.querySelector('[data-cssvars="submit"]');
+            initialState.current = cssVarHead.innerText;
+            cssVarInput.value = cssVarHead.innerText;
+            cssVarReset.addEventListener('click', () => {
+                cssVarHead.innerText = initialState.current;
+                cssVarInput.value = initialState.current;
+            });
+            cssVarSubmit.addEventListener('click', () => {
+                cssVarHead.innerText = cssVarInput.value;
+            });
+        })();
     </script>
 {% endblock %}

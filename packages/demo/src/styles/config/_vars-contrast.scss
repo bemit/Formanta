@@ -1,0 +1,77 @@
+//$bg-body: $color-gray-800 !default;
+$bg-body: #dee6e4 !default;
+$bg-paper: #fafdfc !default;
+$bg-paper-transparent: rgba($bg-paper, 0.75) !default;
+$bg-contained: #e4e7e8 !default;
+$color-dark-transparent: rgba($color-dark, 0.65) !default;
+$bg-backdrop: $color-dark-transparent !default;
+$font-color: $color-gray-900 !default;
+$button-text-color: $color-gray-100 !default;
+$title-font-color: $color-gray-900 !default;
+$link-weight: 600 !default;
+$title-font-weight: 900 !default;
+$button-font-weight: 700 !default;
+
+$color-primary: $color-purple-800 !default;
+$color-secondary: $color-teal-600 !default;
+
+$color-success: $color-green-600 !default;
+$color-success-dark: $color-green-800 !default;
+$color-info: $color-blue-800 !default;
+$color-info-dark: $color-blue-900 !default;
+$color-warning: $color-amber-800 !default;
+$color-warning-dark: $color-orange-900 !default;
+$color-danger: $color-red-700 !default;
+$color-danger-dark: $color-red-900 !default;
+
+$text-colors: (
+        'primary' : $color-primary,
+        'secondary' : $color-secondary,
+        'success' : $color-success-dark,
+        'info' : $color-info-dark,
+        'warning' : $color-warning-dark,
+        'danger' : $color-danger-dark,
+        'light' : $color-gray-600,
+        'strong' : $color-dark,
+) !default;
+
+$elevation-steps: (
+        0: none,
+        1: 0 2px 6px rgba($color-gray-700, 0.65),
+        2: 0 3px 8px rgba($color-gray-800, 0.65),
+        3: 0 4px 8px rgba($color-gray-800, 0.75),
+        4: 0 5px 8px rgba($color-gray-800, 0.85),
+        'area': 0 4px 14px rgba($color-gray-500, 0.8),
+) !default;
+
+$outlined-border-color: $color-blue-gray-600 !default;
+
+$outlined-colors: (
+        'primary': $color-primary,
+        'secondary': $color-secondary,
+        'success' : $color-success-dark,
+        'danger' : $color-danger-dark,
+        'divider': rgba($outlined-border-color, 0.215),
+) !default;
+
+$bg-colors: (
+        'paper': $bg-paper,
+        'paper-transparent': $bg-paper-transparent,
+        'body': $bg-body,
+        'backdrop': $bg-backdrop,
+        'success': rgba($color-success, 0.1725),
+        'info': rgba($color-info, 0.1725),
+        'warning': rgba($color-warning, 0.1725),
+        'danger': rgba($color-danger, 0.1725),
+) !default;
+
+$input-invalid-color: $color-red-800 !default;
+$input-error-text-color: $color-danger-dark !default;
+$input-placeholder-color: $color-gray-700 !default;
+
+$input-label-font-weight: 600 !default;
+$base-border-width: 2px;
+$base-border-thick-width: 6px;
+$spacing: 6px;
+$body1-margin: 0 0 0.8725em 0 !default;
+$body2-margin: 0 0 0.625em 0 !default;
