@@ -1,6 +1,28 @@
 {% extends '_main.twig' %}
 
 {% block head_style %}
+    {{ parent() }}
+    <style>
+        /* roboto-slab-regular - latin */
+        @font-face {
+            font-family: 'Roboto Slab';
+            font-style: normal;
+            font-weight: 400;
+            src: url('/media/fonts/roboto-slab-v16-latin-regular.eot'); /* IE9 Compat Modes */
+            src: local(''),
+            url('/media/fonts/roboto-slab-v16-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/media/fonts/roboto-slab-v16-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */ url('/media/fonts/roboto-slab-v16-latin-regular.woff') format('woff'), /* Modern Browsers */ url('/media/fonts/roboto-slab-v16-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */ url('/media/fonts/roboto-slab-v16-latin-regular.svg#RobotoSlab') format('svg'); /* Legacy iOS */
+        }
+
+        /* roboto-slab-700 - latin */
+        @font-face {
+            font-family: 'Roboto Slab';
+            font-style: normal;
+            font-weight: 700;
+            src: url('/media/fonts/roboto-slab-v16-latin-700.eot'); /* IE9 Compat Modes */
+            src: local(''),
+            url('/media/fonts/roboto-slab-v16-latin-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/media/fonts/roboto-slab-v16-latin-700.woff2') format('woff2'), /* Super Modern Browsers */ url('/media/fonts/roboto-slab-v16-latin-700.woff') format('woff'), /* Modern Browsers */ url('/media/fonts/roboto-slab-v16-latin-700.ttf') format('truetype'), /* Safari, Android, iOS */ url('/media/fonts/roboto-slab-v16-latin-700.svg#RobotoSlab') format('svg'); /* Legacy iOS */
+        }
+    </style>
 {% endblock %}
 
 {% block footer_inner__ %}
@@ -113,7 +135,8 @@
                 popup.style.zIndex = '100';
                 popup.style.left = x + 'px';
                 popup.style.top = y + 'px';
-                popup.style.right = '4px';
+                // todo: `right 4` is for not going out of screen, but also results in "always fullwidth"
+                // popup.style.right = '4px';
                 popup.style.wordBreak = 'break-word';
                 popup.style.padding = '6px 9px';
                 popup.style.marginLeft = '4px';
@@ -239,6 +262,107 @@
             cssVarSubmit.addEventListener('click', () => {
                 cssVarHead.innerText = cssVarInput.value;
             });
+        })();
+
+        (() => {
+            const calcTabHeight = (tab) => {
+                // todo: find a better way to get the correct height size of tab + tab content
+                const tabContentHeight = Array.from(tab.children).reduce((height, child) => {
+                    const styles = window.getComputedStyle(child);
+                    const styleGutter = parseFloat(styles.getPropertyValue('margin-top')) +
+                            parseFloat(styles.getPropertyValue('margin-bottom'));
+                    return height + child.getBoundingClientRect().height + styleGutter;
+                }, 0);
+                const styles = window.getComputedStyle(tab);
+                const styleGutter = parseFloat(styles.getPropertyValue('padding-top')) +
+                        parseFloat(styles.getPropertyValue('padding-bottom'));
+                const stylesScroller = window.getComputedStyle(tab.parentElement);
+                const styleGutterScroller = parseFloat(stylesScroller.getPropertyValue('padding-top')) +
+                        parseFloat(stylesScroller.getPropertyValue('padding-bottom')) +
+                        parseFloat(stylesScroller.getPropertyValue('border-top')) +
+                        parseFloat(stylesScroller.getPropertyValue('border-bottom'));
+                tab.parentElement.style.height = (tabContentHeight + styleGutter + styleGutterScroller) + 'px';
+            };
+            const tabContainers = Array.from(document.querySelectorAll('[data-tabs]'));
+            tabContainers.forEach(tabContainer => {
+                const tabHeight = tabContainer.dataset.tabsHeight || 'fix';// `fixed` or `flex`
+                const inactiveClass = tabContainer.dataset.tabsInactiveClass?.split(' ') || [];// any single / multiple css class separated by spaces
+                const activeClass = tabContainer.dataset.tabsActiveClass?.split(' ') || ['toggle-active'];// any single / multiple css class separated by spaces
+                const scrollBehaviour = tabContainer.dataset.tabsScrollBehaviour || undefined;// `auto` or `smooth`
+                const tabToggles = Array.from(tabContainer.querySelectorAll('[data-tabs-toggle]'));
+
+                const initialActiveToggle = tabContainer.querySelector('.' + activeClass.join('.') + '[data-tabs-toggle]');
+                if(!initialActiveToggle) {
+                    console.error('Initial Active Tab Toggle missing for: ', tabContainer);
+                    return;
+                }
+                const allTabs = tabContainer.querySelectorAll('[data-tabs-target]');
+                const initialActiveTab = tabContainer.querySelector('[data-tabs-target="' + initialActiveToggle.dataset.tabsToggle + '"]');
+                if(!initialActiveTab) {
+                    console.error('Initial Active Tab missing for: ', initialActiveToggle.dataset.tabsToggle, initialActiveToggle);
+                    return;
+                }
+                if(tabHeight === 'flex') {
+                    calcTabHeight(initialActiveTab);
+                }
+                initialActiveTab.parentElement.scrollTo({
+                    left: initialActiveTab.offsetLeft,
+                    behavior: scrollBehaviour,
+                });
+                initialActiveTab.style.visibility = null;
+                allTabs.forEach(tab => {
+                    if(tab !== initialActiveTab) {
+                        tab.style.visibility = 'hidden';
+                    }
+                });
+
+                tabToggles.forEach(
+                        tabToggle =>
+                                tabToggle.addEventListener('click', (e) => {
+                                    const toggle = e.target;
+                                    const tabTarget = e.target.dataset.tabsToggle;
+                                    const activeTab = tabContainer.querySelector('[data-tabs-target="' + tabTarget + '"]');
+                                    if(!activeTab) {
+                                        console.error('Tab missing for toggle: ', toggle);
+                                        return;
+                                    }
+                                    activeTab.parentElement.scrollTo({
+                                        left: activeTab.offsetLeft,
+                                        behavior: scrollBehaviour,
+                                    });
+                                    activeTab.style.visibility = null;
+                                    allTabs.forEach(tab => {
+                                        if(tab !== activeTab) {
+                                            tab.style.visibility = 'hidden';
+                                        }
+                                    });
+                                    if(tabHeight === 'flex') {
+                                        calcTabHeight(activeTab);
+                                    }
+                                    toggle.parentElement.querySelectorAll('[data-tabs-toggle]')
+                                            .forEach((tabToggleInParent) => {
+                                                if(tabToggleInParent === toggle) {
+                                                    activeClass.forEach((c) => tabToggleInParent.classList.add(c));
+                                                    inactiveClass.forEach((c) => tabToggleInParent.classList.remove(c));
+                                                    return;
+                                                }
+                                                activeClass.forEach((c) => tabToggleInParent.classList.remove(c));
+                                                inactiveClass.forEach((c) => tabToggleInParent.classList.add(c));
+                                            });
+                                })
+                );
+            });
+        })();
+
+        (() => {
+            Array.from(document.querySelectorAll('a[href="#"]'))
+                    .forEach(
+                            dummyLink =>
+                                    dummyLink.addEventListener('click', (e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                    })
+                    );
         })();
     </script>
 {% endblock %}

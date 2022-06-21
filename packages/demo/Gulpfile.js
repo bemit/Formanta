@@ -30,7 +30,6 @@ const pages = {
     },
 };
 
-console.log('isDevisDevisDevisDevisDevisDevisDev', isDev);
 // for infos check `create-amp-page` docs or typings/inline-doc!
 const tasks = ampCreator({
     port: port,
@@ -50,7 +49,7 @@ const tasks = ampCreator({
     data: {},
     sassConfig: {
         // postImport: !isDev,
-        // postNano: !isDev,
+        postNano: !isDev,
         // postPrefix: !isDev,
     },
     fmMap: (data, files) => {

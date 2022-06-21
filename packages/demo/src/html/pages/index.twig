@@ -13,31 +13,35 @@
     </section>
 
     {% if request.path == '' %}
-        <div class="px2">
+        {% include 'blocks/_demo-container.twig' %}
+
+        <div class="container container-md container-fixed bg-paper px4 mb2">
             {% include 'blocks/_demo-grid.twig' %}
+        </div>
 
-            {% include 'blocks/_demo-container.twig' %}
-
+        <div class="container container-md container-fixed bg-paper px4 mb2">
             {% include 'blocks/_demo-spacings.twig' %}
         </div>
     {% endif %}
 
     <div class="container container-md container-fixed bg-paper px4">
-        {% include 'blocks/_demo-buttons.twig' %}
-
         {% include 'blocks/_demo-typography.twig' %}
-
         {% include 'blocks/_demo-form.twig' %}
+        {% include 'blocks/_demo-buttons.twig' %}
         {% include 'blocks/_demo-content.twig' %}
+        {% include 'blocks/_demo-tables.twig' %}
+
         {% include 'blocks/_demo-elevation.twig' %}
         {% include 'blocks/_demo-outlined.twig' %}
-        {% include 'blocks/_demo-modal.twig' %}
+
         {% include 'blocks/_demo-panel.twig' %}
-        {% include 'blocks/_demo-collapse.twig' %}
-        {% include 'blocks/_demo-loading.twig' %}
-        {# {% include 'blocks/_demo-steppers.twig' %} #}
-        {% include 'blocks/_demo-tooltip.twig' %}
-        {% include 'blocks/_demo-tables.twig' %}
         {% include 'blocks/_demo-alert.twig' %}
+
+        {% include 'blocks/_demo-modal.twig' %}
+        {% include 'blocks/_demo-collapse.twig' %}
+        {% include 'blocks/_demo-tabs.twig' %}
+
+        {% include 'blocks/_demo-tooltip.twig' %}
+        {% include 'blocks/_demo-loading.twig' %}
     </div>
 {% endblock %}
