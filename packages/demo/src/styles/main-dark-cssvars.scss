@@ -1,3 +1,10 @@
+$title1-selector: 'h1, .h1';
+$title2-selector: 'h2, .h2';
+$title3-selector: 'h3, .h3';
+$title4-selector: 'h4, .h4';
+$title5-selector: 'h5, .h5';
+$title6-selector: 'h6, .h6';
+
 @import "prebuild/main-dark-cssvars";
 
 @import 'shared';
