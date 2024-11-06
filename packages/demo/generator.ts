@@ -31,7 +31,6 @@ const generator = initGenerator({
         quietDeps: false,
         silenceDeprecations: [
             'import',
-            'global-builtin',
         ],
     },
     setupEngine: (engine) => {
