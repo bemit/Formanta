@@ -8,7 +8,7 @@
     "author": "Michael Becker <michael@bemit.codes>",
     "license": "MIT",
     "dependencies": {
-        "@formanta/sass": "~0.21.0",
+        "@formanta/sass": "~0.23.3",
         "create-amp-page": "~1.0.0-beta.2",
         "normalize.css": "^8.0.1",
         "gulp": "^4.0.2",

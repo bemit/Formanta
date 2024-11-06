@@ -6,21 +6,21 @@
     "main": "index.js",
     "scripts": {
         "clean": "lerna clean -y",
-        "bootstrap": "lerna bootstrap",
-        "hoist": "lerna bootstrap --hoist",
-        "link": "lerna link --force-local",
         "test": "lerna run test",
         "build": "lerna run build",
         "start": "cd packages/demo && npm start",
         "postbuild": "npm run copy-docs",
-        "build-docs": "cd packages/formantasass && npm run build && cd ../../ && cp -r ./packages/formantasass/build/ ./packages/demo/build/demo/docs",
+        "build-docs": "cd packages/formantasass && npm run build && cd ../../",
         "copy-docs": "cp -a ./packages/formantasass/build/ ./packages/demo/build/demo/docs && cp -a ./packages/demo/build/media ./packages/demo/build/demo/media",
         "release": "lerna publish from-package --no-git-reset"
     },
     "author": "",
     "license": "MIT",
     "devDependencies": {
-        "cross-spawn": "^7.0.2",
-        "lerna": "^3.20.2"
-    }
+        "cross-spawn": "^7.0.3",
+        "lerna": "^8.1.8"
+    },
+    "workspaces": [
+        "packages/*"
+    ]
 }

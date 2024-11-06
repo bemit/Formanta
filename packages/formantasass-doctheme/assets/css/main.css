@@ -305,6 +305,7 @@ table p {
 }
 
 .searchbar__suggestions {
+    display    : none;
     position   : absolute;
     top        : 100%;
     right      : 0;
@@ -317,9 +318,9 @@ table p {
     z-index    : 2
 }
 
-.searchbar__suggestions:empty {
+/*.searchbar__suggestions:empty {
     display : none
-}
+}*/
 
 .searchbar__suggestions .selected {
     background : #dddddd
@@ -345,6 +346,10 @@ table p {
 
 .searchbar__suggestions code {
     margin-right : .5em
+}
+
+.searchbar__form:focus-within .searchbar__suggestions:not(:empty) {
+    display: block;
 }
 
 @media (min-width : 801px) {

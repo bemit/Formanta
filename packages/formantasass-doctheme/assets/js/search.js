@@ -17,7 +17,7 @@
       },
 
       init: true
-    }, conf || {});
+    }, conf || {});
 
     if (this.conf.init === true) {
       this.initialize();
