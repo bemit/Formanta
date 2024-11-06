@@ -1,0 +1,40 @@
+@use '~normalize.css/normalize.css';
+@import '@formanta/sass/selector-no-native';
+@import '@formanta/sass/meta';
+@import 'shared';
+
+.bg-grey {
+    &:after {
+        background: grey;
+    }
+}
+
+.bg-blue {
+    &:after {
+        background: cornflowerblue;
+    }
+}
+
+.bg-grey-raw {
+    background: grey;
+    color: white;
+}
+
+.demo-title {
+    background: $color-gray-300;
+    color: $title-font-color;
+}
+
+.copy-overlay {
+    border: 1px solid #666;
+    background: #ffffff;
+}
+
+.copy-success {
+    background: rgba(200, 200, 200, 0.9);
+    color: #000000;
+}
+
+
+@import '@formanta/sass/style';
+

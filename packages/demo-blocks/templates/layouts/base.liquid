@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html {% if meta.lang %}lang="{{ meta.lang }}"{% endif %}>
+<head>
+    {% if meta.title %}<title>{{ meta.title }}</title>{% endif %}
+
+    {% comment %}
+        todo: this requires to use the `.liquid` file location from where this part is injected
+              but it will use the location of the page file
+        <link rel="stylesheet" href="../../styles/main.scss"/>
+    {% endcomment %}
+    {% comment %}
+        todo: optimize DX for path concat, assets linking/injection incl. hashes for prod, support for trailing slash strategy
+    {% endcomment %}
+    <link rel="stylesheet" href="{{ assets.styles['main.scss'] }}"/>
+    {% comment %}<link rel="stylesheet" href="{{ assets['main.css'] }}"/>{% endcomment %}
+    {% comment %}<link rel="stylesheet" href="{{ assets['main.scss'] }}"/>{% endcomment %}
+    {% comment %}<link rel="stylesheet" href="{{ assets['main.css'] }}"/>{% endcomment %}
+    {% comment %}<link rel="stylesheet" href="{{ settings.base }}{{ settings.assetsDir }}/main.css"/>{% endcomment %}
+    {% comment %}<link rel="stylesheet" href="{{ assets.styles.main }}"/>{% endcomment %}
+    {% comment %}<link rel="stylesheet" href="{{ assets.styles.scope }}"/>{% endcomment %}
+</head>
+<body class="bg-body">
+<header>
+    <p>Header</p>
+</header>
+
+{% comment %}<p>{{ assets.styles.main }}</p>{% endcomment %}
+{% block content %}{% endblock %}
+
+<footer>
+    <p style="">Footer</p>
+</footer>
+</body>
+</html>

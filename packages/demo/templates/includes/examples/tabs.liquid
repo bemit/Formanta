@@ -1,0 +1,85 @@
+<section class="demo">
+    <h2 class="demo-title">Tabs</h2>
+
+    <div class="mb3">
+        <p class="body2">Example combines <code>.btn-group</code>, <code>.tabs-toggle-group</code> with an HTML structure which combined those buttons with an content area.</p>
+
+        <p class="body2">Requires some JS to work, <strong>not included in the formanta/sass package</strong>, see this
+            <a href="https://gist.github.com/elbakerino/0c290854e923c7933196243da9227dc7" target="_blank">GitHub Gist</a>.</p>
+    </div>
+
+    <div class="flex flex-column mb2" data-tabs="container" data-tabs-height="fix">
+        <div class="overflow-auto btn-group tabs-toggle-group relative z1">
+            {% comment %}            <button class="btn" data-tabs-toggle="a" style="border-bottom-left-radius: 0">Tab A</button> {% endcomment %}
+            <button class="btn-style o-divider toggle-active" data-tabs-toggle="a">Tab A</button>
+            <button class="btn-style btn-ic o-divider" data-tabs-toggle="b">
+                {% icon "info", color: 'currentColor', role: 'img', ariaLabel: 'Info', style: "pointer-events: none;" %}
+            </button>
+            <button class="btn-style o-divider" data-tabs-toggle="c">C Tab Full-Clickable</button>
+            <button class="btn-style o-divider" data-tabs-toggle="d">Tab End D</button>
+        </div>
+        <div class="flex relative overflow-hidden o o-divider relative z2" style="border-top-left-radius: 0">
+            {% include 'examples/tabs-inner.liquid' %}
+        </div>
+    </div>
+
+    <div
+            class="flex flex-column mb2"
+            data-tabs="container" data-tabs-height="flex" data-tabs-active-class="btn-primary"
+            data-tabs-scroll-behaviour="smooth"
+    >
+        <div class="flex overflow-auto btn-group tabs-toggle-group relative z1">
+            {% comment %}            <button class="btn" data-tabs-toggle="a" style="border-bottom-left-radius: 0">Tab A</button> {% endcomment %}
+            <button class="btn-style o-divider" data-tabs-toggle="a">Tab A</button>
+            <button class="btn-style btn-ic o-divider" data-tabs-toggle="b">
+                {% comment %} btn-primary with "responsive color in icon" only works with inline-svgs {% endcomment %}
+                {% icon "info", color: 'currentColor', role: 'img', ariaLabel: 'Info', style: "pointer-events: none;" %}
+            </button>
+            <button class="btn-style o-divider btn-primary" data-tabs-toggle="c">C Tab Full-Clickable</button>
+            <button class="btn-style o-divider" data-tabs-toggle="d">Tab End D</button>
+        </div>
+        <div class="flex relative overflow-hidden o o-divider relative z2" style="border-top-left-radius: 0; transition: 0.218s height ease-in-out">
+            {% include 'examples/tabs-inner.liquid' %}
+        </div>
+    </div>
+
+    <div
+            class="flex flex-wrap mb2"
+            data-tabs="container" data-tabs-height="fix"
+            data-tabs-active-class="o-primary btn-primary-o"
+            data-tabs-inactive-class="o-divider"
+    >
+        <div class="col-12 col-md-4 overflow-auto btn-group btn-group-vertical-md relative z1 pr1-md pb1 pb0-md">
+            {% comment %}            <button class="btn" data-tabs-toggle="a" style="border-bottom-left-radius: 0">Tab A</button> {% endcomment %}
+            <button class="btn-style o-primary btn-primary-o" data-tabs-toggle="a">Tab A</button>
+            <button class="btn-style btn-ic justify-center items-center o-divider" data-tabs-toggle="b">
+                {% comment %} btn-primary with "responsive color in icon" only works with inline-svgs {% endcomment %}
+                {% icon "info", color: 'currentColor', role: 'img', ariaLabel: 'Info', style: "pointer-events: none;" %}
+                <span class="px1" style="pointer-events: none">Company Info</span>
+            </button>
+            <button class="btn-style o-divider" data-tabs-toggle="c">C Tab Full-Clickable</button>
+            <button class="btn-style o-divider" data-tabs-toggle="d">Tab End D</button>
+        </div>
+        <div class="col-12 col-md-8 flex relative overflow-hidden o o-divider relative z2">
+            {% include 'examples/tabs-inner.liquid' %}
+        </div>
+    </div>
+
+    <div class="flex flex-wrap mb2" data-tabs="container" data-tabs-height="flex" data-tabs-active-class="btn-primary">
+        <div class="col-12 col-md-8 flex relative overflow-hidden o o-divider relative z2" style="transition: 0.218s height ease-in-out">
+            {% include 'examples/tabs-inner.liquid' %}
+        </div>
+
+        <div class="col-12 col-md-4 overflow-auto btn-group btn-group-vertical-md relative z1 pl1-md pt1 pt0-md">
+            {% comment %}            <button class="btn" data-tabs-toggle="a" style="border-bottom-left-radius: 0">Tab A</button> {% endcomment %}
+            <button class="btn-style o-divider btn-primary" data-tabs-toggle="a">Tab A</button>
+            <button class="btn-style btn-ic flex justify-center items-center o-divider" data-tabs-toggle="b">
+                {% comment %} btn-primary with "responsive color in icon" only works with inline-svgs {% endcomment %}
+                {% icon "info", color: 'currentColor', role: 'img', ariaLabel: 'Info', style: "pointer-events: none;" %}
+                <span class="px1" style="pointer-events: none">Company Info</span>
+            </button>
+            <button class="btn-style o-divider" data-tabs-toggle="c">C Tab Full-Clickable</button>
+            <button class="btn-style o-divider" data-tabs-toggle="d">Tab End D</button>
+        </div>
+    </div>
+</section>

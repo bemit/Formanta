@@ -1,0 +1,13 @@
+{% layout "base.liquid" %}
+
+{% block head_style %}
+<link rel="stylesheet" href="{{ assets.styles['main-no-native.scss'] }}"/>
+{% endblock %}
+
+{% block content %}
+
+{% include "intro.liquid" %}
+{% include "toc.liquid" %}
+{% include "examples.liquid" %}
+
+{% endblock %}

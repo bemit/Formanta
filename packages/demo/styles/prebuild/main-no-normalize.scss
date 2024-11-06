@@ -1,0 +1,15 @@
+@import '@formanta/sass/meta-base';
+
+// use meta base / configure element defaults
+
+@import '@formanta/sass/meta-attributes';
+
+// use meta base & elements / configure components
+
+@import '@formanta/sass/meta-components';
+
+@import '@formanta/sass/style-global';
+@import '@formanta/sass/style-components';
+@import '@formanta/sass/style-elements';
+@import '@formanta/sass/style-attributes';
+@import '@formanta/sass/style-base';

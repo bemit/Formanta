@@ -8,16 +8,20 @@
     "author": "Michael Becker <michael@bemit.codes>",
     "license": "MIT",
     "dependencies": {
-        "@formanta/sass": "~0.23.3",
-        "create-amp-page": "~1.0.0-beta.2",
+        "@formanta/sass": "~0.24.0",
         "normalize.css": "^8.0.1",
-        "gulp": "^4.0.2",
-        "postcss": "^8.3.6"
+        "@material-design-icons/svg": "^0.14.13",
+        "@material-symbols/svg-400": "^0.26.0",
+        "@formanta/blocks": "~0.2.0",
+        "sharp": "^0.33.5",
+        "puppeteer": "^23.7.0"
     },
     "scripts": {
-        "tasks": "gulp --tasks",
-        "start": "cross-env NODE_ENV=development gulp watch",
-        "build": "cross-env NODE_ENV=production gulp build",
-        "clean": "gulp clean"
+        "favicons": "tsx ./favicons.ts",
+        "screenshots": "tsx ./screenshots.ts",
+        "serve": "tsx watch ./generator.ts",
+        "clean": "tsx ./generator.ts clean",
+        "build": "cross-env NODE_ENV=production tsx ./generator.ts build",
+        "postbuild": "npm run favicons && npm run screenshots"
     }
 }

@@ -1,25 +1,51 @@
 {
-  "short_name": "Formanta",
-  "name": "Formanta Mini CSS Framework",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": "/?utm_source=a2hs",
-  "display": "standalone",
-  "theme_color": "#6ab42a",
-  "background_color": "#0044aa"
+    "short_name": "Formanta",
+    "name": "Formanta Sass Framework",
+    "description": "Mini CSS Framework with modular Sass files",
+    "icons": [
+        {
+            "src": "/formanta_logo.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/media/screenshot-hidpi.webp",
+            "sizes": "1440x900",
+            "type": "image/webp",
+            "form_factor": "wide",
+            "label": "Homescreen"
+        },
+        {
+            "src": "/media/screenshot-mobile.webp",
+            "sizes": "375x812",
+            "type": "image/webp",
+            "form_factor": "narrow",
+            "label": "Homescreen"
+        },
+        {
+            "src": "/media/screenshot-hidpi-dark.webp",
+            "sizes": "1440x900",
+            "type": "image/webp",
+            "form_factor": "wide",
+            "label": "Dark Theme"
+        },
+        {
+            "src": "/media/screenshot-mobile-dark.webp",
+            "sizes": "375x812",
+            "type": "image/webp",
+            "form_factor": "narrow",
+            "label": "Dark Theme"
+        }
+    ],
+    "start_url": "/?utm_source=a2hs",
+    "display_override": [
+        "fullscreen",
+        "minimal-ui"
+    ],
+    "display": "standalone",
+    "theme_color": "#6ab42a",
+    "background_color": "#0044aa"
 }

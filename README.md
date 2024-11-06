@@ -6,11 +6,8 @@
 
 Libraries to empower assets related tasks and help to build & style web pages and more.
 
-Only ready package is [`@formanta/sass`](https://github.com/bemit/FormantaSass).
-
-- Formanta
-    - @formanta/blocks [![npm (scoped)](https://img.shields.io/npm/v/@formanta/blocks?style=flat-square)](https://www.npmjs.com/package/@formanta/blocks)
-    - @formanta/sass [![npm (scoped)](https://img.shields.io/npm/v/@formanta/sass?style=flat-square)](https://www.npmjs.com/package/@formanta/sass)
+- @formanta/blocks [![npm (scoped)](https://img.shields.io/npm/v/@formanta/blocks?style=flat-square)](https://www.npmjs.com/package/@formanta/blocks)
+- @formanta/sass [![npm (scoped)](https://img.shields.io/npm/v/@formanta/sass?style=flat-square)](https://www.npmjs.com/package/@formanta/sass)
 
 ## Dev Notes
 
@@ -20,16 +17,16 @@ Git clone, incl. submodules, then setup:
 npm i
 ```
 
-Update packages:
+Start sass demo:
 
 ```shell
-npm run clean && rm -rf node_modules && npm i
+npm run demo
 ```
 
-Start demo:
+Start blocks demo:
 
 ```shell
-npm start
+npm run demo-blocks
 ```
 
 Build:
@@ -40,6 +37,19 @@ npm run build
 
 # only build FormantaSass docs:
 npm run build-docs
+```
+
+Build misc. assets, requires build output:
+
+```shell
+lerna run --stream screenshots
+lerna run --stream favicons
+```
+
+Update packages:
+
+```shell
+npm run clean && rm -rf node_modules && rm package-lock.json && npm i
 ```
 
 ## License

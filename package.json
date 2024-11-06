@@ -1,24 +1,41 @@
 {
-    "name": "formanta",
+    "name": "@formanta/dev",
     "version": "0.0.1",
     "description": "",
     "private": true,
     "main": "index.js",
     "scripts": {
         "clean": "lerna clean -y",
-        "test": "lerna run test",
-        "build": "lerna run build",
-        "start": "cd packages/demo && npm start",
+        "clean-dist": "rm -rf dist && rm -rf packages/formantasass/build && lerna run clean",
+        "prebuild": "npm run clean-dist && npm run check",
+        "build": "lerna run --stream build && npm run build-packages",
         "postbuild": "npm run copy-docs",
         "build-docs": "cd packages/formantasass && npm run build && cd ../../",
-        "copy-docs": "cp -a ./packages/formantasass/build/ ./packages/demo/build/demo/docs && cp -a ./packages/demo/build/media ./packages/demo/build/demo/media",
-        "release": "lerna publish from-package --no-git-reset"
+        "copy-docs": "cp -a ./packages/formantasass/build/ ./packages/demo/dist/docs && mkdirp ./packages/demo/dist/styles/prebuild && cp -a ./packages/demo/dist/assets/prebuild/ ./packages/demo/dist/styles",
+        "release": "lerna publish from-package --no-git-reset",
+        "check": "npm run lint && npm run tscheck",
+        "lint": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" eslint --max-warnings=0 'packages'",
+        "tscheck": "tsc --noEmit",
+        "build-packages": "tsc -p tsconfig.packages.json",
+        "postbuild-packages": "cp ./packages/formantablocks/package.json ./dist/formantablocks/package.json && cp ./packages/formantablocks/README.md ./dist/formantablocks/README.md",
+        "demo": "npm -w @formanta/demo run serve",
+        "demo:build": "npm -w @formanta/demo run build",
+        "demo-blocks": "npm -w @formanta/demo-blocks run serve",
+        "demo-blocks:build": "npm -w @formanta/demo-blocks run build"
     },
     "author": "",
     "license": "MIT",
     "devDependencies": {
+        "@eslint/js": "^9.14.0",
+        "@types/eslint__js": "^8.42.3",
+        "cross-env": "^7.0.3",
         "cross-spawn": "^7.0.3",
-        "lerna": "^8.1.8"
+        "eslint": "^9.14.0",
+        "lerna": "^8.1.8",
+        "tsconfig-paths": "^4.2.0",
+        "tsx": "^4.19.2",
+        "typescript": "~5.6.3",
+        "typescript-eslint": "^8.12.2"
     },
     "workspaces": [
         "packages/*"

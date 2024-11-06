@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "module": "Node16",
+        "target": "ES2022",
+        "jsx": "preserve",
+        "removeComments": false,
+        "moduleResolution": "Node16",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "experimentalDecorators": true,
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "rootDir": "./packages",
+        "noErrorTruncation": true,
+        "allowJs": false,
+        "declaration": true,
+        "resolveJsonModule": false,
+        "skipLibCheck": true,
+        "noUnusedLocals": true,
+        "noImplicitAny": true,
+        "noUnusedParameters": true,
+        "paths": {
+            "@formanta/blocks/*": [
+                "packages/formantablocks/src/*.ts"
+            ]
+        }
+    },
+    "exclude": [
+        "**/build/",
+        "**/dist/",
+        "**/node_modules/"
+    ]
+}

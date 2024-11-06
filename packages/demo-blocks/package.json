@@ -1,0 +1,20 @@
+{
+    "name": "@formanta/demo-blocks",
+    "type": "module",
+    "private": true,
+    "version": "0.0.1",
+    "description": "",
+    "homepage": "",
+    "author": "Michael Becker <michael@bemit.codes>",
+    "license": "MIT",
+    "dependencies": {
+        "@formanta/sass": "~0.24.0",
+        "normalize.css": "^8.0.1",
+        "@formanta/blocks": "~0.2.0"
+    },
+    "scripts": {
+        "serve": "tsx watch ./generator.ts",
+        "clean": "tsx ./generator.ts clean",
+        "build": "cross-env NODE_ENV=production tsx ./generator.ts build"
+    }
+}

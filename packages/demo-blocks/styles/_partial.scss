@@ -1,0 +1,12 @@
+header {
+    display: flex;
+    //flex-direction: column;
+    border-bottom: 2px solid var(--accent-color);
+    padding: 6px 20px;
+}
+
+footer {
+    display: flex;
+    border-top: 2px dashed var(--accent-color);
+    padding: 6px 20px;
+}

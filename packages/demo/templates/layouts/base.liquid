@@ -1,0 +1,415 @@
+<!doctype html>
+<html {% if meta.lang %}lang="{{ meta.lang }}"{% endif %}>
+<head>
+    <meta charset="utf-8">
+
+    {% block head_meta %}
+    {% if meta.title %}
+        <title>{{ meta.title }}</title>
+    {% endif %}
+    {% if meta.author %}
+        <meta name="author" content="{{ meta.author }}"/>
+    {% endif %}
+    {% if meta.description %}
+        <meta name="description" content="{{ meta.description }}">
+    {% endif %}
+    {% if meta.keywords %}
+        <meta name="keywords" content="{{ meta.keywords }}">
+    {% endif %}
+    {% if meta.lang %}
+        <meta http-equiv="language" content="{{ meta.lang }}">
+    {% endif %}
+
+    {% if page.canonical %}
+        <link rel="canonical" href="{{ page.canonical }}">
+    {% endif %}
+
+    <link rel="manifest" href="{{ settings.base }}manifest.json"/>
+    <link rel="icon" type="image/svg" href="{{ settings.base }}formanta_logo.svg">
+    {% endblock %}
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+
+    {% block head_style %}
+    <link rel="stylesheet" href="{{ assets.styles['main.scss'] }}"/>
+    {% endblock %}
+</head>
+<body class="bg-body">
+{% block header %}
+<div class="header">
+    <header class="header--inner">
+        {% block header_inner__ %}{% endblock %}
+    </header>
+</div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+
+{% block footer %}
+<div class="footer">
+    <footer class="footer--inner">
+        {% block footer_inner__ %}
+        <div class="footer--end px2">
+            <p class="center">
+                © 2015 - 2024
+                <a href="https://bemit.codes">bemit</a>
+            </p>
+        </div>
+        <script>
+            let popup = null;
+            let selectorInspectState = { inspect: false };
+            let toggleInspectBtn = document.getElementById('toggle-inspect');
+            let ignoreSystemClasses = ['bg-grey', 'bg-grey-raw', 'bg-blue', 'demo-title', 'copy-success'];
+
+            function isSelectorInspect () {
+                return selectorInspectState.inspect;
+            }
+
+            function toggleInspectFunction () {
+                let inspect = isSelectorInspect();
+                selectorInspectState.inspect = !inspect;
+                window.localStorage.setItem('selector-inspect', selectorInspectState.inspect ? '1' : '0');
+                if(selectorInspectState.inspect) {
+                    toggleInspectBtn.innerText = 'Disable Inspect';
+                    toggleInspectBtn.classList.add('btn-danger');
+                    if(popup) {
+                        popup.remove();
+                    }
+                } else {
+                    toggleInspectBtn.innerText = 'Enable Inspect';
+                    toggleInspectBtn.classList.remove('btn-danger');
+                }
+            }
+
+            if(window.localStorage.getItem('selector-inspect') * 1) {
+                selectorInspectState.inspect = true;
+                toggleInspectBtn.innerText = 'Disable Inspect';
+                toggleInspectBtn.classList.add('btn-danger');
+            }
+
+            toggleInspectBtn.addEventListener('click', toggleInspectFunction);
+
+            function doCopy (evt) {
+                let tmp_inp = document.createElement('textarea');
+                tmp_inp.value = evt.target.parentNode.parentNode.querySelector('.classes').innerText;
+                tmp_inp.setAttribute('readonly', '');
+                tmp_inp.style = { position: 'absolute', left: '-9999px' };
+                document.body.appendChild(tmp_inp);
+                tmp_inp.select();
+                document.execCommand('copy');
+                document.body.removeChild(tmp_inp);
+
+                let tmp_success = document.createElement('span');
+                tmp_success.classList.add('copy-success');
+                tmp_success.innerText = 'Copied to clipboard!';
+                evt.target.classList.add('active');
+                evt.target.appendChild(tmp_success);
+
+                setTimeout(() => {
+                    evt.target.classList.remove('active');
+                    evt.target.removeChild(tmp_success);
+                }, 1200);
+            }
+
+            function getParentClass (element) {
+                if(element.classList.contains('demo')) return undefined;
+                let classes = '';
+
+                if(element && element.tagName && element.tagName !== 'DIV') {
+                    classes = element.tagName.toLowerCase();
+                }
+
+                if(element && element.dataset.inspectIgnore !== '1' && element.classList && element.classList.length) {
+                    let classesToJoin = Array.from(element.classList).filter(function(elem) {
+                        return ignoreSystemClasses.indexOf(elem) === -1;
+                    });
+                    if(classesToJoin.length > 0) {
+                        classes = classes + '.' + classesToJoin.join('.');
+                    }
+                }
+                if(element.parentNode) {
+                    let parentClass = getParentClass(element.parentNode);
+                    classes = (parentClass ? parentClass + (classes ? ' > ' : '') : '') + classes;
+                }
+
+                return classes;
+            }
+
+            let demoNodes = Array.from(document.querySelectorAll('.demo'));
+            demoNodes.forEach(function(node) {
+                node.addEventListener('mousemove', function(e) {
+                    if(popup) {
+                        popup.remove();
+                    }
+                    if(!(window.localStorage.getItem('selector-inspect') * 1)) {
+                        return;
+                    }
+                    let x = e.clientX;
+                    let y = e.clientY;
+                    let elementMouseIsOver = document.elementFromPoint(x, y);
+
+                    let classes = getParentClass(elementMouseIsOver);
+                    if(!classes) {
+                        return;
+                    }
+
+                    popup = document.createElement('span');
+                    popup.style.position = 'fixed';
+                    popup.style.zIndex = '100';
+                    popup.style.left = x + 'px';
+                    popup.style.top = y + 'px';
+                    // todo: `right 4` is for not going out of screen, but also results in "always fullwidth"
+                    // popup.style.right = '4px';
+                    popup.style.wordBreak = 'break-word';
+                    popup.style.padding = '6px 9px';
+                    popup.style.marginLeft = '4px';
+                    popup.classList.add('copy-overlay');
+                    popup.classList.add('o');
+                    popup.classList.add('o-divider');
+                    popup.classList.add('font-family-mono');
+
+                    let copy = document.createElement('button');
+                    copy.classList.add('px1');
+                    copy.classList.add('mr1');
+                    copy.classList.add('btn');
+                    copy.innerText = '📄';
+                    copy.title = 'Copy to Clipboard';
+                    copy.alt = 'Copy to Clipboard';
+                    copy.addEventListener('click', doCopy);
+                    popup.appendChild(copy);
+
+                    let end = document.createElement('button');
+                    end.classList.add('px1');
+                    end.classList.add('mr1');
+                    end.classList.add('btn');
+                    end.innerText = '⭕';
+                    end.title = 'End Inspect';
+                    end.alt = 'End Inspect';
+                    end.addEventListener('click', toggleInspectFunction);
+                    popup.appendChild(end);
+
+                    let label = document.createElement('span');
+                    label.classList.add('classes');
+                    label.classList.add('inline-block');
+                    label.classList.add('ml1');
+                    label.innerText = classes;
+                    popup.appendChild(label);
+
+                    if(popup.innerText) {
+                        document.body.appendChild(popup);
+                    }
+                });
+            });
+            const collapse = (toggles) => {
+                const unsub = toggles.map((node) => {
+                    const handleToggle = (target) => {
+                        const nextSibling = target.nextElementSibling;
+                        if(!nextSibling) return;
+                        if(nextSibling.classList.contains('closed')) {
+                            if(nextSibling.style.height !== '0') {
+                                nextSibling.style.height = '0';
+                            }
+                            nextSibling.classList.remove('closed');
+                            nextSibling.style.height = nextSibling.scrollHeight + 'px';
+                        } else {
+                            nextSibling.classList.add('closed');
+                            nextSibling.style.height = '0';
+                        }
+                    };
+                    const onClick = (e) => {
+                        handleToggle(e.target);
+                    };
+                    const onKeyPress = (e) => {
+                        if(e.key === 'Enter') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleToggle(e.target);
+                        }
+                    };
+                    node.addEventListener('click', onClick);
+                    node.addEventListener('keypress', onKeyPress);
+                    return () => {
+                        node.removeEventListener('click', onClick);
+                        node.removeEventListener('keypress', onKeyPress);
+                    };
+                });
+                const onResize = () => {
+                    toggles.forEach((toggle) => {
+                        const nextSibling = toggle.nextElementSibling;
+                        if(!nextSibling) return;
+                        if(!nextSibling.classList.contains('closed')) {
+                            nextSibling.style.height = nextSibling.scrollHeight + 'px';
+                        }
+                    });
+                };
+                window.addEventListener('resize', onResize);
+                return () => {
+                    unsub.forEach(u => u());
+                    window.removeEventListener('resize', onResize);
+                };
+            };
+
+            collapse(Array.from(document.querySelectorAll('[data-toggle]')));
+
+            const toc = document.querySelector('[data-toc="embed"]');
+            if(toc) {
+                const titles = Array.from(document.querySelectorAll('.demo-title:not([data-toc="ignore"])'))
+                    .map(title => {
+                        const tagName = Number(title.localName.slice(1));
+                        const text = title.innerText;
+                        title.id = text.toLowerCase()
+                            .replace(/[ \/,:\\'`´"°~]/g, '-')
+                            .replace(/--/g, '-').replace(/--/g, '-')
+                            .slice(0, 25);
+                        return {
+                            label: text,
+                            id: title.id,
+                            level: tagName - 1,
+                        };
+                    });
+                toc.innerHTML = titles.map(title => `<li style="margin-left: ${title.level * 16}px" "><a href="#${title.id}">${title.label}</a></li>`).join('');
+            }
+
+            (() => {
+                const initialState = { current: undefined };
+                const cssVarHead = document.querySelector('[data-cssvars="source"]');
+                if(!cssVarHead) return;
+                const cssVarInput = document.querySelector('[data-cssvars="input"]');
+                if(!cssVarInput) return;
+                const cssVarReset = document.querySelector('[data-cssvars="reset"]');
+                const cssVarSubmit = document.querySelector('[data-cssvars="submit"]');
+                initialState.current = cssVarHead.innerText;
+                cssVarInput.value =
+                    ':root {\n' +
+                    cssVarHead.innerText
+                        // CSS will be minified, no blanks
+                        .slice(cssVarHead.innerText.indexOf(':root{') + ':root{'.length, -1)
+                        .split(';')
+                        .filter(line => line.trim() !== '')
+                        .map(varLine => {
+                            const [varDef, ...varVal] = varLine.trim().split(':');
+                            return `    ${varDef}: ${varVal};`;
+                        })
+                        .join('\n')
+                    + '\n}';
+                cssVarReset.addEventListener('click', () => {
+                    cssVarHead.innerText = initialState.current;
+                    cssVarInput.value = initialState.current;
+                });
+                cssVarSubmit.addEventListener('click', () => {
+                    cssVarHead.innerText = cssVarInput.value;
+                });
+            })();
+
+            (() => {
+                const calcTabHeight = (tab) => {
+                    // todo: find a better way to get the correct height size of tab + tab content
+                    const tabContentHeight = Array.from(tab.children).reduce((height, child) => {
+                        const styles = window.getComputedStyle(child);
+                        const styleGutter = parseFloat(styles.getPropertyValue('margin-top')) +
+                            parseFloat(styles.getPropertyValue('margin-bottom'));
+                        return height + child.getBoundingClientRect().height + styleGutter;
+                    }, 0);
+                    const styles = window.getComputedStyle(tab);
+                    const styleGutter = parseFloat(styles.getPropertyValue('padding-top')) +
+                        parseFloat(styles.getPropertyValue('padding-bottom'));
+                    const stylesScroller = window.getComputedStyle(tab.parentElement);
+                    const styleGutterScroller = parseFloat(stylesScroller.getPropertyValue('padding-top')) +
+                        parseFloat(stylesScroller.getPropertyValue('padding-bottom')) +
+                        parseFloat(stylesScroller.getPropertyValue('border-top')) +
+                        parseFloat(stylesScroller.getPropertyValue('border-bottom'));
+                    tab.parentElement.style.height = (tabContentHeight + styleGutter + styleGutterScroller) + 'px';
+                };
+                const tabContainers = Array.from(document.querySelectorAll('[data-tabs]'));
+                tabContainers.forEach(tabContainer => {
+                    const tabHeight = tabContainer.dataset.tabsHeight || 'fix';// `fixed` or `flex`
+                    const inactiveClass = tabContainer.dataset.tabsInactiveClass?.split(' ') || [];// any single / multiple css class separated by spaces
+                    const activeClass = tabContainer.dataset.tabsActiveClass?.split(' ') || ['toggle-active'];// any single / multiple css class separated by spaces
+                    const scrollBehaviour = tabContainer.dataset.tabsScrollBehaviour || undefined;// `auto` or `smooth`
+                    const tabToggles = Array.from(tabContainer.querySelectorAll('[data-tabs-toggle]'));
+
+                    const initialActiveToggle = tabContainer.querySelector('.' + activeClass.join('.') + '[data-tabs-toggle]');
+                    if(!initialActiveToggle) {
+                        console.error('Initial Active Tab Toggle missing for: ', tabContainer);
+                        return;
+                    }
+                    const allTabs = tabContainer.querySelectorAll('[data-tabs-target]');
+                    const initialActiveTab = tabContainer.querySelector('[data-tabs-target="' + initialActiveToggle.dataset.tabsToggle + '"]');
+                    if(!initialActiveTab) {
+                        console.error('Initial Active Tab missing for: ', initialActiveToggle.dataset.tabsToggle, initialActiveToggle);
+                        return;
+                    }
+                    if(tabHeight === 'flex') {
+                        calcTabHeight(initialActiveTab);
+                    }
+                    initialActiveTab.parentElement.scrollTo({
+                        left: initialActiveTab.offsetLeft,
+                        behavior: scrollBehaviour,
+                    });
+                    initialActiveTab.style.visibility = null;
+                    allTabs.forEach(tab => {
+                        if(tab !== initialActiveTab) {
+                            tab.style.visibility = 'hidden';
+                        }
+                    });
+
+                    tabToggles.forEach(
+                        tabToggle =>
+                            tabToggle.addEventListener('click', (e) => {
+                                const toggle = e.target;
+                                const tabTarget = e.target.dataset.tabsToggle;
+                                const activeTab = tabContainer.querySelector('[data-tabs-target="' + tabTarget + '"]');
+                                if(!activeTab) {
+                                    console.error('Tab missing for toggle: ', toggle);
+                                    return;
+                                }
+                                activeTab.parentElement.scrollTo({
+                                    left: activeTab.offsetLeft,
+                                    behavior: scrollBehaviour,
+                                });
+                                activeTab.style.visibility = null;
+                                allTabs.forEach(tab => {
+                                    if(tab !== activeTab) {
+                                        tab.style.visibility = 'hidden';
+                                    }
+                                });
+                                if(tabHeight === 'flex') {
+                                    calcTabHeight(activeTab);
+                                }
+                                toggle.parentElement.querySelectorAll('[data-tabs-toggle]')
+                                    .forEach((tabToggleInParent) => {
+                                        if(tabToggleInParent === toggle) {
+                                            activeClass.forEach((c) => tabToggleInParent.classList.add(c));
+                                            inactiveClass.forEach((c) => tabToggleInParent.classList.remove(c));
+                                            return;
+                                        }
+                                        activeClass.forEach((c) => tabToggleInParent.classList.remove(c));
+                                        inactiveClass.forEach((c) => tabToggleInParent.classList.add(c));
+                                    });
+                            })
+                    );
+                });
+            })();
+
+            (() => {
+                Array.from(document.querySelectorAll('a[href="#"]'))
+                    .forEach(
+                        dummyLink =>
+                            dummyLink.addEventListener('click', (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            })
+                    );
+            })();
+        </script>
+        {% endblock %}
+    </footer>
+</div>
+{% endblock %}
+
+{% block body_end %}{% endblock %}
+
+{% block foot_js %}{% endblock %}
+</body>
+</html>

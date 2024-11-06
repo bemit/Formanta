@@ -1,8 +1,8 @@
 {
     "name": "@formanta/blocks",
-    "description": "StaticSide Generator for NodeJS with Twig.",
+    "description": "",
     "homepage": "https://formanta.bemit.codes",
-    "version": "0.1.5",
+    "version": "0.2.0",
     "authors": [
         {
             "name": "Michael Becker",
@@ -19,31 +19,45 @@
     ],
     "license": "MIT",
     "engines": {
-        "node": ">=10.14.2"
+        "node": ">=18.20.2"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/bemit/Formanta.git",
         "directory": "packages/formantablocks"
     },
-    "scripts": {
-        "check": "npm test && npm run lint",
-        "test": "mocha test",
-        "lint": "eslint index.js src",
-        "check-ci": "npm run test-ci && npm run lint-ci",
-        "test-ci": "mocha test --reporter mocha-junit-reporter --reporter-options mochaFile=./test-reports/mocha.xml",
-        "lint-ci": "eslint index.js src -f junit -o ./test-reports/eslint.xml"
+    "type": "module",
+    "bin": {
     },
-    "main": "index.js",
+    "scripts": {
+    },
+    "exports": {
+        "./*": {
+            "types": "./src/*.d.ts",
+            "import": "./src/*.js"
+        }
+    },
     "dependencies": {
-        "twig": "^1.12.0"
+        "liquidjs": "^10.18.0",
+        "chokidar": "^4.0.1",
+        "express": "^4.21.1",
+        "anymatch": "^3.1.3",
+        "sass": "^1.79.5",
+        "postcss": "^8.3.6",
+        "cssnano": "^7.0.6",
+        "autoprefixer": "^10.4.20",
+        "html-minifier-terser": "^7.2.0",
+        "parse5": "^7.2.1",
+        "lodash.mergewith": "^4.6.2",
+        "yaml": "^2.6.0",
+        "ws": "^8.18.0"
     },
     "devDependencies": {
-        "chai": "^4.2.0",
-        "eslint": "^7.9.0",
-        "eslint-plugin-node": "^11.1.0",
-        "mocha": "^8.1.3",
-        "mocha-junit-reporter": "^2.0.0"
+        "@types/ws": "^8.5.13",
+        "@types/express": "^5.0.0",
+        "@types/html-minifier-terser": "^7.0.2",
+        "@types/normalize-path": "^3.0.2",
+        "@types/lodash.mergewith": "^4.6.9"
     },
     "publishConfig": {
         "access": "public"
