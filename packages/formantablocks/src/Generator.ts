@@ -218,7 +218,9 @@ function generatorInternal(
             }
         }
 
-        console.debug(`No data file found for: ${basePath}`)
+        if (!options.disableWarnings?.missingDataFile) {
+            console.warn(`No data file found for: ${basePath}`)
+        }
         return undefined
     }
 

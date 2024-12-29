@@ -1,0 +1,22 @@
+{
+    "extends": "stylelint-config-standard-scss",
+    "rules": {
+        "at-rule-empty-line-before": null,
+        "color-hex-length": null,
+        "no-invalid-position-at-import-rule": null,
+        "scss/double-slash-comment-empty-line-before": null,
+        "scss/double-slash-comment-whitespace-inside": null,
+        "scss/comment-no-empty": null,
+        "scss/dollar-variable-empty-line-before": null,
+        "block-no-empty": null,
+        "alpha-value-notation": "number",
+        "color-function-notation": [
+            "modern",
+            {
+                "ignore": [
+                    "with-var-inside"
+                ]
+            }
+        ]
+    }
+}

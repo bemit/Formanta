@@ -1,5 +1,9 @@
 {% layout "base.liquid" %}
 
+{% block head_style %}
+<link rel="stylesheet" href="{{ assets.styles['main-contrast.scss'] }}"/>
+{% endblock %}
+
 {% block content %}
 
 {% include "intro.liquid" %}

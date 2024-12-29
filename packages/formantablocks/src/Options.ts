@@ -41,6 +41,10 @@ export interface GeneralOptions {
     minimize?: boolean
 
     setupEngine?: (engine: Liquid, options: DefaultedGeneralOptions) => void
+
+    disableWarnings?: {
+        missingDataFile?: boolean
+    }
 }
 
 export type DefaultedGeneralOptions =

@@ -14,7 +14,9 @@
         "@material-symbols/svg-400": "^0.26.0",
         "@formanta/blocks": "~0.2.0",
         "sharp": "^0.33.5",
-        "puppeteer": "^23.7.0"
+        "puppeteer": "^23.7.0",
+        "stylelint": "^16.10.0",
+        "stylelint-config-standard-scss": "^13.1.0"
     },
     "scripts": {
         "favicons": "tsx ./favicons.ts",
@@ -22,6 +24,7 @@
         "serve": "tsx watch ./generator.ts",
         "clean": "tsx ./generator.ts clean",
         "build": "cross-env NODE_ENV=production tsx ./generator.ts build",
-        "postbuild": "npm run favicons && npm run screenshots"
+        "postbuild": "npm run favicons && npm run screenshots",
+        "lint": "npx stylelint \"styles/**/*.scss\""
     }
 }

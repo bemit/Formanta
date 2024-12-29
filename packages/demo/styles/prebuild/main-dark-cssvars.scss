@@ -18,8 +18,8 @@ $button-border-radius: $outlined-border-radius;
 
 $bg-paper: var(--bg-paper);
 $bg-body: var(--bg-body);
-$bg-paper-transparent: rgba(0, 0, 0, 0.5);
-$bg-backdrop: rgba(0, 0, 0, 0.75);
+$bg-paper-transparent: rgba(0 0 0 / 0.5);
+$bg-backdrop: rgba(0 0 0 / 0.75);
 
 $bg-colors: (
         'paper': $bg-paper,

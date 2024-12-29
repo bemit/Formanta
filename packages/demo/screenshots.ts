@@ -56,14 +56,17 @@ const server = http.createServer((req, res) => {
         })
 })
 
+const screenshotPrefix = 'screenshot-'
+// const screencastPrefix = 'video-'
+
 async function captureScreenshots(page: puppeteer.Page) {
     const screenshots: (Viewport & { name: string, goTo: string })[] = [
-        {width: 1440, height: 900, deviceScaleFactor: 2, name: 'screenshot-hidpi', goTo: 'index.html'},
-        {width: 1280, height: 800, deviceScaleFactor: 1, name: 'screenshot-mdpi', goTo: 'index.html'},
-        {width: 375, height: 812, deviceScaleFactor: 3, name: 'screenshot-mobile', goTo: 'index.html'},
-        {width: 1440, height: 900, deviceScaleFactor: 2, name: 'screenshot-hidpi-dark', goTo: 'dark.html'},
-        {width: 1280, height: 800, deviceScaleFactor: 1, name: 'screenshot-mdpi-dark', goTo: 'dark.html'},
-        {width: 375, height: 812, deviceScaleFactor: 3, name: 'screenshot-mobile-dark', goTo: 'dark.html'},
+        {width: 1440, height: 900, deviceScaleFactor: 2, name: 'hidpi', goTo: 'index.html'},
+        {width: 1280, height: 800, deviceScaleFactor: 1, name: 'mdpi', goTo: 'index.html'},
+        {width: 375, height: 812, deviceScaleFactor: 3, name: 'mobile', goTo: 'index.html'},
+        {width: 1440, height: 900, deviceScaleFactor: 2, name: 'hidpi-dark', goTo: 'dark.html'},
+        {width: 1280, height: 800, deviceScaleFactor: 1, name: 'mdpi-dark', goTo: 'dark.html'},
+        {width: 375, height: 812, deviceScaleFactor: 3, name: 'mobile-dark', goTo: 'dark.html'},
     ]
 
     for (const {name, goTo, ...viewport} of screenshots) {
@@ -75,12 +78,44 @@ async function captureScreenshots(page: puppeteer.Page) {
         await sharp(screenshot)
             .resize({width: viewport.width, height: viewport.height})
             .png()
-            .toFile(path.join(outputDir, `${name}.png`))
+            .toFile(path.join(outputDir, `${screenshotPrefix}${name}.png`))
         await sharp(screenshot)
             .resize({width: viewport.width, height: viewport.height})
             .webp()
-            .toFile(path.join(outputDir, `${name}.webp`))
-        console.log(`Saved ${name}`)
+            .toFile(path.join(outputDir, `${screenshotPrefix}${name}.webp`))
+        console.log(`Saved screenshots ${name}`)
+
+        // const recorder = await page.screencast({
+        //     path: path.join(outputDir, `${screencastPrefix}${name}.webm`) as `${string}.webm`,
+        // })
+        // console.log(`Recording video ${name}`)
+        // const wait = (timeout: number = 1500) => new Promise((resolve) => setTimeout(resolve, timeout))
+        // // page.viewport().
+        // await wait(1000)
+        // await page.evaluate(() => {
+        //     window.scrollBy({top: 500, left: 0, behavior: 'smooth'})
+        // })
+        // await wait(850)
+        // await page.evaluate(() => {
+        //     window.scrollBy({top: 500, left: 0, behavior: 'smooth'})
+        // })
+        // await wait(850)
+        // await page.evaluate(() => {
+        //     window.scrollBy({top: 500, left: 0, behavior: 'smooth'})
+        // })
+        // await wait(850)
+        // await page.evaluate(() => {
+        //     window.scrollBy({top: 500, left: 0, behavior: 'smooth'})
+        // })
+        // await wait(850)
+        // await page.evaluate(() => {
+        //     window.scrollBy({top: 500, left: 0, behavior: 'smooth'})
+        // })
+        // await wait(1500)
+        //
+        // console.log(`Saving video ${name}`)
+        // await recorder.stop()
+        // console.log(`Saved video ${name}`)
     }
 }
 

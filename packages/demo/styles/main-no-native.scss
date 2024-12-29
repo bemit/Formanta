@@ -4,13 +4,13 @@
 @import 'shared';
 
 .bg-grey {
-    &:after {
+    &::after {
         background: grey;
     }
 }
 
 .bg-blue {
-    &:after {
+    &::after {
         background: cornflowerblue;
     }
 }
@@ -31,7 +31,7 @@
 }
 
 .copy-success {
-    background: rgba(200, 200, 200, 0.9);
+    background: rgba(200 200 200 / 0.9);
     color: #000000;
 }
 

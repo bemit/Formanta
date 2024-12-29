@@ -10,13 +10,13 @@ $title6-selector: 'h6, .h6';
 @import 'shared';
 
 .bg-grey {
-    &:after {
+    &::after {
         background: #292f2f;
     }
 }
 
 .bg-blue {
-    &:after {
+    &::after {
         background: #1d5093;
     }
 }
@@ -37,6 +37,6 @@ $title6-selector: 'h6, .h6';
 }
 
 .copy-success {
-    background: rgba(30, 37, 40, 0.9);
+    background: rgba(30 37 40 / 0.9);
     color: #000000;
 }

@@ -12,14 +12,11 @@ p {
     height: 2rem;
     position: relative;
 
-    &:after {
+    &::after {
         content: '';
         margin: space(1);
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         z-index: -1;
     }
 }
@@ -28,14 +25,11 @@ p {
     height: 2rem;
     position: relative;
 
-    &:after {
+    &::after {
         content: '';
         margin: space(1);
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         z-index: 1;
     }
 }
@@ -44,17 +38,15 @@ p {
     & .bg-grey {
         height: auto;
 
-        &:after {
+        &::after {
             margin: 0;
         }
     }
-}
 
-.grid-s05, .grid-s1, .grid-s2 {
     & .bg-blue {
         height: calc(2rem - 10px);
 
-        &:after {
+        &::after {
             margin: 0;
         }
     }

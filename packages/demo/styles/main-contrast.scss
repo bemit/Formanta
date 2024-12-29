@@ -9,13 +9,13 @@
 @import 'shared';
 
 .bg-grey {
-    &:after {
+    &::after {
         background: #6e7979;
     }
 }
 
 .bg-blue {
-    &:after {
+    &::after {
         background: #1f5bd7;
     }
 }
@@ -36,7 +36,7 @@
 }
 
 .copy-success {
-    background: rgba(30, 37, 40, 0.9);
+    background: rgba(30 37 40 / 0.9);
     color: #000000;
 }
 

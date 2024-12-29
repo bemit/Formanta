@@ -7,13 +7,13 @@
 @import '@formanta/sass/meta-components';
 
 .bg-grey {
-    &:after {
+    &::after {
         background: #818383;
     }
 }
 
 .bg-blue {
-    &:after {
+    &::after {
         background: #7aa1ea;
     }
 }
@@ -36,7 +36,7 @@
 }
 
 .copy-success {
-    background: rgba(200, 200, 200, 0.9);
+    background: rgba(200 200 200 / 0.9);
     color: #000000;
 }
 

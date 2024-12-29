@@ -33,6 +33,9 @@ const generator = initGenerator({
             'import',
         ],
     },
+    disableWarnings: {
+        missingDataFile: true,
+    },
     setupEngine: (engine) => {
         // engine.registerFilter('icon', {
         //     raw: true,
